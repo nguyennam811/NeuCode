@@ -1,0 +1,15 @@
+.navigation-menu{
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.navigation-menu li{
+    margin: 0px 25px;  
+    cursor: pointer;
+}
+.navigation-menu li a{
+    text-decoration: none;
+    color: black;
+    font-size: larger;
+}
