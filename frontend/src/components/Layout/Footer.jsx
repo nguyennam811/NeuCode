@@ -1,5 +1,5 @@
-import { Link, NavLink } from "react-router-dom";
-import NeuLogo from "../../assets/brand/NeuCode.png";
+import { NavLink } from "react-router-dom";
+import NeuCode from "../../assets/brand/NeuCode.png";
 import { Box, Typography } from "@mui/material";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -22,7 +22,8 @@ const Footer = () => {
         }}
       >
         <img
-          src={NeuLogo}
+          className="logo-footer"
+          src={NeuCode}
           alt="Logo"
           style={{ height: "100%", padding:'25px'}}
         />

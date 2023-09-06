@@ -13,6 +13,9 @@
     color: black;
     font-size: larger;
 }
+.navigation-menu li a:hover{
+    color: rgb(255, 2, 2);
+}
 
 .mobile-navigation{
     list-style: none;
@@ -24,4 +27,8 @@
     text-decoration: none;
     font-size: 1.5rem;
     color: black;
+}
+
+.mobile-navigation li a:hover{
+    color: rgb(255, 2, 2);
 }

@@ -55,7 +55,7 @@
     ul {
       list-style: none;
     }
-    img {
+    .logo-footer{
       display: none !important;
     }
   }
