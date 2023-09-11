@@ -42,18 +42,18 @@ const Footer = () => {
             Truy cập nhanh
           </Typography>
           <ul className="footer-menu">
-            <li>
-              <NavLink to={"/"}>Home</NavLink>
-            </li>
-            <li>
-              <NavLink to={"/menu"}>Menu</NavLink>
-            </li>
-            <li>
-              <NavLink to={"/about"}>About</NavLink>
-            </li>
-            <li>
-              <NavLink to={"/contact"}>Contact</NavLink>
-            </li>
+          <li>
+                    <NavLink to={"/problems"}>Problems</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to={"/submissions"}>Submissions</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to={"/users"}>Users</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to={"/about"}>About</NavLink>
+                  </li>
           </ul>
         </Box>
         {/* <Typography

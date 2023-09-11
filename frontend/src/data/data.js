@@ -46,7 +46,7 @@ export const MenuList = [
   
       {
         "id": 1,
-        "name": "Ramesh",
+        "name": "Tính S = x + x^2/2! + ... + x^n/n!",
         "email": "ramesh@in.com",
         "phone":"8989898787"
       },
