@@ -1,21 +1,20 @@
 // import Layout from "../components/Layout/Layout";
 
 // const About = () => {
-//     return ( 
+//     return (
 //         <Layout>
 //             <h1>Aboout Page</h1>
 //         </Layout>
 //      );
 // }
- 
+
 // export default About;
 import React from "react";
-import Layout from "./../components/Layout/Layout";
 import { Box, Typography } from "@mui/material";
 
 const About = () => {
   return (
-    <Layout>
+    <>
       <Box
         sx={{
           my: 15,
@@ -68,7 +67,7 @@ const About = () => {
           Aspernatur beatae deleniti illo autem!
         </p>
       </Box>
-    </Layout>
+    </>
   );
 };
 

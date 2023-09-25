@@ -1,23 +1,53 @@
 import { Box, Typography, Button, Grid } from "@mui/material";
-import Layout from "../components/Layout/Layout";
-import learn1 from "../assets/images/home-icon.png";
-import facebook from "../assets/brand/facebook.png";
-import github from "../assets/brand/github.png";
-import google from "../assets/brand/google.png";
-import beginer from "../assets/images/homeBegin.png";
-import fontend from "../assets/images/homeFrontend.png";
-import backend from "../assets/images/homeBackend.png";
-import start from "../assets/images/homeRegister.png";
-import data from "../assets/images/homeScience.png";
-import education from "../assets/images/education.png";
-import slide1 from "../assets/images/Slide1.png";
-import slide2 from "../assets/images/Slice2.jpg";
-import slide3 from "../assets/images/Slide3.png";
-import { useEffect, useState } from "react";
+import learn1 from "../../../assets/images/home-icon.png";
+import facebook from "../../../assets/brand/facebook.png";
+import github from "../../../assets/brand/github.png";
+import google from "../../../assets/brand/google.png";
+import beginer from "../../../assets/images/homeBegin.png";
+import fontend from "../../../assets/images/homeFrontend.png";
+import backend from "../../../assets/images/homeBackend.png";
+import start from "../../../assets/images/homeRegister.png";
+import data from "../../../assets/images/homeScience.png";
+import education from "../../../assets/images/education.png";
+import slide1 from "../../../assets/images/Slide1.png";
+import slide3 from "../../../assets/images/Slide3.png";
+import { useEffect, useRef, useState } from "react";
+import { useLoaderData } from "react-router-dom";
+import slide2 from "../../../assets/images/Slice2.jpg";
+
 
 const Home = () => {
+  const user = useLoaderData();
+  console.log(user);
+
   const [myIndex, setMyIndex] = useState(0);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  // useEffect(() => {
+  //   function carousel() {
+  //     const x = document.getElementsByClassName("mySlides");
+  //     for (let i = 0; i < x.length; i++) {
+  //       x[i].style.display = "none";
+  //     }
+  //     setMyIndex((prevIndex) => {
+  //       let newIndex = prevIndex + 1;
+  //       if (newIndex > x.length) {
+  //         newIndex = 1;
+  //       }
+  //       return newIndex;
+  //     });
+  //     if (x[myIndex - 1]) {
+  //       x[myIndex - 1].style.display = "block";
+  //     }
+  //   }
+
+  //   const interval = setInterval(carousel, 2000);
+
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  // }, [myIndex]);
+  const myIndexRef = useRef(myIndex);
 
   useEffect(() => {
     function carousel() {
@@ -25,15 +55,14 @@ const Home = () => {
       for (let i = 0; i < x.length; i++) {
         x[i].style.display = "none";
       }
-      setMyIndex((prevIndex) => {
-        let newIndex = prevIndex + 1;
-        if (newIndex > x.length) {
-          newIndex = 1;
-        }
-        return newIndex;
-      });
-      if (x[myIndex - 1]) {
-        x[myIndex - 1].style.display = "block";
+
+      myIndexRef.current = myIndexRef.current + 1;
+      if (myIndexRef.current > x.length) {
+        myIndexRef.current = 1;
+      }
+
+      if (x[myIndexRef.current - 1]) {
+        x[myIndexRef.current - 1].style.display = "block";
       }
     }
 
@@ -42,7 +71,7 @@ const Home = () => {
     return () => {
       clearInterval(interval);
     };
-  }, [myIndex]);
+  }, []);
 
   useEffect(() => {
     // Lấy kích thước màn hình khi component được mount
@@ -61,7 +90,7 @@ const Home = () => {
   const isMobile = windowWidth <= 600;
   const isIpad = 600 < windowWidth && windowWidth <= 1023;
   return (
-    <Layout>
+    <>
       <Box
         sx={{
           margin: "30px 200px 0px",
@@ -112,51 +141,56 @@ const Home = () => {
               >
                 Luyện tập cùng nhau
               </Typography>
-              <Button
-                variant="contained"
-                sx={{
-                  fontFamily: "Josefin Sans",
-                  backgroundColor: "#466a8a",
-                  borderRadius: "50px",
-                  padding: "10px 10px",
-                  width: "40%",
-                }}
-              >
-                Đăng ký
-              </Button>
-              <Typography
-                variant="h5"
-                sx={{
-                  fontFamily: "Josefin Sans",
-                }}
-              >
-                Hoặc đăng ký bằng
-              </Typography>
-              <Box sx={{ display: "flex" }}>
-                <img
-                  src={google}
-                  alt="Google"
-                  style={{
-                    height: "50px",
-                    marginRight: "20px",
-                    cursor: "pointer",
-                  }}
-                />
-                <img
-                  src={facebook}
-                  alt="Facebook"
-                  style={{
-                    height: "50px",
-                    marginRight: "20px",
-                    cursor: "pointer",
-                  }}
-                />
-                <img
-                  src={github}
-                  alt="Github"
-                  style={{ height: "50px", cursor: "pointer" }}
-                />
-              </Box>
+
+              {!user && (
+                <>
+                  <Button
+                    variant="contained"
+                    sx={{
+                      fontFamily: "Josefin Sans",
+                      backgroundColor: "#466a8a",
+                      borderRadius: "50px",
+                      padding: "10px 10px",
+                      width: "40%",
+                    }}
+                  >
+                    Đăng ký
+                  </Button>
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      fontFamily: "Josefin Sans",
+                    }}
+                  >
+                    Hoặc đăng ký bằng
+                  </Typography>
+                  <Box sx={{ display: "flex" }}>
+                    <img
+                      src={google}
+                      alt="Google"
+                      style={{
+                        height: "50px",
+                        marginRight: "20px",
+                        cursor: "pointer",
+                      }}
+                    />
+                    <img
+                      src={facebook}
+                      alt="Facebook"
+                      style={{
+                        height: "50px",
+                        marginRight: "20px",
+                        cursor: "pointer",
+                      }}
+                    />
+                    <img
+                      src={github}
+                      alt="Github"
+                      style={{ height: "50px", cursor: "pointer" }}
+                    />
+                  </Box>
+                </>
+              )}
             </Box>
           </Box>
         </Box>
@@ -521,7 +555,7 @@ const Home = () => {
             <Box
               sx={{
                 height: "75%",
-                margin: isMobile ? "0" : (isIpad ? "20px" : " 50px 130px"),
+                margin: isMobile ? "0" : isIpad ? "20px" : " 50px 130px",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-evenly",
@@ -531,38 +565,40 @@ const Home = () => {
                 variant="h3"
                 sx={{
                   fontFamily: "Josefin Sans",
-                  
                 }}
               >
                 Tham gia ngay thôi!
               </Typography>
-              <Typography
-                variant="subtitle1"
-                sx={{
-                  fontFamily: "Josefin Sans",
-                  
-                }}
-              >
-                Nếu đã xem tới đây thì bạn chắc hẳn bạn đã khá tò mò rồi nhỉ.
-                Đăng ký ngay để luyện và hoàn thành mục tiêu thôi nào
-              </Typography>
-              <Button
-                variant="contained"
-                sx={{
-                  fontFamily: "Josefin Sans",
-                  backgroundColor: "#466a8a",
-                  borderRadius: "50px",
-                  padding: "10px 10px",
-                  width: "40%",
-                }}
-              >
-                Đăng ký
-              </Button>
+              {!user && (
+                <>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{
+                      fontFamily: "Josefin Sans",
+                    }}
+                  >
+                    Nếu đã xem tới đây thì bạn chắc hẳn bạn đã khá tò mò rồi
+                    nhỉ. Đăng ký ngay để luyện và hoàn thành mục tiêu thôi nào
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    sx={{
+                      fontFamily: "Josefin Sans",
+                      backgroundColor: "#466a8a",
+                      borderRadius: "50px",
+                      padding: "10px 10px",
+                      width: "40%",
+                    }}
+                  >
+                    Đăng ký
+                  </Button>
+                </>
+              )}
             </Box>
           </Box>
         </Box>
       </Box>
-    </Layout>
+    </>
   );
 };
 

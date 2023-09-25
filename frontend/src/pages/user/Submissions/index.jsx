@@ -7,7 +7,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import Layout from "../components/Layout/Layout";
 import { Box, TablePagination } from "@mui/material";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -85,7 +84,7 @@ export default function CustomizedTables() {
   };
 
   return (
-    <Layout>
+    <>
       <Box sx={{ margin: "30px 80px" }}>
         <Box sx={{ width: "70%" }}>
           <TableContainer component={Paper}>
@@ -139,10 +138,9 @@ export default function CustomizedTables() {
           </TableContainer>
         </Box>
       </Box>
-    </Layout>
+    </>
   );
 }
-
 
 // import * as React from 'react';
 // import Paper from '@mui/material/Paper';

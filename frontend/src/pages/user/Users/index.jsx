@@ -1,5 +1,4 @@
 import React from "react";
-import Layout from "../components/Layout/Layout";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import MailIcon from "@mui/icons-material/Mail";
 import CallIcon from "@mui/icons-material/Call";
@@ -16,8 +15,16 @@ import {
 } from "@mui/material";
 
 const Users = () => {
+  // useEffect(() => {
+  //   const token = getAuthToken();
+  //   const decodedToken = jwt_decode(token);
+
+  //   if (decodedToken.role !== 'student') {
+  //     redirect('/login'); // Chuyển hướng người dùng nếu không phải là student
+  //   }
+  // }, []);
   return (
-    <Layout>
+    <>
       <Box sx={{ my: 5, ml: 10, "& h4": { fontWeight: "bold", mb: 2 } }}>
         <Typography variant="h4">Contact Neu Code</Typography>
         <p>
@@ -70,7 +77,7 @@ const Users = () => {
           </Table>
         </TableContainer>
       </Box>
-    </Layout>
+    </>
   );
 };
 

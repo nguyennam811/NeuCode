@@ -11,7 +11,6 @@ import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Paper from "@mui/material/Paper";
 import { visuallyHidden } from "@mui/utils";
-import Layout from "../components/Layout/Layout";
 import { styled } from "@mui/material/styles";
 import {
   Button,
@@ -44,7 +43,6 @@ const currencies = [
   },
 ];
 
-
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   backgroundColor: "#d8d8d8", // Màu nền đỏ
   color: "#272525", // Màu chữ trắng
@@ -53,7 +51,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "& td, & th": {
     borderRight: "2px solid #ccc", // Thêm border bên phải cho tất cả các ô
-    fontSize: 16
+    fontSize: 16,
   },
   "& th a:hover": {
     color: "red", // Thêm border bên phải cho tất cả các ô
@@ -166,7 +164,7 @@ function EnhancedTableHead(props) {
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : "asc"}
               onClick={createSortHandler(headCell.id)}
-              sx={{fontFamily: "Poppins"}}
+              sx={{ fontFamily: "Poppins" }}
             >
               {headCell.label}
               {orderBy === headCell.id ? (
@@ -220,7 +218,7 @@ export default function EnhancedTable() {
   );
 
   return (
-    <Layout>
+    <>
       <Box
         sx={{
           display: "flex",
@@ -241,10 +239,7 @@ export default function EnhancedTable() {
                 <TableBody>
                   {visibleRows.map((row) => (
                     <StyledTableRow key={row.name} hover>
-                      <TableCell
-                        component="th"
-                        scope="row"
-                      >
+                      <TableCell component="th" scope="row">
                         <a>{row.name}</a>
                       </TableCell>
                       <TableCell align="center">{row.calories}</TableCell>
@@ -267,7 +262,7 @@ export default function EnhancedTable() {
             />
           </Paper>
         </Box>
-        <Box sx={{ width: "calc(100% - 75%)",}}>
+        <Box sx={{ width: "calc(100% - 75%)" }}>
           <Paper
             elevation={2}
             sx={{ display: "flex", flexDirection: "column" }}
@@ -346,6 +341,6 @@ export default function EnhancedTable() {
           </Paper>
         </Box>
       </Box>
-    </Layout>
+    </>
   );
 }

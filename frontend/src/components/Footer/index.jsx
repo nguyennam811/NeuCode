@@ -5,7 +5,7 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import YouTubeIcon from "@mui/icons-material/YouTube";
-import PlaceIcon from '@mui/icons-material/Place';
+import PlaceIcon from "@mui/icons-material/Place";
 
 import "../../styles/FooterStyles.css";
 
@@ -25,35 +25,35 @@ const Footer = () => {
           className="logo-footer"
           src={NeuCode}
           alt="Logo"
-          style={{ height: "100%", padding:'15px'}}
+          style={{ height: "100%", padding: "15px" }}
         />
         <Box>
           <Typography
-            variant="h4"
+            variant="h5"
             sx={{
               marginTop: "20px",
               fontFamily: "Josefin Sans",
               color: "#0d4e8b",
               "@media (max-width: 600px)": {
-                fontSize: "1.3rem",
+                fontSize: "1.1rem",
               },
             }}
           >
             Truy cập nhanh
           </Typography>
           <ul className="footer-menu">
-          <li>
-                    <NavLink to={"/problems"}>Problems</NavLink>
-                  </li>
-                  <li>
-                    <NavLink to={"/submissions"}>Submissions</NavLink>
-                  </li>
-                  <li>
-                    <NavLink to={"/users"}>Users</NavLink>
-                  </li>
-                  <li>
-                    <NavLink to={"/about"}>About</NavLink>
-                  </li>
+            <li>
+              <NavLink to={"/problems"}>Problems</NavLink>
+            </li>
+            <li>
+              <NavLink to={"/submissions"}>Submissions</NavLink>
+            </li>
+            <li>
+              <NavLink to={"/users"}>Users</NavLink>
+            </li>
+            <li>
+              <NavLink to={"/about"}>About</NavLink>
+            </li>
           </ul>
         </Box>
         {/* <Typography
@@ -68,13 +68,13 @@ const Footer = () => {
         </Typography> */}
         <Box>
           <Typography
-            variant="h4"
+            variant="h5"
             sx={{
               marginTop: "20px",
               fontFamily: "Josefin Sans",
               color: "#0d4e8b",
               "@media (max-width: 600px)": {
-                fontSize: "1.3rem",
+                fontSize: "1.1rem",
               },
             }}
           >
@@ -113,25 +113,30 @@ const Footer = () => {
           }}
         >
           <Typography
-            variant="h4"
+            variant="h5"
             sx={{
               marginTop: "20px",
               fontFamily: "Josefin Sans",
               color: "#0d4e8b",
               "@media (max-width: 600px)": {
-                fontSize: "1.3rem",
+                fontSize: "1.1rem",
               },
             }}
           >
             Liên Hệ
           </Typography>
-          <ul className = "footer-menu" style={{paddingBottom: '20px', marginLeft: '0'}}>
+          <ul
+            className="footer-menu"
+            style={{ paddingBottom: "20px", marginLeft: "0" }}
+          >
             <li>
-              <PlaceIcon style={{fontSize: '20px'}}/>
-              <a href="https://www.neu.edu.vn/">Trường Đại Học Kinh Tế Quốc Dân</a>
+              <PlaceIcon style={{ fontSize: "20px" }} />
+              <a href="https://www.neu.edu.vn/">
+                Trường Đại Học Kinh Tế Quốc Dân
+              </a>
             </li>
           </ul>
-          
+
           <InstagramIcon />
           <FacebookIcon />
           <GitHubIcon />
