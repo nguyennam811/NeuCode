@@ -70,6 +70,7 @@ import { getAuthToken } from "../utils/auth";
 import jwt_decode from "jwt-decode";
 import Navbar from "../components/NavbarAdmin";
 import { action as logoutAction } from '../components/Logout';
+import Exercise from "../pages/user/Exercise/Exercise";
 
 const tokenLoader = () => {
   const token = getAuthToken();
@@ -113,6 +114,10 @@ const router = [
           {
             path: "problems",
             element: <Problems />,
+          },
+          {
+            path: "problems/:id",
+            element: <Exercise />,
           },
           {
             path: "about",

@@ -23,6 +23,9 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import Divider from "@mui/material/Divider";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, NavLink } from "react-router-dom";
+import { getProblems } from "../../../store/actions/problemAction";
 
 const currencies = [
   {
@@ -114,34 +117,34 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-    id: "name",
+    id: "id",
     numeric: false,
     disablePadding: true,
-    label: "Dessert (100g serving)",
+    label: "ID",
   },
   {
-    id: "calories",
+    id: "title",
     numeric: true,
     disablePadding: false,
-    label: "Calories",
+    label: "Bài",
   },
   {
-    id: "fat",
+    id: "difficulty",
     numeric: true,
     disablePadding: false,
-    label: "Fat (g)",
+    label: "Độ Khó",
   },
   {
-    id: "carbs",
+    id: "points",
     numeric: true,
     disablePadding: false,
-    label: "Carbs (g)",
+    label: "Điểm",
   },
   {
-    id: "protein",
+    id: "problem_type",
     numeric: true,
     disablePadding: false,
-    label: "Protein (g)",
+    label: "Loại Bài Tập",
   },
 ];
 
@@ -150,6 +153,7 @@ function EnhancedTableHead(props) {
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
+
 
   return (
     <TableHead>
@@ -208,9 +212,38 @@ export default function EnhancedTable() {
     setPage(0);
   };
 
+  // const dispatch = useDispatch();
+
+  // React.useEffect(()=> {
+  //   dispatch(getProblems())
+  // }, [])
+
+  // const data = useSelector((reducers) => reducers.problem.data)
+  // console.log(data)
+  
+  const [problem, setProblem] = React.useState([]);
+
+  React.useEffect(() => {
+    // Gọi API
+    fetch('http://127.0.0.1:8000/api/problems/')
+      .then((response) => {
+        // Kiểm tra nếu response không thành công
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setProblem(data); // Cập nhật dữ liệu khi API thành công
+      })
+      .catch((error) => {
+      });
+  }, []);
+  console.log(problem)
+
   const visibleRows = React.useMemo(
     () =>
-      stableSort(rows, getComparator(order, orderBy)).slice(
+      stableSort(problem, getComparator(order, orderBy)).slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage
       ),
@@ -238,14 +271,17 @@ export default function EnhancedTable() {
 
                 <TableBody>
                   {visibleRows.map((row) => (
-                    <StyledTableRow key={row.name} hover>
+                    <StyledTableRow key={row.id} hover>
+                      <TableCell align="center">{row.id}</TableCell>
+                      <NavLink  to={`${row.id}`}>
                       <TableCell component="th" scope="row">
-                        <a>{row.name}</a>
+                        <a>{row.title}</a>
                       </TableCell>
-                      <TableCell align="center">{row.calories}</TableCell>
-                      <TableCell align="center">{row.fat}</TableCell>
-                      <TableCell align="center">{row.carbs}</TableCell>
-                      <TableCell align="center">{row.protein}</TableCell>
+                      </NavLink >
+                      {/* <TableCell align="center">{row.title}</TableCell> */}
+                      <TableCell align="center">{row.difficulty}</TableCell>
+                      <TableCell align="center">{row.points}</TableCell>
+                      <TableCell align="center">{row.problem_type}</TableCell>
                     </StyledTableRow>
                   ))}
                 </TableBody>

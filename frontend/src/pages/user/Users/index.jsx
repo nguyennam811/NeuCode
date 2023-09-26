@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import MailIcon from "@mui/icons-material/Mail";
 import CallIcon from "@mui/icons-material/Call";
@@ -13,6 +13,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import { useParams } from "react-router-dom";
 
 const Users = () => {
   // useEffect(() => {
@@ -23,6 +24,27 @@ const Users = () => {
   //     redirect('/login'); // Chuyển hướng người dùng nếu không phải là student
   //   }
   // }, []);
+  const { id } = useParams();
+  const [product, setProduct] = useState([]);
+
+  useEffect(() => {
+    // Gọi API
+    
+    fetch(`http://127.0.0.1:8000/api/problems/${id}`)
+      .then((response) => {
+        // Kiểm tra nếu response không thành công
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setProduct(data); // Cập nhật dữ liệu khi API thành công
+      })
+      .catch((error) => {
+      });
+  }, []);
+  console.log(product)
   return (
     <>
       <Box sx={{ my: 5, ml: 10, "& h4": { fontWeight: "bold", mb: 2 } }}>
