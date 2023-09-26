@@ -8,6 +8,8 @@ class Difficulty(enum.Enum):
     EASY = "easy"
     MEDIUM = "medium"
     DIFFICULT = "difficult"
+    def to_json(self):
+        return self.value
 class Exercise(Base, TimeModel):
     __tablename__ = 'exercises'
 
@@ -16,6 +18,6 @@ class Exercise(Base, TimeModel):
     title = Column(String, nullable=False)
     difficulty = Column(Enum(Difficulty), default=Difficulty.EASY)
     exercise_type = Column(String, nullable=False)
-    points = Column(Float, nullable=False)
+    points = Column(Float, nullable=False, default=0)
     instructions = Column(Text, nullable=True)
     user = relationship("User", back_populates="exercises")

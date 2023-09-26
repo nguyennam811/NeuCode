@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from .. import models, schemas
-from ..database import get_db
+from ..dependencies import get_db
 from sqlalchemy.orm import Session
 from ..utils import Hash, create_access_token
 

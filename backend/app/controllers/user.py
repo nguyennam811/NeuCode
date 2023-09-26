@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 from .. import schemas
-from ..database import get_db
+from ..dependencies import get_db
 from ..cruds import user
 from typing import List
 

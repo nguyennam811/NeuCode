@@ -1,6 +1,5 @@
 from pydantic import BaseModel
 from typing import List, Optional
-# from .Blog import Showblog
 from ..models import Role
 class User(BaseModel):
     id: str

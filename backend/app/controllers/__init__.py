@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from . import user, authentication
+from . import user, authentication, exercise, submission
 
 root_router = APIRouter()
 
@@ -9,5 +9,6 @@ def root():
 
 
 root_router.include_router(authentication.router, prefix='', tags=["Authn"])
-# root_router.include_router(blog.router, prefix='/api/blog', tags=["Blogs"])
+root_router.include_router(exercise.router, prefix='/api/exercise', tags=["Exercises"])
+root_router.include_router(submission.router, prefix='/api/submission', tags=["Submission"])
 root_router.include_router(user.router, prefix='/api/user', tags=["Users"])

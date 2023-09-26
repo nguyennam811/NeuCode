@@ -11,7 +11,7 @@ class Submission(Base, TimeModel):
     exercise_id = Column(String, ForeignKey('exercises.id', ondelete='CASCADE'), nullable=False)
     user_id = Column(String, ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
 
-    language = Column(String, nullable=False)
+    language = Column(String, nullable=False, default='C++')
     code = Column(Text, nullable=False)
     score = Column(Float, nullable=True)
     status = Column(String, nullable=True)

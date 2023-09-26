@@ -29,7 +29,7 @@ def delete_user(id: int, db: Session):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'user with id {id} not found')
     user.delete(synchronize_session=False)
     db.commit()
-    return 'delete user'
+    return 'deleted user'
 
 def update_user(id: str, request: schemas.User, db: Session):
     user = db.query(models.User).filter(models.User.id == id)
