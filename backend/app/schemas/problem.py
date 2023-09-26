@@ -4,16 +4,16 @@ from ..models import Difficulty
 from .user import ShowUser
 import datetime
 
-class Exercise(BaseModel):
+class Problem(BaseModel):
     id: str
     user_id: str
     title: str
     difficulty: Difficulty
-    exercise_type: Optional[str]
+    problem_type: Optional[str]
     points: Optional[NonNegativeFloat]
     instructions: Optional[str]
 
-class ShowExercise(Exercise):
+class ShowProblem(Problem):
     user: Optional[ShowUser]
     created: datetime.datetime
     updated: Optional[datetime.datetime]

@@ -10,6 +10,7 @@ class Role(enum.Enum):
     def to_json(self):
         return self.value
 
+
 class User(Base, TimeModel):
     __tablename__ = 'users'
 
@@ -19,5 +20,5 @@ class User(Base, TimeModel):
     password = Column(String, nullable=False, unique=True)
     role = Column(Enum(Role), default=Role.STUDENT)
 
-    exercises = relationship("Exercise", back_populates="user")
+    problems = relationship("Problem", back_populates="user")
     submissions = relationship("Submission", back_populates="user")

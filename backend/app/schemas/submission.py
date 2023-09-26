@@ -4,7 +4,7 @@ import datetime
 
 class Submission(BaseModel):
     user_id: str
-    exercise_id: str
+    problem_id: str
     language: str
     status: Optional[str]
     score: Optional[NonNegativeFloat]
