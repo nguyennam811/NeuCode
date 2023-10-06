@@ -12,8 +12,14 @@ import {
   Tooltip,
 } from "@mui/material";
 import NeuCode from "../../assets/brand/NeuCode.png";
-import { Link, NavLink, useLoaderData, useNavigate } from "react-router-dom";
-import "../../styles/HeaderStyles.css";
+import {
+  Link,
+  NavLink,
+  useLoaderData,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
+import "../../styles/globals.css";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -26,6 +32,12 @@ import PersonIcon from "@mui/icons-material/Person";
 
 const Header = () => {
   const user = useLoaderData();
+
+  const location = useLocation();
+
+  // Xác định xem liệu bạn đang ở trang "Problems" hay không
+  const isCurrentPage = (path) => location.pathname.includes(path);
+
   console.log(user.role);
 
   const navigate = useNavigate();
@@ -84,16 +96,41 @@ const Header = () => {
       {user.role === "student" && (
         <ul className="mobile-navigation">
           <li>
-            <NavLink to={"/student/problems"}>PROBLEMS</NavLink>
+            <NavLink
+              to={"/student/problems"}
+              style={{
+                color: isCurrentPage("/problems") ? "red" : "",
+              }}
+            >
+              PROBLEMS
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink
+              to={"/student/submissions"}
+              style={{
+                color: isCurrentPage("/submissions") ? "red" : "",
+              }}
+            >
+              SUBMISSIONS
+            </NavLink>
           </li>
           <li>
-            <NavLink to={"/student/submissions"}>SUBMISSIONS</NavLink>
+            <NavLink
+              to={"/student/users"}
+              style={{ color: isCurrentPage("/users") ? "red" : "" }}
+            >
+              USERS
+            </NavLink>
           </li>
           <li>
-            <NavLink to={"/student/users"}>USERS</NavLink>
-          </li>
-          <li>
-            <NavLink to={"/student/about"}>ABOUT</NavLink>
+            <NavLink
+              to={"/student/about"}
+              style={{ color: isCurrentPage("/about") ? "red" : "" }}
+            >
+              ABOUT
+            </NavLink>
           </li>
         </ul>
       )}
@@ -174,16 +211,41 @@ const Header = () => {
                 {user.role === "student" && (
                   <ul className="navigation-menu">
                     <li>
-                      <NavLink to={"/student/problems"}>PROBLEMS</NavLink>
+                      <NavLink
+                        to={"/student/problems"}
+                        style={{
+                          color: isCurrentPage("/problems") ? "red" : "",
+                        }}
+                      >
+                        PROBLEMS
+                      </NavLink>
+                    </li>
+
+                    <li>
+                      <NavLink
+                        to={"/student/submissions"}
+                        style={{
+                          color: isCurrentPage("/submissions") ? "red" : "",
+                        }}
+                      >
+                        SUBMISSIONS
+                      </NavLink>
                     </li>
                     <li>
-                      <NavLink to={"/student/submissions"}>SUBMISSIONS</NavLink>
+                      <NavLink
+                        to={"/student/users"}
+                        style={{ color: isCurrentPage("/users") ? "red" : "" }}
+                      >
+                        USERS
+                      </NavLink>
                     </li>
                     <li>
-                      <NavLink to={"/student/users"}>USERS</NavLink>
-                    </li>
-                    <li>
-                      <NavLink to={"/student/about"}>ABOUT</NavLink>
+                      <NavLink
+                        to={"/student/about"}
+                        style={{ color: isCurrentPage("/about") ? "red" : "" }}
+                      >
+                        ABOUT
+                      </NavLink>
                     </li>
                   </ul>
                 )}

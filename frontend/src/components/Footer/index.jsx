@@ -7,7 +7,7 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import PlaceIcon from "@mui/icons-material/Place";
 
-import "../../styles/FooterStyles.css";
+import "../../styles/globals.css";
 
 const Footer = () => {
   return (

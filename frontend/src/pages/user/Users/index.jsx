@@ -24,27 +24,27 @@ const Users = () => {
   //     redirect('/login'); // Chuyển hướng người dùng nếu không phải là student
   //   }
   // }, []);
-  const { id } = useParams();
-  const [product, setProduct] = useState([]);
+  // const { id } = useParams();
+  // const [product, setProduct] = useState([]);
 
-  useEffect(() => {
-    // Gọi API
+  // useEffect(() => {
+  //   // Gọi API
     
-    fetch(`http://127.0.0.1:8000/api/problems/${id}`)
-      .then((response) => {
-        // Kiểm tra nếu response không thành công
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setProduct(data); // Cập nhật dữ liệu khi API thành công
-      })
-      .catch((error) => {
-      });
-  }, []);
-  console.log(product)
+  //   fetch(`http://127.0.0.1:8000/api/problems/${id}`)
+  //     .then((response) => {
+  //       // Kiểm tra nếu response không thành công
+  //       if (!response.ok) {
+  //         throw new Error('Network response was not ok');
+  //       }
+  //       return response.json();
+  //     })
+  //     .then((data) => {
+  //       setProduct(data); // Cập nhật dữ liệu khi API thành công
+  //     })
+  //     .catch((error) => {
+  //     });
+  // }, []);
+  // console.log(product)
   return (
     <>
       <Box sx={{ my: 5, ml: 10, "& h4": { fontWeight: "bold", mb: 2 } }}>

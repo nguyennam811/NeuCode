@@ -12,7 +12,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    // fontFamily: ["Josefin Sans", "sans-serif"].join(',')
+    fontFamily: ["Rubik", "sans-serif"].join(',')
 
   }
 });
