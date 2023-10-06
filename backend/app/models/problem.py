@@ -5,9 +5,9 @@ import uuid
 import enum
 from .base import TimeModel
 class Difficulty(enum.Enum):
-    EASY = "easy"
-    MEDIUM = "medium"
-    DIFFICULT = "difficult"
+    EASY = "Dễ"
+    MEDIUM = "Trung bình"
+    DIFFICULT = "Khó"
     def to_json(self):
         return self.value
 class Problem(Base, TimeModel):
@@ -23,3 +23,4 @@ class Problem(Base, TimeModel):
 
     user = relationship("User", back_populates="problems")
     submissions = relationship("Submission", back_populates="problems")
+    tests = relationship("Test", back_populates="problems")

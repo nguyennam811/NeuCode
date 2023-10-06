@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, status, BackgroundTasks
 from sqlalchemy.orm import Session
 from .. import schemas
 from ..dependencies import get_db
@@ -12,8 +12,8 @@ async def get_submission(db: Session = Depends(get_db)):
     return submission.get_submission_all(db)
 
 @router.post('/', status_code=status.HTTP_201_CREATED, response_model=schemas.ShowSubmission)
-async def create_submission(request: schemas.Submission, db: Session = Depends(get_db)):
-    return submission.create_submission(request, db)
+async def create_submission(request: schemas.Submission, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
+    return submission.create_submission(request, db, background_tasks)
 
 @router.get('/{id}', status_code=status.HTTP_200_OK ,response_model=schemas.ShowSubmission)
 async def get_submission_by_id(id: str, db: Session = Depends(get_db)):

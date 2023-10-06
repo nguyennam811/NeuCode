@@ -1,17 +1,33 @@
 from sqlalchemy.orm import Session
 from .. import models, schemas
-from fastapi import HTTPException, status
+from fastapi import HTTPException, status, BackgroundTasks
+from ..utils import execute_code
 
 
 def get_submission_all(db: Session):
     submissions = db.query(models.Submission).all()
     return submissions
 
-def create_submission(request: schemas.Submission, db: Session):
+# def create_submission(request: schemas.Submission, db: Session, background_tasks: BackgroundTasks):
+#     new_submission = models.Submission(**request.dict())
+#     new_submission.status = "đã nộp"
+#     db.add(new_submission)
+#     db.commit()
+#     db.refresh(new_submission)
+#
+#     background_tasks.add_task(execute_code, db, new_submission.id)
+#
+#     return new_submission
+
+def create_submission(request: schemas.Submission, db: Session, background_tasks: BackgroundTasks):
     new_submission = models.Submission(**request.dict())
+    new_submission.status = "đã nộp"
     db.add(new_submission)
     db.commit()
     db.refresh(new_submission)
+
+    background_tasks.add_task(execute_code, db, new_submission.id, background_tasks)
+
     return new_submission
 
 def get_submission_by_id(id: str, db: Session):

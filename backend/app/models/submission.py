@@ -18,4 +18,4 @@ class Submission(Base, TimeModel):
 
     user = relationship("User", back_populates="submissions")
     problems = relationship("Problem", back_populates="submissions")
-
+    tests_result = relationship("Test_Result", back_populates="submissions")

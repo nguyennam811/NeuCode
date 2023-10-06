@@ -16,34 +16,34 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-[
-  {
-    "id": "1",
-    "fullname": "Nguyễn Văn Nam",
-    "email": "nam@gmail.com",
-    "password": "$2b$12$bPDyzhYAKmzAXY0pKyHs8O330tstCy16QpeNSFGZ8kb3EgmI2xOyW",
-    "role": "student"
-  },
-  {
-    "id": "2",
-    "fullname": "Nguyễn Quỳnh Mai",
-    "email": "mainq@gmail.com",
-    "password": "$2b$12$UWUVTP8yjtxqo/cMWhEfm.XGS57JaayIERpEN1Fadguplwipi6Pk2",
-    "role": "teacher"
-  },
-  {
-    "id": "3",
-    "fullname": "Nam Nguyễn",
-    "email": "namng@gmail.com",
-    "password": "$2b$12$3QcER75q3xRGgbNoHWVGnebvWrlJ5m55j/2A71TtBowH8v9HQKdbu",
-    "role": "admin"
-  },
-  {
-    "id": "4",
-    "fullname": "trầm toản",
-    "email": "toan@st.neu.edu.vn",
-    "password": "$2b$12$bDrdvgpJyFib6oOww2PmluhqZJqxjpYrYZEdY63Cj0TiVcco7KCQm",
-    "role": "teacher"
-  }
-]
+#
+# [
+#   {
+#     "id": "1",
+#     "fullname": "Nguyễn Văn Nam",
+#     "email": "nam@gmail.com",
+#     "password": "$2b$12$bPDyzhYAKmzAXY0pKyHs8O330tstCy16QpeNSFGZ8kb3EgmI2xOyW",
+#     "role": "student"
+#   },
+#   {
+#     "id": "2",
+#     "fullname": "Nguyễn Quỳnh Mai",
+#     "email": "mainq@gmail.com",
+#     "password": "$2b$12$UWUVTP8yjtxqo/cMWhEfm.XGS57JaayIERpEN1Fadguplwipi6Pk2",
+#     "role": "teacher"
+#   },
+#   {
+#     "id": "3",
+#     "fullname": "Nam Nguyễn",
+#     "email": "namng@gmail.com",
+#     "password": "$2b$12$3QcER75q3xRGgbNoHWVGnebvWrlJ5m55j/2A71TtBowH8v9HQKdbu",
+#     "role": "admin"
+#   },
+#   {
+#     "id": "4",
+#     "fullname": "trầm toản",
+#     "email": "toan@st.neu.edu.vn",
+#     "password": "$2b$12$bDrdvgpJyFib6oOww2PmluhqZJqxjpYrYZEdY63Cj0TiVcco7KCQm",
+#     "role": "teacher"
+#   }
+# ]
