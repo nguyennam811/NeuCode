@@ -12,6 +12,9 @@ class Problem(BaseModel):
     problem_type: Optional[str]
     points: Optional[NonNegativeFloat]
     instructions: Optional[str]
+    max_memory_limit: Optional[NonNegativeFloat]
+    max_execution_time: Optional[NonNegativeFloat]
+
 
 class ShowProblem(Problem):
     user: Optional[ShowUser]

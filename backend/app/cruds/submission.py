@@ -26,7 +26,7 @@ def create_submission(request: schemas.Submission, db: Session, background_tasks
     db.commit()
     db.refresh(new_submission)
 
-    background_tasks.add_task(execute_code, db, new_submission.id, background_tasks)
+    background_tasks.add_task(execute_code, db, new_submission.id)
 
     return new_submission
 

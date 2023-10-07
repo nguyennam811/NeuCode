@@ -33,3 +33,23 @@ class Test_Result(Base,TimeModel):
 
     submissions = relationship("Submission", back_populates="tests_result")
     tests = relationship("Test", back_populates="test_result")
+
+
+#
+# [
+#   {
+#     "problem_id": "sum",
+#     "input": "5\n2",
+#     "output": "3"
+#   },
+#   {
+#     "problem_id": "sum",
+#     "input": "240\n20",
+#     "output": "220"
+#   },
+#   {
+#     "problem_id": "sum",
+#     "input": "10000010\n10",
+#     "output": "10000000"
+#   }
+# ]
