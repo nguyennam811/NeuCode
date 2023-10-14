@@ -1,7 +1,8 @@
 from pydantic import BaseModel, NonNegativeFloat
-from typing import Optional
+from typing import Optional, List
 from ..models import Difficulty
 from .user import ShowUser
+from .test import ShowTest
 import datetime
 
 class Problem(BaseModel):
@@ -18,6 +19,7 @@ class Problem(BaseModel):
 
 class ShowProblem(Problem):
     user: Optional[ShowUser]
+    tests: List[ShowTest]
     created: datetime.datetime
     updated: Optional[datetime.datetime]
     class Config():

@@ -13,7 +13,7 @@ class Submission(Base, TimeModel):
 
     language = Column(String, nullable=False, default='C++')
     code = Column(Text, nullable=False)
-    score = Column(Float, nullable=True)
+    score = Column(Float, nullable=True, default=0)
     status = Column(String, nullable=True)
 
     user = relationship("User", back_populates="submissions")
@@ -51,7 +51,37 @@ class Submission(Base, TimeModel):
 #
 # }
 
+# vòng lặp vô hạn
+# {
+#    "user_id": "1",
+#   "problem_id": "sum",
+#   "language": "cpp",
+#   "status": "",
+#   "score": 0,
+#   "code": "#include <iostream>\r\nusing namespace std;\r\nint main(){\r\n    while(1==1){\r\n      cout << \"hello\\n\";\r\n    }\r\n    return 0;\r\n}\r\n"
+# }
 
+#python lỗi bieen dịch
+# {
+#   "user_id": "1",
+#   "problem_id": "sum",
+#   "language": "py",
+#   "status": "",
+#   "score": 0,
+#   "code":"def divide(a, b):\r\n    if b == 0:\r\n        return \"Không thể chia cho 0\"\r\n    else:\r\n        return \"Kết quả: \" + (a / b)\r\n\r\nresult = divide(10, 2)\r\nprint(result)\r\n"
+#
+# }
+
+# C++ lỗi biên dịch
+# {
+#   "user_id": "1",
+#   "problem_id": "sum",
+#   "language": "cpp",
+#   "status": "",
+#   "score": 0,
+#   "code":"#include <stdio.h>\r\n\r\nint main() {\r\n    int a = 5;\r\n    int b = 0;\r\n    int result;\r\n\r\n    // Chương trình cố gắng chia cho 0\r\n    result = a / b;\r\n\r\n    printf(\"Ket qua: %d\\n\", result);\r\n\r\n    return 0;\r\n}\r\n"
+#
+# }
 
 #
 # from sqlalchemy.orm import Session
