@@ -1,61 +1,3 @@
-// import { createBrowserRouter, redirect } from "react-router-dom";
-// import About from "../pages/About";
-// import Home from "../pages/Home";
-// import NotFound from "../pages/NotFound";
-// import Users from "../pages/Users";
-// import Problems from "../pages/Problems";
-// import Submissions from "../pages/Submissions";
-// import Login from "../pages/Login";
-// import Layout from "../components/Layout/Layout";
-// import { getAuthToken } from "../utils/auth";
-
-// const tokenLoader = () => {
-//   const token = getAuthToken();
-//   if (!token || token === "EXPIRED") {
-//     return redirect("/login");
-//   }
-//   return token;
-// };
-
-// const router = [
-//   {
-//     path: "/",
-//     element: <Layout />,
-//     loader: tokenLoader,
-//     errorElement: <NotFound />,
-//     children: [
-//       {
-//         index: true,
-//         element: <Home />,
-//       },
-//       {
-//         path: "/about",
-//         element: <About />,
-//       },
-//       {
-//         path: "/users",
-//         element: <Users />,
-//       },
-//       {
-//         path: "/problems",
-//         element: <Problems />,
-//       },
-//       {
-//         path: "/submissions",
-//         element: <Submissions />,
-//       },
-//     ],
-//   },
-//   {
-//     path: "/login",
-//     element: <Login />,
-//   },
-// ];
-
-// export default function Routes() {
-//   return createBrowserRouter(router);
-// }
-
 import { createBrowserRouter, redirect } from "react-router-dom";
 import About from "../pages/user/About";
 import Home from "../pages/user/Home";
@@ -66,21 +8,20 @@ import Submissions from "../pages/user/Submissions";
 import Login from "../pages/auth/Login";
 import Signup from "../pages/auth/Signup";
 import Layout from "../components/Layout";
-import { getAuthToken } from "../utils/auth";
-import jwt_decode from "jwt-decode";
+import { getAuthToken, getCurrentUser } from "../utils/auth";
 import Navbar from "../components/NavbarAdmin";
 import { action as logoutAction } from '../components/Logout';
 import Exercise from "../pages/user/Exercise";
 
 const tokenLoader = () => {
   const token = getAuthToken();
-  if (!token || token === "EXPIRED") {
+  const current_user = getCurrentUser();
+  if (!token || token === "EXPIRED" || !current_user) {
     return redirect("/login");
   }
 
-  // return token;
-  const decodedToken = jwt_decode(token);
-  return decodedToken;
+  return current_user;
+  
 };
 
 const router = [
@@ -88,7 +29,6 @@ const router = [
     path: "/",
     element: <Layout />,
     loader: tokenLoader,
-    // errorElement: <NotFound />,
     children: [
       {
         index: true,
@@ -96,7 +36,6 @@ const router = [
       },
       {
         path: "*",
-        loader: tokenLoader,
         element: <NotFound />,
       },
       {
@@ -104,7 +43,6 @@ const router = [
         children: [
           {
             index: true,
-            loader: tokenLoader,
             element: <Home />,
           },
           {
@@ -129,7 +67,6 @@ const router = [
           },
           {
             path: "*",
-            loader: tokenLoader,
             element: <NotFound />,
           },
         ],
@@ -139,12 +76,10 @@ const router = [
         children: [
           {
             index: true,
-            loader: tokenLoader,
             element: <Home />,
           },
           {
             path: "*",
-            loader: tokenLoader,
             element: <NotFound />,
           },
         ],
@@ -153,9 +88,8 @@ const router = [
   },
   {
     path: "admin",
-    element: <Navbar />,
     loader: tokenLoader,
-    // errorElement: <NotFound />,
+    element: <Navbar />,
     children: [
       {
         index: true,
@@ -167,7 +101,6 @@ const router = [
       },
       {
         path: "*",
-        loader: tokenLoader,
         element: <NotFound />,
       },
     ],
@@ -189,81 +122,3 @@ const router = [
 export default function Routes() {
   return createBrowserRouter(router);
 }
-
-// import { createBrowserRouter, redirect } from 'react-router-dom';
-// import About from "../pages/About";
-// import Home from "../pages/Home";
-// import NotFound from "../pages/NotFound";
-// import Users from "../pages/Users";
-// import Problems from "../pages/Problems";
-// import Submissions from "../pages/Submissions";
-// import Login from "../pages/Login";
-// import Layout from '../components/Layout/Layout';
-// import { getAuthToken } from '../utils/auth';
-// import jwt_decode from "jwt-decode";
-// import Hihi from '../pages/Hihi';
-
-// const tokenLoader = () => {
-//   const token = getAuthToken();
-//   if (!token || token === 'EXPIRED') {
-//     return redirect('/login');
-//   }
-
-//   const decodedToken = jwt_decode(token);
-//   return decodedToken.role;
-//   // return token
-// };
-
-// const router = [
-//     {
-//       path: '/student',
-//       element: <Layout/>,
-//       loader: tokenLoader,
-//       errorElement: <NotFound/>,
-//       children: [
-//         {
-//           index: true,
-//           element: <Home />,
-//         },
-//         {
-//           path: "users",
-//           element: <Users />,
-//         },
-//         {
-//           path: "problems",
-//           element: <Problems />,
-//         },
-
-//         {
-//           path: "about",
-//           element: <About />,
-//         },
-//       ],
-//     },
-//     {
-//       path: 'teacher',
-//       element: <Layout/>,
-//       loader: tokenLoader,
-//       errorElement: <NotFound/>,
-//       children: [
-//         {
-//           index: true,
-//           element: <Home />,
-//         },
-//         {
-//           path: "submissions",
-//           element: <Submissions />,
-//         },
-//       ],
-
-//     },
-//     {
-//       path: '/login',
-//       element: <Login />,
-//     },
-
-//   ];
-
-//   export default function Routes() {
-//     return createBrowserRouter(router);
-//   }

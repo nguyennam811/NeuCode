@@ -4,15 +4,12 @@ import {
 } from "@ant-design/icons";
 import { Layout, theme, Avatar } from "antd";
 import React, { useState } from "react";
-// import Router from "../router/Router";
 import { Link, Outlet, useLoaderData } from "react-router-dom";
-
 import ListSubheader from "@mui/material/ListSubheader";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-
 import ConnectWithoutContactIcon from "@mui/icons-material/ConnectWithoutContact";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
@@ -34,8 +31,6 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Logout, Settings } from "@mui/icons-material";
 import NeuCode from "../../assets/brand/NeuCode.png";
 import NeuCodeMini from "../../assets/brand/NeuCode - Mini.png";
-
-// import App from "../../App";
 
 const { Header, Sider, Content } = Layout;
 

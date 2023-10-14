@@ -45,7 +45,8 @@ const SignupForm = () => {
         try {
         console.log(values);
         setSubmitting(true);
-        const response = await fetch(`http://127.0.0.1:8000/login`, {
+        // const response = await fetch(`http://127.0.0.1:8000/login`, {
+        const response = await fetch(`${process.env.REACT_APP_URL}/login`, {
           method: "POST",
           headers: {
             "Content-type": "application/json",
@@ -64,8 +65,8 @@ const SignupForm = () => {
         } else {
           const data = await response.json();
           const { access_token: accessToken, expires_in: expiresIn } = data;
-          writeAuthToken(accessToken, expiresIn);
           const decodedToken = jwt_decode(data.access_token);
+          writeAuthToken(accessToken, expiresIn, decodedToken);
           setStatus({ success: true });
           toast.success("Đăng nhập thành công.");
           navigate(`/${decodedToken.role}`);

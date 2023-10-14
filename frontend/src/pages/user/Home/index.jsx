@@ -12,41 +12,16 @@ import education from "../../../assets/images/education.png";
 import slide1 from "../../../assets/images/Slide1.png";
 import slide3 from "../../../assets/images/Slide3.png";
 import { useEffect, useRef, useState } from "react";
-import { useLoaderData } from "react-router-dom";
 import slide2 from "../../../assets/images/Slice2.jpg";
+import { getCurrentUser } from "../../../utils/auth";
 
 
 const Home = () => {
-  const user = useLoaderData();
+  const user = getCurrentUser();
   console.log(user);
 
   const [myIndex, setMyIndex] = useState(0);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  // useEffect(() => {
-  //   function carousel() {
-  //     const x = document.getElementsByClassName("mySlides");
-  //     for (let i = 0; i < x.length; i++) {
-  //       x[i].style.display = "none";
-  //     }
-  //     setMyIndex((prevIndex) => {
-  //       let newIndex = prevIndex + 1;
-  //       if (newIndex > x.length) {
-  //         newIndex = 1;
-  //       }
-  //       return newIndex;
-  //     });
-  //     if (x[myIndex - 1]) {
-  //       x[myIndex - 1].style.display = "block";
-  //     }
-  //   }
-
-  //   const interval = setInterval(carousel, 2000);
-
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // }, [myIndex]);
   const myIndexRef = useRef(myIndex);
 
   useEffect(() => {

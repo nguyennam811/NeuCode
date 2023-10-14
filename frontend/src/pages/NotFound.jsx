@@ -1,55 +1,7 @@
-
-// const NotFound = () => {
-//     return ( 
-//         <>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//             <h1>Page Not Pund</h1>
-//         </>
-//      );
-// }
-
-import { useLoaderData } from "react-router-dom";
-
- 
-// export default NotFound;
+import { getCurrentUser } from "../utils/auth";
 
 const NotFoundPage = () => {
-    const user = useLoaderData();
+    const user = getCurrentUser();
     return (
       <>
         <div
@@ -121,6 +73,7 @@ const NotFoundPage = () => {
                   textDecoration: 'none',
                   borderBottom: '1px dashed #ff6f68',
                   borderRadius: 2,
+                  cursor: 'pointer'
                 }}
               >
                 Return to homepage

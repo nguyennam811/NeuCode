@@ -1,26 +1,26 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
-// import { fetchProblems } from "../services/problemApi"
+import * as problemApi from '../services/problemApi'
 
 
-// init
 export const init = {
-    statusCode: 200,
     data: [],
-    status: 'success',
+    status: 'idle',
+    error: null,
 }
 
-export const resetStatusCode = (state) => {
-    state.statusCode = 200
+export const setStatusIdle = (state) => {
+    state.status = 'idle'
 }
-
 
 export const getProblems = createAsyncThunk(
     "getProblems",
     async () => {
-        const res = await fetch('http://127.0.0.1:8000/api/problems/');
-        const data = await res.json();
-        console.log(data)
-        return data;
+        try {
+            return await problemApi.fetchProblems()
+        } catch (error) {
+            // console.log(error.message)
+            throw new Error("Failed to fetch problems");
+        }
     }
 )
 

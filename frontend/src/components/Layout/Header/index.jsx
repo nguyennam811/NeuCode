@@ -11,7 +11,7 @@ import {
   Toolbar,
   Tooltip,
 } from "@mui/material";
-import NeuCode from "../../assets/brand/NeuCode.png";
+import NeuCode from "../../../assets/brand/NeuCode.png";
 import {
   Link,
   NavLink,
@@ -19,7 +19,7 @@ import {
   useNavigate,
   useLocation,
 } from "react-router-dom";
-import "../../styles/globals.css";
+import "../../../styles/globals.css";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -27,18 +27,13 @@ import { Avatar } from "antd";
 import { Logout, Settings } from "@mui/icons-material";
 import { useSubmit } from "react-router-dom";
 import { toast } from "react-toastify";
-import slide2 from "../../assets/images/Slice2.jpg";
+import slide2 from "../../../assets/images/Slice2.jpg";
 import PersonIcon from "@mui/icons-material/Person";
 
 const Header = () => {
   const user = useLoaderData();
-
   const location = useLocation();
-
-  // Xác định xem liệu bạn đang ở trang "Problems" hay không
   const isCurrentPage = (path) => location.pathname.includes(path);
-
-  console.log(user.role);
 
   const navigate = useNavigate();
 
@@ -74,25 +69,6 @@ const Header = () => {
         />
       </Link>
       <Divider />
-      {/* <ul className="mobile-navigation">
-        {/* <li>
-            <NavLink activeClassName="active" to={"/"}>
-              HOME
-            </NavLink>
-          </li> }
-        <li>
-          <NavLink to={"/problems"}>PROBLEMS</NavLink>
-        </li>
-        <li>
-          <NavLink to={"/submissions"}>SUBMISSIONS</NavLink>
-        </li>
-        <li>
-          <NavLink to={"/users"}>USERS</NavLink>
-        </li>
-        <li>
-          <NavLink to={"/about"}>ABOUT</NavLink>
-        </li>
-      </ul> */}
       {user.role === "student" && (
         <ul className="mobile-navigation">
           <li>
@@ -152,7 +128,7 @@ const Header = () => {
   return (
     <>
       <Box sx={{ height: "74px" }}>
-        <AppBar component={"nav"} sx={{ bgcolor: "white" }} position="static">
+        <AppBar component={"nav"} sx={{ bgcolor: "white" }} position="fixed">
           <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
             <Box sx={{ display: "flex" }}>
               <IconButton
@@ -187,30 +163,10 @@ const Header = () => {
   sm - Đại diện cho các màn hình có độ rộng lớn hơn 600px. Thường được sử dụng cho các thiết bị như máy tính bảng và các thiết bị có màn hình trung bình.
   md - Đại diện cho các màn hình có độ rộng lớn hơn 960px. Thường được sử dụng cho các máy tính và màn hình lớn. 
   */}
-              {/* <Box sx={{ display: { xs: "none", sm: "block" }}}>
-                  <ul className="navigation-menu">
-                    {/* <li>
-                      <NavLink to={"/"}>HOME</NavLink>
-                    </li> }
-                    <li>
-                      <NavLink to={"/problems"}>PROBLEMS</NavLink>
-                    </li>
-                    <li>
-                      <NavLink to={"/submissions"}>SUBMISSIONS</NavLink>
-                    </li>
-                    <li>
-                      <NavLink to={"/users"}>USERS</NavLink>
-                    </li>
-                    <li>
-                      <NavLink to={"/about"}>ABOUT</NavLink>
-                    </li>
-                  </ul>
-                </Box> */}
-
               <Box sx={{ display: { xs: "none", sm: "block" } }}>
                 {user.role === "student" && (
-                  <ul className="navigation-menu">
-                    <li>
+                  <ul className="navigation-menu" >
+                    <li style={{borderBottom: isCurrentPage("/problems") ? '3px solid #ff0000' : 'none',}}>
                       <NavLink
                         to={"/student/problems"}
                         style={{
@@ -221,7 +177,7 @@ const Header = () => {
                       </NavLink>
                     </li>
 
-                    <li>
+                    <li style={{borderBottom: isCurrentPage("/submissions") ? '3px solid #ff0000' : 'none',}}>
                       <NavLink
                         to={"/student/submissions"}
                         style={{
@@ -231,7 +187,7 @@ const Header = () => {
                         SUBMISSIONS
                       </NavLink>
                     </li>
-                    <li>
+                    <li style={{borderBottom: isCurrentPage("/users") ? '3px solid #ff0000' : 'none',}}>
                       <NavLink
                         to={"/student/users"}
                         style={{ color: isCurrentPage("/users") ? "red" : "" }}
@@ -239,7 +195,7 @@ const Header = () => {
                         USERS
                       </NavLink>
                     </li>
-                    <li>
+                    <li style={{borderBottom: isCurrentPage("/about") ? '3px solid #ff0000' : 'none',}}>
                       <NavLink
                         to={"/student/about"}
                         style={{ color: isCurrentPage("/about") ? "red" : "" }}
@@ -267,33 +223,6 @@ const Header = () => {
 
             {user ? (
               <Box>
-                {/* <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleMenu}
-              color="inherit"
-            >
-              <AccountCircleIcon color="info" fontSize="large" />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorEl}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-            > */}
-                {/* <Typography color={'red'}>{`${user.fullname} - ${user.sub}`}</Typography> */}
-
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleMenu} sx={{ p: 0 }}>
                     <Avatar alt="Avatar" src={slide2} size={"large"} />
@@ -315,8 +244,6 @@ const Header = () => {
                   open={Boolean(anchorEl)}
                   onClose={handleClose}
                 >
-                  {/* <MenuItem onClick={handleClose}>Profile</MenuItem>
-              <MenuItem onClick={handleClose}>My account</MenuItem> */}
                   <MenuItem onClick={handleClose}>
                     <ListItemIcon>
                       <PersonIcon fontSize="medium" />
@@ -377,17 +304,11 @@ const Header = () => {
                 boxSizing: "border-box",
                 width: "260px",
               },
-              // Điều này đặt kiểu dáng cho các phần tử con của .MuiDrawer-paper
             }}
           >
             {drawer}
           </Drawer>
         </Box>
-
-        {/* <Box sx = {{ p: 10 , backgroundColor: 'red'}}>
-            <Toolbar sx = {{ backgroundColor: 'blue'}} />
-            <AppBar sx = {{ backgroundColor: 'pink'}} />
-          </Box> */}
       </Box>
     </>
   );

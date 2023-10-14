@@ -13,7 +13,6 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
 
 const Users = () => {
   // useEffect(() => {

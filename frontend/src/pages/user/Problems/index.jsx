@@ -26,6 +26,7 @@ import Divider from "@mui/material/Divider";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import { getProblems } from "../../../store/actions/problemAction";
+import { useEffect } from "react";
 
 const currencies = [
   {
@@ -212,38 +213,38 @@ export default function EnhancedTable() {
     setPage(0);
   };
 
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  // React.useEffect(()=> {
-  //   dispatch(getProblems())
-  // }, [])
+  useEffect(()=> {
+    dispatch(getProblems())
+  }, [dispatch])
 
-  // const data = useSelector((reducers) => reducers.problem.data)
-  // console.log(data)
+  const data = useSelector((reducers) => reducers.problem.data)
+  console.log(data)
   
-  const [problem, setProblem] = React.useState([]);
+  // const [problem, setProblem] = React.useState([]);
 
-  React.useEffect(() => {
-    // Gọi API
-    fetch('http://127.0.0.1:8000/api/problems/')
-      .then((response) => {
-        // Kiểm tra nếu response không thành công
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setProblem(data); // Cập nhật dữ liệu khi API thành công
-      })
-      .catch((error) => {
-      });
-  }, []);
-  console.log(problem)
+  // React.useEffect(() => {
+  //   // Gọi API
+  //   fetch('http://127.0.0.1:8000/api/problems/')
+  //     .then((response) => {
+  //       // Kiểm tra nếu response không thành công
+  //       if (!response.ok) {
+  //         throw new Error('Network response was not ok');
+  //       }
+  //       return response.json();
+  //     })
+  //     .then((data) => {
+  //       setProblem(data); // Cập nhật dữ liệu khi API thành công
+  //     })
+  //     .catch((error) => {
+  //     });
+  // }, []);
+  // console.log(problem)
 
   const visibleRows = React.useMemo(
     () =>
-      stableSort(problem, getComparator(order, orderBy)).slice(
+      stableSort(data, getComparator(order, orderBy)).slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage
       ),

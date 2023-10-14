@@ -1,15 +1,16 @@
 import { NavLink } from "react-router-dom";
-import NeuCode from "../../assets/brand/NEULogo.png";
+import NeuCode from "../../../assets/brand/NEULogo.png";
 import { Box, Typography } from "@mui/material";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import PlaceIcon from "@mui/icons-material/Place";
-
-import "../../styles/globals.css";
+import "../../../styles/globals.css";
+import { getCurrentUser } from "../../../utils/auth";
 
 const Footer = () => {
+  const user = getCurrentUser();
   return (
     <>
       <Box
@@ -41,31 +42,31 @@ const Footer = () => {
           >
             Truy cập nhanh
           </Typography>
-          <ul className="footer-menu">
+          {user.role === 'student' && (
+            <ul className="footer-menu">
             <li>
-              <NavLink to={"/problems"}>Problems</NavLink>
+              <NavLink to={`${user.role}/problems`}>Problems</NavLink>
             </li>
             <li>
-              <NavLink to={"/submissions"}>Submissions</NavLink>
+              <NavLink to={`${user.role}/submissions`}>Submissions</NavLink>
             </li>
             <li>
-              <NavLink to={"/users"}>Users</NavLink>
+              <NavLink to={`${user.role}/users`}>Users</NavLink>
             </li>
             <li>
-              <NavLink to={"/about"}>About</NavLink>
+              <NavLink to={`${user.role}/about`}>About</NavLink>
             </li>
           </ul>
+          )}
+          {user.role === 'teacher' && (
+            <ul className="footer-menu">
+            <li>
+              <NavLink to={`${user.role}/problems`}>Problems</NavLink>
+            </li>
+            
+          </ul>
+          )}
         </Box>
-        {/* <Typography
-          variant="h5"
-          sx={{
-            "@media (max-width: 600px)": {
-              fontSize: "1.3rem",
-            },
-          }}
-        >
-          All Rights Reserved &copy; Techinfo YT
-        </Typography> */}
         <Box>
           <Typography
             variant="h5"
