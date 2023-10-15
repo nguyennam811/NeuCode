@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import {
   Box,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -18,9 +19,13 @@ import TabPanel from "@mui/lab/TabPanel";
 import CloseIcon from "@mui/icons-material/Close";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 function EditorTestCase(props) {
-  const { code, executeCode, submitCode, problem } = props;
+  const { code, executeCode, submitCode } = props;
+
+  const data = useSelector((reducers) => reducers.problemDetail.data);
+  console.log(data);
   const [value, setValue] = useState("1");
 
   const [open, setOpen] = useState(false);
@@ -35,7 +40,7 @@ function EditorTestCase(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const input = "3\n2"
+  const input = "3\n2";
 
   return (
     <Box display="flex" flexDirection="column" height="100%">
@@ -165,41 +170,47 @@ function EditorTestCase(props) {
               </Box>
             </Box>
 
-            <div
-              style={{
-                overflowX: "auto",
-                overflowWrap: "break-word",
-                height: "100%", // Thay đổi giá trị maxHeight theo nhu cầu
-              }}
-            >
-              {/* <TabPanel value="1">
-                Item One TabPanelTabPanelTabPanelTabPanelTabPanelTabPanel
-                TabPanel TabPanel TabPanel TabPanel
-                TabPanelTabPanelTabPanelTabPanelTabPanelTabPanel
-                TabPanelTabPanelTabPanelTabPanelTabPanelTabPanel
-                TabPanelTabPanelTabPanelTabPanelTabPanelTabPanel
-                TabPanelTabPanelTabPanelTabPanelTabPanelTabPanel
-                TabPanelTabPanelTabPanelTabPanelTabPanelTabPanel v
-                TabPanelTabPanelTabPanelTabPanelTabPanelTabPanel
-                TabPanelTabPanelTabPanelTabPanelTabPanelTabPanel
-                
-              </TabPanel>
-              <TabPanel value="2">
-                ẻgergergdgd
-              </TabPanel>
-              <TabPanel value="3">
-                sdgfsdgdfsgdefrgdfg
-              </TabPanel> */}
-              {problem &&
-                problem.tests &&
-                problem.tests.map((test, index) => (
-                  
+            {data && data.tests ? (
+              <div
+                style={{
+                  overflowX: "auto",
+                  overflowWrap: "break-word",
+                  height: "100%", // Thay đổi giá trị maxHeight theo nhu cầu
+                }}
+              >
+                {data.tests.map((test, index) => (
                   <TabPanel key={index} value={(index + 1).toString()}>
                     {test.input}
                     <pre>{input}</pre>
+                    <Typography gutterBottom>
+            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
+            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
+            consectetur ac, vestibulum at eros.
+          </Typography>
+          <Typography gutterBottom>
+            Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
+            Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+          </Typography>
+          <Typography gutterBottom>
+            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
+            magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
+            ullamcorper nulla non metus auctor fringilla.
+          </Typography>
                   </TabPanel>
                 ))}
-            </div>
+              </div>
+            ) : (
+              <Box
+                sx={{
+                  display: "flex",
+                  height: "100%",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <CircularProgress />
+              </Box>
+            )}
           </TabContext>
         </Box>
       </Box>

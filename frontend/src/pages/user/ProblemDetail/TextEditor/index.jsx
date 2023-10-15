@@ -9,8 +9,8 @@ import EditorTestCase from "./EditorTestCase";
 import { useParams } from "react-router-dom";
 import { getCurrentUser } from "../../../../utils/auth";
 
-function TextEditor({problem}) {
-  const data = getCurrentUser();
+function TextEditor() {
+  const current_user = getCurrentUser();
 
   const problemId = useParams();
   console.log("Problem ID:", problemId.id);
@@ -89,7 +89,7 @@ function TextEditor({problem}) {
       body: JSON.stringify({
         language,
         code,
-        user_id: data.sub,
+        user_id: current_user.sub,
         problem_id: problemId.id,
       }),
     })
@@ -131,6 +131,7 @@ function TextEditor({problem}) {
               onMount={handleEditorDidMount}
               defaultLanguage="cpp"
               loading="Loading..."
+              // loading={<CircularProgress />}
               language={languages}
               value={code}
               options={{
@@ -143,7 +144,6 @@ function TextEditor({problem}) {
             code={code}
             executeCode={executeCode}
             submitCode={submitCode}
-            problem = {problem}
           />
         </Split>
       </Box>
