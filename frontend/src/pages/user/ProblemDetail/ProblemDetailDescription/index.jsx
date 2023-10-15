@@ -9,7 +9,7 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
-function ProblemDescription() {
+function ProblemDetailDescription() {
   const rows = [
     { id: 1, name: "John Doe", age: 30, city: "New York" },
     { id: 2, name: "Jane Smith", age: 25, city: "Los Angeles" },
@@ -63,4 +63,4 @@ function ProblemDescription() {
   )
 }
 
-export default ProblemDescription
+export default ProblemDetailDescription

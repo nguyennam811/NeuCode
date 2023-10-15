@@ -1,5 +1,5 @@
 import Split from "react-split";
-import ExerciseDescription from "./ExerciseDescription";
+import ProblemDetailDescription from "./ProblemDetailDescription";
 import TextEditor from "./TextEditor";
 import "../../../styles/globals.css";
 import { Box } from "@mui/material";
@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-const Exercise = () => {
+const ProblemDetail = () => {
   const [problem, setProblem] = useState([]);
   const problemId = useParams();
   console.log("Problem ID:", problemId.id);
@@ -32,11 +32,11 @@ const Exercise = () => {
   return (
     <Box sx={{ height: "100%" }}>
       <Split className="split" gutterSize={7} minSize={[25, 375]} sizes={[50, 50]}>
-        <ExerciseDescription />
+        <ProblemDetailDescription />
         <TextEditor problem = {problem}/>
       </Split>
     </Box>
   );
 };
 
-export default Exercise;
+export default ProblemDetail;

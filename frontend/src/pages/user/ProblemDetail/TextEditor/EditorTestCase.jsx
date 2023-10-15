@@ -35,6 +35,7 @@ function EditorTestCase(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const input = "3\n2"
 
   return (
     <Box display="flex" flexDirection="column" height="100%">
@@ -192,8 +193,10 @@ function EditorTestCase(props) {
               {problem &&
                 problem.tests &&
                 problem.tests.map((test, index) => (
+                  
                   <TabPanel key={index} value={(index + 1).toString()}>
                     {test.input}
+                    <pre>{input}</pre>
                   </TabPanel>
                 ))}
             </div>

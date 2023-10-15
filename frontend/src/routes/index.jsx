@@ -11,7 +11,7 @@ import Layout from "../components/Layout";
 import { getAuthToken, getCurrentUser } from "../utils/auth";
 import Navbar from "../components/NavbarAdmin";
 import { action as logoutAction } from '../components/Logout';
-import Exercise from "../pages/user/Exercise";
+import ProblemDetail from "../pages/user/ProblemDetail";
 
 const tokenLoader = () => {
   const token = getAuthToken();
@@ -55,7 +55,7 @@ const router = [
           },
           {
             path: "problems/:id",
-            element: <Exercise />,
+            element: <ProblemDetail />,
           },
           {
             path: "about",
