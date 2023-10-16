@@ -23,6 +23,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCurrentUser } from "../../../../utils/auth";
 import { mapLanguage } from "../../../../utils/mapLanguage";
 import { addSubmissionByUser } from "../../../../store/actions/submissionAction";
+import { setTabValue } from "../../../../store/reducers/submissionReducer";
 
 function EditorTestCase(props) {
   const dispatch = useDispatch()
@@ -59,6 +60,7 @@ function EditorTestCase(props) {
   
   const submitCode = (submission) => {
     dispatch(addSubmissionByUser(submission))
+    dispatch(setTabValue('2'))
   };
 
   return (

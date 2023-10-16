@@ -1,5 +1,5 @@
-import { Box, MenuItem, Tab, TextField } from "@mui/material";
-import React from "react";
+import { Box, MenuItem, Tab, TextField, styled, tableCellClasses } from "@mui/material";
+import React, { useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -10,12 +10,13 @@ import {
   Paper,
 } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
+import { useDispatch, useSelector } from "react-redux";
+import { getTestResult } from "../../../../store/actions/testResultAction";
+import { formatResponseTime, formatTimeSubmit } from "../../../../utils/time";
+import { mapLanguageSubmission } from "../../../../utils/mapLanguage";
+import { setTabValue } from "../../../../store/reducers/submissionReducer";
 function ProblemDetailDescription() {
-  const [value, setValue] = React.useState("1");
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  const dispatch = useDispatch()
 
   const tabStyle = {
     height: "58px",
@@ -28,11 +29,27 @@ function ProblemDetailDescription() {
 
   };
 
-  const rows = [
-    { id: 1, name: "John Doe", age: 30, city: "New York" },
-    { id: 2, name: "Jane Smith", age: 25, city: "Los Angeles" },
-    { id: 3, name: "Bob Johnson", age: 35, city: "Chicago" },
-  ];
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    "& td, & th": {
+      border: "1px solid #a19797"
+    }
+  }));
+
+  const data = useSelector((reducers) => reducers.submission.data);
+  const value = useSelector((reducers) => reducers.submission.tabs);
+
+  const handleChange = (event, newValue) => {
+    dispatch(setTabValue(newValue));
+  };
+  
+  console.log(data);
+
+  useEffect(()=> {
+    dispatch(getTestResult(data.id))
+  }, [data.id])
+
+  const test_result = useSelector((reducers) => reducers.test_result.data)
+  console.log(test_result)
   return (
     <Box
       sx={{ width: "100%" }}
@@ -48,7 +65,7 @@ function ProblemDetailDescription() {
           }}
         >
           <Box height="57px" textTransform='capitalize'>
-            <TabList onChange={handleChange} aria-label="lab API tabs example" sx={{textTransform:'capitalize'}}>
+            <TabList onChange={handleChange} aria-label="lab API tabs example">
               <Tab
                 label="Description"
                 value="1"
@@ -72,7 +89,6 @@ function ProblemDetailDescription() {
             height: "100%",
             overflowX: "auto",
             overflowWrap: "break-word",
-            padding: "10px",
           }}
         >
           <TabPanel value="1">
@@ -137,22 +153,24 @@ function ProblemDetailDescription() {
           </TabPanel>
           <TabPanel value="2"><TableContainer component={Paper}>
               <Table>
-                <TableHead>
-                  <TableRow>
+                <TableHead sx={{backgroundColor:'#cdd0d3'}}>
+                  <StyledTableRow>
                     <TableCell>Time Submitted</TableCell>
                     <TableCell>Status</TableCell>
                     <TableCell>Runtime</TableCell>
                     <TableCell>Memory</TableCell>
-                  </TableRow>
+                    <TableCell>Language</TableCell>
+                  </StyledTableRow>
                 </TableHead>
                 <TableBody>
-                  {rows.map((row) => (
-                    <TableRow key={row.id}>
-                      <TableCell>{row.id}</TableCell>
-                      <TableCell>{row.name}</TableCell>
-                      <TableCell>{row.age}</TableCell>
-                      <TableCell>{row.city}</TableCell>
-                    </TableRow>
+                  {test_result.map((test) => (
+                    <StyledTableRow key={test.id}>
+                      <TableCell>{formatTimeSubmit(test.created)}</TableCell>
+                      <TableCell>{test.status_data}</TableCell>
+                      <TableCell>{test.time}</TableCell>
+                      <TableCell>{test.memory}</TableCell>
+                      <TableCell>{mapLanguageSubmission(data.language)}</TableCell>
+                    </StyledTableRow>
                   ))}
                 </TableBody>
               </Table>
