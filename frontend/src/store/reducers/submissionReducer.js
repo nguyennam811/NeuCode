@@ -1,38 +1,38 @@
 import { createSlice } from '@reduxjs/toolkit'
-import * as problemDetail from '../actions/problemDetailAction'
+import * as submission from '../actions/submissionAction'
 
-const problemDetailSlice = createSlice({
-    name: 'problemDetail',
-    initialState: problemDetail.init,
+const submissionSlice = createSlice({
+    name: 'problem',
+    initialState: submission.init,
     reducers: {
-        setStatusIdle: problemDetail.setStatusIdle,
+        setStatusIdle: submission.setStatusIdle,
     },
     extraReducers: (builder) => {
-        // Get Problem Detail
-        builder.addCase(problemDetail.getProblemDetail.pending, (state) => {
+        // Get Submission
+        builder.addCase(submission.addSubmissionByUser.pending, (state) => {
             state.status = 'loading'
         })
         
-        builder.addCase(problemDetail.getProblemDetail.fulfilled, (state, action) => {
+        builder.addCase(submission.addSubmissionByUser.fulfilled, (state, action) => {
             state.data = action.payload
             console.log(action.payload)
             state.status = 'success'
-            console.log('Fetch problem is success')
+            console.log('add submission is success')
         })
 
-        builder.addCase(problemDetail.getProblemDetail.rejected, (state, action) => {
+        builder.addCase(submission.addSubmissionByUser.rejected, (state, action) => {
             state.status = 'error'
             state.error = action.error.message;
-            console.log('Fetch problem is error')
+            console.log('add submission is error')
         })
     }
 })
 
-export default problemDetailSlice
+export default submissionSlice
 
 export const {
     setStatusIdle
-} = problemDetailSlice.actions
+} = submissionSlice.actions
 
 // Lý do bạn không cần phải thêm getProblems vào phần export của problemSlice.actions 
 // là vì getProblems đã được tạo ra bởi createAsyncThunk và nó không cần được export ra bên ngoài slice.

@@ -19,14 +19,27 @@ import TabPanel from "@mui/lab/TabPanel";
 import CloseIcon from "@mui/icons-material/Close";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getCurrentUser } from "../../../../utils/auth";
+import { mapLanguage } from "../../../../utils/mapLanguage";
+import { addSubmissionByUser } from "../../../../store/actions/submissionAction";
 
 function EditorTestCase(props) {
-  const { code, executeCode, submitCode } = props;
+  const dispatch = useDispatch()
+  const current_user = getCurrentUser();
+  const { code, languages, executeCode } = props;
+  const [value, setValue] = useState("1");
 
   const data = useSelector((reducers) => reducers.problemDetail.data);
   console.log(data);
-  const [value, setValue] = useState("1");
+  
+  const submission = {
+    language: mapLanguage(languages),
+    code: code,
+    user_id: current_user.sub,
+    problem_id: data.id,
+  };
+ 
 
   const [open, setOpen] = useState(false);
 
@@ -40,7 +53,13 @@ function EditorTestCase(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
   const input = "3\n2";
+
+  
+  const submitCode = (submission) => {
+    dispatch(addSubmissionByUser(submission))
+  };
 
   return (
     <Box display="flex" flexDirection="column" height="100%">
@@ -105,7 +124,10 @@ function EditorTestCase(props) {
                       <Button
                         variant="contained"
                         size="small"
-                        onClick={submitCode}
+                        onClick={() => 
+                        {
+                          submitCode(submission);
+                        }}
                       >
                         Submit
                       </Button>

@@ -8,6 +8,7 @@ import "../../../../styles/globals.css";
 import EditorTestCase from "./EditorTestCase";
 import { useParams } from "react-router-dom";
 import { getCurrentUser } from "../../../../utils/auth";
+import { mapLanguage } from "../../../../utils/mapLanguage";
 
 function TextEditor() {
   const current_user = getCurrentUser();
@@ -28,32 +29,36 @@ function TextEditor() {
     editorRef.current = editor;
   }
 
-  const mapLanguageToServerValue = (clientLanguage) => {
-    switch (clientLanguage) {
-      case "cpp":
-        return "cpp";
-      case "php":
-        return "php";
-      case "python":
-        return "py";
-      case "javascript":
-        return "js";
-      default:
-        return clientLanguage;
-    }
-  };
+  // const mapLanguageToServerValue = (clientLanguage) => {
+  //   switch (clientLanguage) {
+  //     case "cpp":
+  //       return "cpp";
+  //     case "php":
+  //       return "php";
+  //     case "python":
+  //       return "py";
+  //     case "javascript":
+  //       return "js";
+  //     default:
+  //       return clientLanguage;
+  //   }
+  // };
 
   const executeCode = () => {
     setOutput("");
 
-    const language = mapLanguageToServerValue(languages);
+    const language = mapLanguage(languages);
 
     // Send a request to the server to execute the code
     // fetch('http://localhost:8000/api/submissions/', {
     fetch("http://127.0.0.1:9000/execute", {
       method: "POST",
       // body: JSON.stringify({ language, input, code , problem_id: 'SUM', user_id: '2'}),
-      body: JSON.stringify({ language, code, input }),
+      body: JSON.stringify({
+        languages,
+        code,
+        problem_id: problemId.id,
+      }),
       headers: {
         "Content-Type": "application/json",
       },
@@ -80,28 +85,28 @@ function TextEditor() {
       });
   };
 
-  const submitCode = async () => {
-    const language = mapLanguageToServerValue(languages);
+  // const submitCode = async () => {
+  //   const language = mapLanguageToServerValue(languages);
 
-    const res = await fetch("http://localhost:8000/api/submissions", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        language,
-        code,
-        user_id: current_user.sub,
-        problem_id: problemId.id,
-      }),
-    })
-      .then((result) => result.json())
-      .catch((error) => {
-        console.error(error);
-        alert("Lỗi xảy ra trong quá trình biên dịch.");
-      });
+  //   const res = await fetch("http://localhost:8000/api/submissions", {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify({
+  //       language,
+  //       code,
+  //       user_id: current_user.sub,
+  //       problem_id: problemId.id,
+  //     }),
+  //   })
+  //     .then((result) => result.json())
+  //     .catch((error) => {
+  //       console.error(error);
+  //       alert("Lỗi xảy ra trong quá trình biên dịch.");
+  //     });
 
-    console.log(res);
-    return res;
-  };
+  //   console.log(res);
+  //   return res;
+  // };
 
   return (
     <Box display={"flex"} flexDirection={"column"}>
@@ -142,8 +147,8 @@ function TextEditor() {
 
           <EditorTestCase
             code={code}
+            languages={languages}
             executeCode={executeCode}
-            submitCode={submitCode}
           />
         </Split>
       </Box>
