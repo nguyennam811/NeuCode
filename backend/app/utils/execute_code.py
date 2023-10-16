@@ -269,7 +269,7 @@ def status_data_test(db: Session,output: str, elapsed_time: float, memory_usage:
     elif "Invalid Return" in output:
         return "IR: Invalid Return (Trả về không hợp lệ)"
 
-    if (output == test_case.tests.output) :
+    if (output.strip() == test_case.tests.output) :
         if (elapsed_time > problem.max_execution_time):
             return "TLE: Time Limit Exceeded (Quá giới hạn thời gian)"
         elif (memory_usage > problem.max_memory_limit):

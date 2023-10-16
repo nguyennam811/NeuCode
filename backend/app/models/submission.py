@@ -21,6 +21,29 @@ class Submission(Base, TimeModel):
     tests_result = relationship("Test_Result", back_populates="submissions")
 
 
+## include <iostream>
+# using
+# namespace
+# std;
+#
+# int
+# main()
+# {
+#     int
+# so1, so2;
+#
+# cin >> so1;
+#
+# cin >> so2;
+#
+# int
+# tong = so1 - so2;
+#
+# cout << tong << endl;
+#
+# return 0;
+# }
+
 # {
 #   "user_id": "1",
 #   "problem_id": "sum",
