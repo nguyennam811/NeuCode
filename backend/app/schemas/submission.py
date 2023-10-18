@@ -6,7 +6,6 @@ class Submission(BaseModel):
     user_id: str
     problem_id: str
     language: str
-
     code: Optional[str]
 
 class ShowSubmission(Submission):

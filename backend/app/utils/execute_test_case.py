@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from .. import models
+from .. import models, schemas
 from fastapi import HTTPException, status
 import os
 import subprocess
@@ -11,64 +11,24 @@ import datetime
 import secrets
 from .run_test_code import run_file_code
 
-async def execute_code(db: Session, submission_id: str):
-    update_submission_status(db, submission_id, "đang chấm")
-
-    await run_code(db, submission_id)
-
-    update_submission_status(db, submission_id, "đã chấm")
-
-
-def update_submission_status(db: Session, submission_id: str, new_status: str):
-    submission = db.query(models.Submission).filter(models.Submission.id == submission_id).first()
-    if submission:
-        submission.status = new_status
-    db.commit()
-
-    print(submission.status)
-
-
-async def run_code(db: Session, submission_id: str):
-    submission = db.query(models.Submission).filter(models.Submission.id == submission_id).first()
-    if not submission:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="submission not found")
-
-    test = db.query(models.Test).filter(models.Test.problem_id == submission.problem_id).all()
+async def run_code_testcase( test_case_data: schemas.TestCase, db: Session):
+    random = secrets.token_hex(3)
+    test = db.query(models.Test).filter(models.Test.problem_id == test_case_data.problem_id).all()
     if not test:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="test not found")
 
-    current_datetime = datetime.datetime.now()
-    formatted_datetime = current_datetime.strftime("%H_%M_%S-%d_%m_%Y")
-    file_path = f"./temp/{formatted_datetime}-{submission.user_id}.{submission.language}"
+    file_path = f"./temp/{random}.{test_case_data.language}"
     with open(file_path, "w", encoding="utf-8") as program_file:
-        program_file.write(submission.code)
+        program_file.write(test_case_data.code)
 
 
     test_results = []
     for test_case in test:
-        result = await run_file_code(db, file_path, test_case, submission.language)
+        result = await run_file_code(db, file_path, test_case, test_case_data.language)
         print(f"kết quả: {result} ")
-        test_result = models.Test_Result(
-            id=str(uuid.uuid4()),
-            submission_id=submission_id,
-            test_id=test_case.id,
-            output=result["output"],
-            time=result["time"],
-            memory=result["memory"],
-            status_data=result["status_data"]
-        )
-        if test_result.status_data.strip() == "AC: Accepted (Kết quả đúng)":
-            submission.score += 1
-            db.commit()
-        test_results.append(test_result)
+        test_results.append(result)
         # await asyncio.sleep(3)
 
-    for new_test in test_results:
-        db.add(new_test)
-    db.commit()
-
-    for new_test in test_results:
-        db.refresh(new_test)
 
     try:
         os.remove(file_path)
