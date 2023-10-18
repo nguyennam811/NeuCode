@@ -11,8 +11,6 @@ import { getCurrentUser } from "../../../../utils/auth";
 import { mapLanguage } from "../../../../utils/mapLanguage";
 
 function TextEditor() {
-  const current_user = getCurrentUser();
-
   const problemId = useParams();
   console.log("Problem ID:", problemId.id);
 
@@ -23,26 +21,13 @@ function TextEditor() {
   const [theme, setTheme] = useState("vs-dark");
   const [fontSizes, setFontSizes] = useState("14px");
 
+  
+
   const editorRef = useRef(null);
 
   function handleEditorDidMount(editor, monaco) {
     editorRef.current = editor;
   }
-
-  // const mapLanguageToServerValue = (clientLanguage) => {
-  //   switch (clientLanguage) {
-  //     case "cpp":
-  //       return "cpp";
-  //     case "php":
-  //       return "php";
-  //     case "python":
-  //       return "py";
-  //     case "javascript":
-  //       return "js";
-  //     default:
-  //       return clientLanguage;
-  //   }
-  // };
 
   const executeCode = () => {
     setOutput("");
@@ -121,7 +106,7 @@ function TextEditor() {
 
       <Box sx={{ height: "calc(100% - 58px)" }}>
         <Split
-          class="comp2"
+          className="comp2"
           direction="vertical"
           gutterSize={7}
           sizes={[60, 40]}
@@ -148,7 +133,6 @@ function TextEditor() {
           <EditorTestCase
             code={code}
             languages={languages}
-            executeCode={executeCode}
           />
         </Split>
       </Box>

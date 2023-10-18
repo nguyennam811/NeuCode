@@ -14,11 +14,19 @@ import slide3 from "../../../assets/images/Slide3.png";
 import { useEffect, useRef, useState } from "react";
 import slide2 from "../../../assets/images/Slice2.jpg";
 import { getCurrentUser } from "../../../utils/auth";
+import { useDispatch } from "react-redux";
+import { getProblems } from "../../../store/actions/problemAction";
 
 
 const Home = () => {
   const user = getCurrentUser();
   console.log(user);
+
+  // const dispatch = useDispatch();
+
+  // useEffect(()=> {
+  //   dispatch(getProblems())
+  // }, [dispatch])
 
   const [myIndex, setMyIndex] = useState(0);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -60,6 +68,15 @@ const Home = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
+  }, []);
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const isMobile = windowWidth <= 600;

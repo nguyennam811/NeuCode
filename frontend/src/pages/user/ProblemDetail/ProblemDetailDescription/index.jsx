@@ -15,6 +15,10 @@ import { getTestResult } from "../../../../store/actions/testResultAction";
 import { formatResponseTime, formatTimeSubmit } from "../../../../utils/time";
 import { mapLanguageSubmission } from "../../../../utils/mapLanguage";
 import { setTabValue } from "../../../../store/reducers/submissionReducer";
+import { useState } from "react";
+import Description from "./Description";
+import SubmissionResult from "./SubmissionResult";
+import Discussions from "./Discussions";
 function ProblemDetailDescription() {
   const dispatch = useDispatch()
 
@@ -34,22 +38,51 @@ function ProblemDetailDescription() {
       border: "1px solid #a19797"
     }
   }));
-
-  const data = useSelector((reducers) => reducers.submission.data);
   const value = useSelector((reducers) => reducers.submission.tabs);
 
   const handleChange = (event, newValue) => {
     dispatch(setTabValue(newValue));
   };
   
-  console.log(data);
 
-  useEffect(()=> {
-    dispatch(getTestResult(data.id))
-  }, [data.id])
+  // const submission = useSelector((reducers) => reducers.submission.data);
+  
+  // console.log(submission);
 
-  const test_result = useSelector((reducers) => reducers.test_result.data)
-  console.log(test_result)
+  // useEffect(()=> {
+  //   dispatch(getTestResult(submission.id))
+  // }, [])
+
+  // const test_result = useSelector((reducers) => reducers.test_result.data)
+  // console.log(test_result)
+
+  
+  // const [test_result, setTestResult] = useState([]);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     // Gọi API ở đây
+  //     fetch("http://localhost:8000/api/test_result", {
+  //     headers: { submission: 'c256e5bc-5d3f-484e-bf0b-3276a884f93c' },
+  //   }).then((response) => response.json())
+  //   .then((res) => {
+  //   console.log(res)
+  //     if (res.status_data === 'đã chấm') {
+  //       clearInterval(interval); // Dừng setInterval khi status là 'đã chấm'
+  //     }
+  //     setTestResult(res);
+  //   })
+  //   .catch((error) => {
+  //     console.error('Error fetching data:', error);
+  //   });
+  //   }, 1000); // Gọi API mỗi giây
+
+  //   // Xoá interval khi component unmount
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  // }, []);
+
+
   return (
     <Box
       sx={{ width: "100%" }}
@@ -92,91 +125,12 @@ function ProblemDetailDescription() {
           }}
         >
           <TabPanel value="1">
-          
-            <h1>
-              hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-            </h1>
-            <h1>
-              hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-            </h1>
-            <h1>
-              hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-            </h1>
-            <h1>
-              hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-            </h1>
-            <h1>
-              hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-            </h1>
-            <h1>
-              hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-            </h1>
-            <h1>
-              hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-            </h1>
-            <h1>
-              hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-            </h1>
-            <h1>
-              hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-            </h1>
-            <h1>
-              hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-            </h1>
-            <h1>
-              hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-            </h1>
-            <h1>
-              hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-            </h1>
-            <h1>
-              hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-            </h1>
-            <h1>
-              hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-            </h1>
-            <h1>
-              hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-            </h1>
-            <h1>
-              hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-            </h1>
-            <h1>
-              hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-            </h1>
-            <h1>
-              hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-            </h1>
-            <h1>
-              hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-            </h1>
+            <Description />            
           </TabPanel>
-          <TabPanel value="2"><TableContainer component={Paper}>
-              <Table>
-                <TableHead sx={{backgroundColor:'#cdd0d3'}}>
-                  <StyledTableRow>
-                    <TableCell>Time Submitted</TableCell>
-                    <TableCell>Status</TableCell>
-                    <TableCell>Runtime</TableCell>
-                    <TableCell>Memory</TableCell>
-                    <TableCell>Language</TableCell>
-                  </StyledTableRow>
-                </TableHead>
-                <TableBody>
-                  {test_result.map((test) => (
-                    <StyledTableRow key={test.id}>
-                      <TableCell>{formatTimeSubmit(test.created)}</TableCell>
-                      <TableCell>{test.status_data}</TableCell>
-                      <TableCell>{test.time}</TableCell>
-                      <TableCell>{test.memory}</TableCell>
-                      <TableCell>{mapLanguageSubmission(data.language)}</TableCell>
-                    </StyledTableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+          <TabPanel value="2">
+            <SubmissionResult />
             </TabPanel>
-          <TabPanel value="3">Item Three</TabPanel>
+          <TabPanel value="3"><Discussions /></TabPanel>
         </div>
       </TabContext>
     </Box>

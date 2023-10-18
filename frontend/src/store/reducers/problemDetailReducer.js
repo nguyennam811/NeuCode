@@ -17,13 +17,13 @@ const problemDetailSlice = createSlice({
             state.data = action.payload
             console.log(action.payload)
             state.status = 'success'
-            console.log('Fetch problem is success')
+            console.log('Fetch Problem Detail is success')
         })
 
         builder.addCase(problemDetail.getProblemDetail.rejected, (state, action) => {
             state.status = 'error'
             state.error = action.error.message;
-            console.log('Fetch problem is error')
+            console.log('Fetch Problem Detail is error')
         })
     }
 })

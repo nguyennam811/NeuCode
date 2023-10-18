@@ -13,13 +13,13 @@ export const setStatusIdle = (state) => {
 }
 
 export const getProblemDetail = createAsyncThunk(
-    "getProblems",
+    "getProblemDetail",
     async (id) => {
         try {
             return await problemDetailApi.fetchProblemDetail(id)
         } catch (error) {
             // console.log(error.message)
-            throw new Error("Failed to fetch problems");
+            throw new Error("Failed to fetch Problem Detail");
         }
     }
 )

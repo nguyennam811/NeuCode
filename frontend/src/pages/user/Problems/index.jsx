@@ -274,11 +274,14 @@ export default function EnhancedTable() {
                   {visibleRows.map((row) => (
                     <StyledTableRow key={row.id} hover>
                       <TableCell align="center">{row.id}</TableCell>
-                      <NavLink  to={`${row.id}`}>
-                      <TableCell component="th" scope="row">
-                        <a>{row.title}</a>
+                      
+                      {/* <TableCell component="th" scope="row">
+                      <NavLink  to={`${row.id}`}>{row.title}</NavLink >
+                      </TableCell> */}
+                      <TableCell align="left" >
+                      <Link to={`${row.id}`}>{row.title}</Link >
                       </TableCell>
-                      </NavLink >
+                      
                       {/* <TableCell align="center">{row.title}</TableCell> */}
                       <TableCell align="center">{row.difficulty}</TableCell>
                       <TableCell align="center">{row.points}</TableCell>

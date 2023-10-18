@@ -9,6 +9,7 @@ import {
   DialogTitle,
   Grid,
   IconButton,
+  LinearProgress,
   Typography,
 } from "@mui/material";
 import "../../../../styles/globals.css";
@@ -24,23 +25,27 @@ import { getCurrentUser } from "../../../../utils/auth";
 import { mapLanguage } from "../../../../utils/mapLanguage";
 import { addSubmissionByUser } from "../../../../store/actions/submissionAction";
 import { setTabValue } from "../../../../store/reducers/submissionReducer";
+import { getTestResult } from "../../../../store/actions/testResultAction";
+import { toast } from "react-toastify";
+import PhoneIcon from "@mui/icons-material/Phone";
 
 function EditorTestCase(props) {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const current_user = getCurrentUser();
-  const { code, languages, executeCode } = props;
+  const { code, languages } = props;
   const [value, setValue] = useState("1");
+  const [testCase, setTestCase] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const data = useSelector((reducers) => reducers.problemDetail.data);
   console.log(data);
-  
+
   const submission = {
     language: mapLanguage(languages),
     code: code,
     user_id: current_user.sub,
     problem_id: data.id,
   };
- 
 
   const [open, setOpen] = useState(false);
 
@@ -55,13 +60,39 @@ function EditorTestCase(props) {
     setValue(newValue);
   };
 
-  const input = "3\n2";
-
-  
   const submitCode = (submission) => {
-    dispatch(addSubmissionByUser(submission))
-    dispatch(setTabValue('2'))
+    dispatch(addSubmissionByUser(submission));
+    dispatch(setTabValue("2"));
+    setOpen(false);
   };
+
+  const execute_test_case = async () => {
+    try {
+      setLoading(false); // Bắt đầu tải dữ liệu
+      const { user_id, ...submissionWithoutUserId } = submission;
+
+      const res = await fetch(`${process.env.REACT_APP_URL}/execute`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(submissionWithoutUserId),
+      })
+        .then((result) => result.json())
+        .catch((error) => {
+          toast.error("Lỗi xảy ra trong quá trình biên dịch.");
+        });
+      setTestCase(res);
+    } catch (error) {
+      toast.error("Lỗi xảy ra trong quá trình biên dịch.");
+    } finally {
+      setLoading(true); // Kết thúc tải dữ liệu
+    }
+  };
+
+  console.log(testCase);
+  // const submission_hhi = useSelector((reducers) => reducers.submission.data);
+  // useEffect(()=> {
+  //   dispatch(getTestResult(submission_hhi.id))
+  // },[submission_hhi.id])
 
   return (
     <Box display="flex" flexDirection="column" height="100%">
@@ -79,163 +110,244 @@ function EditorTestCase(props) {
           display="flex"
           flexDirection="column"
         >
-          <TabContext value={value}>
-            <Box
-              sx={{ borderBottom: 1, borderColor: "divider" }}
-              display="flex"
-              flexDirection="row"
-              justifyContent="space-between"
-              height="40px"
-              alignItems="center"
-            >
-              <TabList
-                onChange={handleChange}
-                aria-label="lab API tabs example"
-                sx={{ height: "100%", padding: "3px" }}
-              >
-                <Tab label="Case 1" value="1" sx={{ fontSize: "12px" }} />
-                <Tab label="Case 2" value="2" sx={{ fontSize: "12px" }} />
-                <Tab label="Case 3" value="3" sx={{ fontSize: "12px" }} />
-              </TabList>
-
+          {data && data.tests ? (
+            <TabContext value={value}>
               <Box
-                className="button-container"
-                width="150px"
-                textAlign="end"
-                padding="5px"
-                mr={2}
+                sx={{ borderBottom: 1, borderColor: "divider" }}
+                display="flex"
+                flexDirection="row"
+                justifyContent="space-between"
+                height="40px"
+                alignItems="center"
               >
-                {code !== "" ? (
-                  <Grid container spacing={2}>
-                    <Grid item xs={6}>
-                      <Button
-                        variant="outlined"
-                        onClick={executeCode}
-                        size="small"
-                        sx={{
-                          "&:hover": {
-                            backgroundColor: "#179fff",
-                            color: "#ffffff",
-                          },
-                        }}
-                      >
-                        Run
-                      </Button>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Button
-                        variant="contained"
-                        size="small"
-                        onClick={() => 
-                        {
-                          submitCode(submission);
-                        }}
-                      >
-                        Submit
-                      </Button>
-                      {/* <Dialog
-        onClose={handleClose}
-        aria-labelledby="customized-dialog-title"
-        open={open}
-      >
-        <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-          Modal title
-        </DialogTitle>
-        <IconButton
-          aria-label="close"
-          onClick={handleClose}
-          sx={{
-            position: 'absolute',
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-        <DialogContent dividers>
-          <Typography gutterBottom>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-            consectetur ac, vestibulum at eros.
-          </Typography>
-          <Typography gutterBottom>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-            Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
-          </Typography>
-          <Typography gutterBottom>
-            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
-            magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
-            ullamcorper nulla non metus auctor fringilla.
-          </Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleClose}>
-            Save changes
-          </Button>
-        </DialogActions>
-      </Dialog> */}
-                    </Grid>
-                  </Grid>
-                ) : (
-                  <Grid container spacing={2}>
-                    <Grid item xs={6}>
-                      <Button disabled variant="outlined" size="small">
-                        Run
-                      </Button>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Button disabled variant="contained" size="small">
-                        Submit
-                      </Button>
-                    </Grid>
-                  </Grid>
-                )}
-              </Box>
-            </Box>
+                <TabList
+                  onChange={handleChange}
+                  aria-label="lab API tabs example"
+                  sx={{ height: "100%", padding: "3px" }}
+                >
+                  {data.tests.slice(0, 3).map((test, index) => (
+                    <Tab
+                      key={index}
+                      label={`Case ${index + 1}`}
+                      value={(index + 1).toString()}
+                      sx={{
+                        fontSize: "12px",
+                      }}
+                    />
+                  ))}
+                </TabList>
 
-            {data && data.tests ? (
+                <Box
+                  className="button-container"
+                  width="150px"
+                  textAlign="end"
+                  padding="5px"
+                  mr={2}
+                >
+                  {code !== "" ? (
+                    <Grid container spacing={2}>
+                      <Grid item xs={6}>
+                        <Button
+                          variant="outlined"
+                          onClick={execute_test_case}
+                          size="small"
+                          sx={{
+                            "&:hover": {
+                              backgroundColor: "#179fff",
+                              color: "#ffffff",
+                            },
+                          }}
+                        >
+                          Run
+                        </Button>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Button
+                          variant="contained"
+                          size="small"
+                          // onClick={() =>
+                          // {
+                          //   submitCode(submission);
+                          // }}
+                          onClick={handleClickOpen}
+                        >
+                          Submit
+                        </Button>
+
+                        <Dialog
+                          onClose={handleClose}
+                          aria-labelledby="customized-dialog-title"
+                          open={open}
+                        >
+                          <DialogTitle
+                            sx={{ m: 0, p: 2 }}
+                            id="customized-dialog-title"
+                          >
+                            Confirm Submission
+                          </DialogTitle>
+                          <IconButton
+                            aria-label="close"
+                            onClick={handleClose}
+                            sx={{
+                              position: "absolute",
+                              right: 8,
+                              top: 8,
+                              color: (theme) => theme.palette.grey[500],
+                            }}
+                          >
+                            <CloseIcon />
+                          </IconButton>
+                          <DialogContent dividers>
+                            <Typography gutterBottom fontSize={20}>
+                              Are you sure you want to submit this code?
+                            </Typography>
+                          </DialogContent>
+                          <DialogActions>
+                            <Button
+                              autoFocus
+                              variant="outlined"
+                              onClick={handleClose}
+                            >
+                              No, do not submit
+                            </Button>
+
+                            <Button
+                              autoFocus
+                              onClick={() => {
+                                submitCode(submission);
+                              }}
+                              variant="contained"
+                              color="success"
+                            >
+                              Yes, submit my code
+                            </Button>
+                          </DialogActions>
+                        </Dialog>
+                      </Grid>
+                    </Grid>
+                  ) : (
+                    <Grid container spacing={2}>
+                      <Grid item xs={6}>
+                        <Button disabled variant="outlined" size="small">
+                          Run
+                        </Button>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Button disabled variant="contained" size="small">
+                          Submit
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  )}
+                </Box>
+              </Box>
+
               <div
                 style={{
                   overflowX: "auto",
                   overflowWrap: "break-word",
-                  height: "100%", // Thay đổi giá trị maxHeight theo nhu cầu
+                  height: "100%",
                 }}
               >
-                {data.tests.map((test, index) => (
+                {data.tests.slice(0, 3).map((test, index) => (
                   <TabPanel key={index} value={(index + 1).toString()}>
-                    {test.input}
-                    <pre>{input}</pre>
-                    <Typography gutterBottom>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-            consectetur ac, vestibulum at eros.
-          </Typography>
-          <Typography gutterBottom>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-            Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
-          </Typography>
-          <Typography gutterBottom>
-            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
-            magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
-            ullamcorper nulla non metus auctor fringilla.
-          </Typography>
+                    {loading ? (
+                      <Box width="100%" height="100%">
+                        {testCase.map((test_case, index) => {
+                          if (
+                            test_case.test_id === test.id &&
+                            test_case.status_data.includes("AC")
+                          ) {
+                            return (
+                              <Typography
+                                variant="h6"
+                                key={index}
+                                color="green"
+                              >
+                                Your code passed this test case.
+                              </Typography>
+                            );
+                          } else if (test_case.test_id === test.id) {
+                            return (
+                              <Typography variant="h6" key={index} color="red">
+                                Your code did not pass this test case.
+                              </Typography>
+                            );
+                          }
+                          return null;
+                        })}
+                        <Typography>Input</Typography>
+                        <Box
+                          border="1px solid gray"
+                          p={1}
+                          sx={{ backgroundColor: "white" }}
+                          overflow="auto"
+                        >
+                          <pre>{test.input}</pre>
+                        </Box>
+
+                        <Typography mt={1}>Expected Output</Typography>
+                        <Box
+                          border="1px solid gray"
+                          p={1}
+                          sx={{ backgroundColor: "white" }}
+                          overflow="auto"
+                        >
+                          <pre>{test.output}</pre>
+                        </Box>
+
+                        {testCase.map((test_case, index) => {
+                          if (test_case.test_id === test.id) {
+                            return (
+                              <Box key={index}>
+                                <Typography mt={1}>Your Output</Typography>
+                                <Box
+                                  border="1px solid gray"
+                                  p={1}
+                                  sx={{ backgroundColor: "white" }}
+                                  overflow="auto"
+                                >
+                                  <Box>
+                                    <pre>{test_case.output}</pre>
+                                  </Box>
+                                </Box>
+
+                                <Typography mt={1}>Compiler Message</Typography>
+                                <Box
+                                  border="1px solid gray"
+                                  p={1}
+                                  sx={{ backgroundColor: "white" }}
+                                  overflow="auto"
+                                >
+                                  <pre>{test_case.status_data}</pre>
+                                </Box>
+                              </Box>
+                            );
+                          }
+                          return null;
+                        })}
+                      </Box>
+                    ) : (
+                      <Box sx={{ width: "100%" }}>
+                        <LinearProgress />
+                      </Box>
+                    )}
                   </TabPanel>
                 ))}
               </div>
-            ) : (
-              <Box
-                sx={{
-                  display: "flex",
-                  height: "100%",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <CircularProgress />
-              </Box>
-            )}
-          </TabContext>
+            </TabContext>
+          ) : (
+            <Box
+              sx={{
+                display: "flex",
+                height: "100%",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <CircularProgress />
+            </Box>
+          )}
         </Box>
       </Box>
     </Box>
