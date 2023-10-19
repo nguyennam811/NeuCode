@@ -20,6 +20,7 @@ class Problem(Base, TimeModel):
     problem_type = Column(String, nullable=False)
     points = Column(Float, nullable=False, default=0)
     instructions = Column(Text, nullable=True)
+    description = Column(Text, nullable=True)
     max_memory_limit = Column(Float, nullable=False, default=0)
     max_execution_time = Column(Float, nullable=False, default=0)
 
@@ -30,11 +31,10 @@ class Problem(Base, TimeModel):
 # {
 #   "id": "sum",
 #   "user_id": "1",
-#   "title": "Tỏng 2 số",
+#   "title": "Tổng 2 số",
 #   "difficulty": "Dễ",
 #   "problem_type": "đơn giản",
-#   "points": 1,
-#   "instructions": "",
+#   "description": "",
 #   "max_memory_limit": 256,
 #   "max_execution_time": 1
 # }

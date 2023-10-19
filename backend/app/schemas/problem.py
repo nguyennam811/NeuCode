@@ -11,8 +11,8 @@ class Problem(BaseModel):
     title: str
     difficulty: Difficulty
     problem_type: Optional[str]
-    points: Optional[NonNegativeFloat]
-    instructions: Optional[str]
+    # points: Optional[NonNegativeFloat]
+    description: Optional[str]
     max_memory_limit: Optional[NonNegativeFloat]
     max_execution_time: Optional[NonNegativeFloat]
 
@@ -20,6 +20,8 @@ class Problem(BaseModel):
 class ShowProblem(Problem):
     user: Optional[ShowUser]
     tests: List[ShowTest]
+    instructions: Optional[str]
+    points: Optional[NonNegativeFloat]
     created: datetime.datetime
     updated: Optional[datetime.datetime]
     class Config():
