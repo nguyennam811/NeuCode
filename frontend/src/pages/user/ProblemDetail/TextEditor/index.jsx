@@ -9,6 +9,7 @@ import EditorTestCase from "./EditorTestCase";
 import { useParams } from "react-router-dom";
 import { getCurrentUser } from "../../../../utils/auth";
 import { mapLanguage } from "../../../../utils/mapLanguage";
+import { memo } from "react";
 
 function TextEditor() {
   const problemId = useParams();
@@ -140,4 +141,4 @@ function TextEditor() {
   );
 }
 
-export default TextEditor;
+export default memo(TextEditor);

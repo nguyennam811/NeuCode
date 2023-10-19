@@ -17,3 +17,10 @@ export const addSubmission = async (submission) => {
       );
     return res.data;
 };
+
+export const fetchSubmission = async (submission_id) => {
+  const res = await axiosInstance.get(
+      `/submissions/${submission_id}`
+    );
+  return res.data;
+};

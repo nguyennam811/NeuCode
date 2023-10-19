@@ -17,7 +17,7 @@ const ProblemDetail = () => {
 
   useEffect(()=> {
     dispatch(getProblemDetail(problemId.id))
-  }, [dispatch])
+  }, [problemId.id])
 
   
   return (

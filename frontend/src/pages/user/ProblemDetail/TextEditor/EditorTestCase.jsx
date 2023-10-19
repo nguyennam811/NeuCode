@@ -123,16 +123,30 @@ function EditorTestCase(props) {
                 <TabList
                   onChange={handleChange}
                   aria-label="lab API tabs example"
-                  sx={{ height: "100%", padding: "3px" }}
+                  sx={{ height: "100%", padding: "3px" , paddingLeft: '0'}}
                 >
                   {data.tests.slice(0, 3).map((test, index) => (
                     <Tab
                       key={index}
                       label={`Case ${index + 1}`}
                       value={(index + 1).toString()}
-                      sx={{
-                        fontSize: "12px",
-                      }}
+                      sx={
+                        testCase.some(
+                          (test_case) =>
+                            test_case.test_id === test.id &&
+                            test_case.status_data.includes("AC")
+                        )
+                          ? {
+                              fontSize: "12px",
+                              marginTop: "1px",
+                              backgroundColor: "#6bbe71",
+                              color: "white",
+                              border: "1px solid gray",
+                            }
+                          : {
+                              fontSize: "12px",
+                            }
+                      }
                     />
                   ))}
                 </TabList>

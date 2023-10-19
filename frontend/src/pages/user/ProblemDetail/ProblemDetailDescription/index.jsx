@@ -19,9 +19,11 @@ import { useState } from "react";
 import Description from "./Description";
 import SubmissionResult from "./SubmissionResult";
 import Discussions from "./Discussions";
+import { memo } from "react";
 function ProblemDetailDescription() {
-  const dispatch = useDispatch()
+  console.log('ProblemDetailDescription')
 
+  const dispatch = useDispatch()
   const tabStyle = {
     height: "58px",
     backgroundColor: "#ffffff",
@@ -33,28 +35,11 @@ function ProblemDetailDescription() {
 
   };
 
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    "& td, & th": {
-      border: "1px solid #a19797"
-    }
-  }));
   const value = useSelector((reducers) => reducers.submission.tabs);
 
   const handleChange = (event, newValue) => {
     dispatch(setTabValue(newValue));
   };
-  
-
-  // const submission = useSelector((reducers) => reducers.submission.data);
-  
-  // console.log(submission);
-
-  // useEffect(()=> {
-  //   dispatch(getTestResult(submission.id))
-  // }, [])
-
-  // const test_result = useSelector((reducers) => reducers.test_result.data)
-  // console.log(test_result)
 
   
   // const [test_result, setTestResult] = useState([]);
@@ -81,7 +66,6 @@ function ProblemDetailDescription() {
   //     clearInterval(interval);
   //   };
   // }, []);
-
 
   return (
     <Box
@@ -137,4 +121,4 @@ function ProblemDetailDescription() {
   );
 }
 
-export default ProblemDetailDescription;
+export default memo(ProblemDetailDescription);

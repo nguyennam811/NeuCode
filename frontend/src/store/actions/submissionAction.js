@@ -29,3 +29,15 @@ export const addSubmissionByUser = createAsyncThunk(
     }
 )
 
+export const getSubmissionById = createAsyncThunk(
+    "getSubmission",
+    async (submission_id) => {
+        try {
+            return await submissionApi.fetchSubmission(submission_id)
+        } catch (error) {
+            // console.log(error.message)
+            throw new Error("Failed to get submission ID: " + error.message);
+        }
+    }
+)
+

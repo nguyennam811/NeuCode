@@ -9,7 +9,7 @@ const submissionSlice = createSlice({
         setTabValue : submission.setTabValue,
     },
     extraReducers: (builder) => {
-        // Get Submission
+        // post Submission
         builder.addCase(submission.addSubmissionByUser.pending, (state) => {
             state.status = 'loading'
         })
@@ -25,6 +25,24 @@ const submissionSlice = createSlice({
             state.status = 'error'
             state.error = action.error.message;
             console.log('add submission is error')
+        })
+
+        // get Submission_id
+        builder.addCase(submission.getSubmissionById.pending, (state) => {
+            state.status = 'loading'
+        })
+        
+        builder.addCase(submission.getSubmissionById.fulfilled, (state, action) => {
+            state.data = action.payload
+            console.log(action.payload)
+            state.status = 'success'
+            console.log('get submission ID is success')
+        })
+
+        builder.addCase(submission.getSubmissionById.rejected, (state, action) => {
+            state.status = 'error'
+            state.error = action.error.message;
+            console.log('get submission ID is error')
         })
     }
 })
