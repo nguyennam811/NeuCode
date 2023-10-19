@@ -18,7 +18,7 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import CloseIcon from "@mui/icons-material/Close";
-import { useParams } from "react-router-dom";
+import { useLoaderData, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrentUser } from "../../../../utils/auth";
@@ -31,7 +31,7 @@ import PhoneIcon from "@mui/icons-material/Phone";
 
 function EditorTestCase(props) {
   const dispatch = useDispatch();
-  const current_user = getCurrentUser();
+  const current_user = useLoaderData();
   const { code, languages } = props;
   const [value, setValue] = useState("1");
   const [testCase, setTestCase] = useState([]);
@@ -89,10 +89,6 @@ function EditorTestCase(props) {
   };
 
   console.log(testCase);
-  // const submission_hhi = useSelector((reducers) => reducers.submission.data);
-  // useEffect(()=> {
-  //   dispatch(getTestResult(submission_hhi.id))
-  // },[submission_hhi.id])
 
   return (
     <Box display="flex" flexDirection="column" height="100%">
@@ -110,6 +106,7 @@ function EditorTestCase(props) {
           display="flex"
           flexDirection="column"
         >
+          {/* Object.keys(data).length !== 0 */}
           {data && data.tests ? (
             <TabContext value={value}>
               <Box

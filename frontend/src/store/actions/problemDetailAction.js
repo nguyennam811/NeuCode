@@ -24,3 +24,15 @@ export const getProblemDetail = createAsyncThunk(
     }
 )
 
+export const addProblem = createAsyncThunk(
+    "addProblem",
+    async (problem) => {
+        try {
+            return await problemDetailApi.addProblem(problem)
+        } catch (error) {
+            // console.log(error.message)
+            throw new Error("Failed to add Problem");
+        }
+    }
+)
+

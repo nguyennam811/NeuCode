@@ -25,6 +25,25 @@ const problemDetailSlice = createSlice({
             state.error = action.error.message;
             console.log('Fetch Problem Detail is error')
         })
+
+
+        // Add Problem 
+        builder.addCase(problemDetail.addProblem.pending, (state) => {
+            state.status = 'loading'
+        })
+        
+        builder.addCase(problemDetail.addProblem.fulfilled, (state, action) => {
+            state.data = action.payload
+            console.log(action.payload)
+            state.status = 'success'
+            console.log('add Problem Detail is success')
+        })
+
+        builder.addCase(problemDetail.addProblem.rejected, (state, action) => {
+            state.status = 'error'
+            state.error = action.error.message;
+            console.log('add Problem Detail is error')
+        })
     }
 })
 

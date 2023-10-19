@@ -5,6 +5,7 @@ import NotFound from "../pages/NotFound";
 import Users from "../pages/user/Users";
 import Problems from "../pages/user/Problems";
 import Submissions from "../pages/user/Submissions";
+import CreateProblem from "../pages/user/CreateProblem";
 import Login from "../pages/auth/Login";
 import Signup from "../pages/auth/Signup";
 import Layout from "../components/Layout";
@@ -12,6 +13,7 @@ import { getAuthToken, getCurrentUser } from "../utils/auth";
 import Navbar from "../components/NavbarAdmin";
 import { action as logoutAction } from '../components/Logout';
 import ProblemDetail from "../pages/user/ProblemDetail";
+import ProblemsTeacher from "../pages/user/ProblemsTeacher";
 
 const tokenLoader = () => {
   const token = getAuthToken();
@@ -55,6 +57,7 @@ const router = [
           },
           {
             path: "problems/:id",
+            loader: tokenLoader,
             element: <ProblemDetail />,
           },
           {
@@ -77,6 +80,14 @@ const router = [
           {
             index: true,
             element: <Home />,
+          },
+          {
+            path: "problems",
+            element: <ProblemsTeacher />,
+          },
+          {
+            path: "create_problem",
+            element: <CreateProblem />,
           },
           {
             path: "*",

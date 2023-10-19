@@ -10,3 +10,15 @@ export const fetchProblemDetail = async (id) => {
     const res = await axiosInstance.get(`/problems/${id}`);
     return res.data;
 };
+
+export const addProblem = async (problem) => {
+    const body = JSON.stringify(problem);
+    const res = await axiosInstance.post(
+        "/problems",
+        body,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    return res.data;
+};

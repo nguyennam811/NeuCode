@@ -112,15 +112,22 @@ const Header = () => {
       )}
       {user.role === "teacher" && (
         <ul className="mobile-navigation">
-          {/* <li>
-                        <NavLink to={"/student/problems"}>PROBLEMS</NavLink>
-                      </li>
-                      <li>
-                        <NavLink to={"/student/users"}>USERS</NavLink>
-                      </li>
-                      <li>
-                        <NavLink to={"/student/about"}>ABOUT</NavLink>
-                      </li> */}
+          <li>
+            <NavLink
+              to={"/teacher/problems"}
+              style={{ color: isCurrentPage("/problems") ? "red" : "" }}
+            >
+              PROBLEMS
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to={"/teacher/create_problem"}
+              style={{ color: isCurrentPage("/create_problem") ? "red" : "" }}
+            >
+              CREATE PROBLEM
+            </NavLink>
+          </li>
         </ul>
       )}
     </Box>
@@ -146,7 +153,7 @@ const Header = () => {
                   }}
                 />
               </IconButton>
-              <Link to={`/${user.role}`} style={{ width: "100%" }}>
+              <Link to={`/${user.role}`}>
                 <img
                   src={NeuCode}
                   alt="Logo"
@@ -165,8 +172,14 @@ const Header = () => {
   */}
               <Box sx={{ display: { xs: "none", sm: "block" } }}>
                 {user.role === "student" && (
-                  <ul className="navigation-menu" >
-                    <li style={{borderBottom: isCurrentPage("/problems") ? '3px solid #ff0000' : 'none',}}>
+                  <ul className="navigation-menu">
+                    <li
+                      style={{
+                        borderBottom: isCurrentPage("/problems")
+                          ? "3px solid #ff0000"
+                          : "none",
+                      }}
+                    >
                       <NavLink
                         to={"/student/problems"}
                         style={{
@@ -177,7 +190,13 @@ const Header = () => {
                       </NavLink>
                     </li>
 
-                    <li style={{borderBottom: isCurrentPage("/submissions") ? '3px solid #ff0000' : 'none',}}>
+                    <li
+                      style={{
+                        borderBottom: isCurrentPage("/submissions")
+                          ? "3px solid #ff0000"
+                          : "none",
+                      }}
+                    >
                       <NavLink
                         to={"/student/submissions"}
                         style={{
@@ -187,7 +206,13 @@ const Header = () => {
                         SUBMISSIONS
                       </NavLink>
                     </li>
-                    <li style={{borderBottom: isCurrentPage("/users") ? '3px solid #ff0000' : 'none',}}>
+                    <li
+                      style={{
+                        borderBottom: isCurrentPage("/users")
+                          ? "3px solid #ff0000"
+                          : "none",
+                      }}
+                    >
                       <NavLink
                         to={"/student/users"}
                         style={{ color: isCurrentPage("/users") ? "red" : "" }}
@@ -195,7 +220,13 @@ const Header = () => {
                         USERS
                       </NavLink>
                     </li>
-                    <li style={{borderBottom: isCurrentPage("/about") ? '3px solid #ff0000' : 'none',}}>
+                    <li
+                      style={{
+                        borderBottom: isCurrentPage("/about")
+                          ? "3px solid #ff0000"
+                          : "none",
+                      }}
+                    >
                       <NavLink
                         to={"/student/about"}
                         style={{ color: isCurrentPage("/about") ? "red" : "" }}
@@ -207,15 +238,35 @@ const Header = () => {
                 )}
                 {user.role === "teacher" && (
                   <ul className="navigation-menu">
-                    {/* <li>
-                        <NavLink to={"/student/problems"}>PROBLEMS</NavLink>
-                      </li>
-                      <li>
-                        <NavLink to={"/student/users"}>USERS</NavLink>
-                      </li>
-                      <li>
-                        <NavLink to={"/student/about"}>ABOUT</NavLink>
-                      </li> */}
+                    <li
+                      style={{
+                        borderBottom: isCurrentPage("/problems")
+                          ? "3px solid #ff0000"
+                          : "none",
+                      }}
+                    >
+                      <NavLink
+                        to={"/teacher/problems"}
+                        style={{ color: isCurrentPage("/problems") ? "red" : "" }}
+                      >
+                        PROBLEMS
+                      </NavLink>
+                    </li>
+
+                    <li
+                      style={{
+                        borderBottom: isCurrentPage("/create_problem")
+                          ? "3px solid #ff0000"
+                          : "none",
+                      }}
+                    >
+                      <NavLink
+                        to={"/teacher/create_problem"}
+                        style={{ color: isCurrentPage("/create_problem") ? "red" : "" }}
+                      >
+                        CREATE PROBLEM
+                      </NavLink>
+                    </li>
                   </ul>
                 )}
               </Box>
