@@ -8,3 +8,16 @@ export const getCellColor = (statusData) => {
       return "red";
   }
 };
+
+export const getColorDifficulty = (difficulty) => {
+  switch (difficulty) {
+    case "Dễ":
+      return "green";
+    case "Trung bình":
+      return "Yellow";
+    case "Khó":
+      return "red";
+    default:
+      return "black";
+  }
+};

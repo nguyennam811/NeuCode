@@ -1,75 +1,44 @@
-import { Box } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
+import { getColorDifficulty } from "../../../../utils/status";
 
 function Description() {
   const problem = useSelector((reducers) => reducers.problemDetail.data);
   console.log(problem);
-  // const hihi = [
-  //   '<h1>Description 1</h1>',
-  //   '<h1>Description 2</h1>',
-  //   '<h1>Description 3</h1>',
-  // ];
   return (
     <Box>
+      <Box mb={2}>
+        <Typography variant="h6" gutterBottom>
+          {problem.title}
+        </Typography>
+        <Box sx={{ flexGrow: 1 }} textAlign="center">
+          <Grid container>
+            <Grid item xs={3}>
+              <Typography>
+                Difficulty:{" "}
+                <span style={{ color: getColorDifficulty(problem.difficulty) }}>
+                  {problem.difficulty}
+                </span>
+              </Typography>
+            </Grid>
+            <Grid item xs={3}>
+              <Typography>Problem type: {problem.problem_type}</Typography>
+            </Grid>
+            <Grid item xs={3}>
+              <Typography>
+                Time limit: {problem.max_execution_time} s
+              </Typography>
+            </Grid>
+            <Grid item xs={3}>
+              <Typography>
+                Memory limit: {problem.max_memory_limit} MB
+              </Typography>
+            </Grid>
+          </Grid>
+        </Box>
+      </Box>
       <div dangerouslySetInnerHTML={{ __html: problem.description }} />
-      <h1>
-        hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-      </h1>
-      <h1>
-        hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-      </h1>
-      <h1>
-        hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-      </h1>
-      <h1>
-        hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-      </h1>
-      <h1>
-        hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-      </h1>
-      <h1>
-        hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-      </h1>
-      <h1>
-        hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-      </h1>
-      <h1>
-        hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-      </h1>
-      <h1>
-        hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-      </h1>
-      <h1>
-        hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-      </h1>
-      <h1>
-        hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-      </h1>
-      <h1>
-        hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-      </h1>
-      <h1>
-        hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-      </h1>
-      <h1>
-        hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-      </h1>
-      <h1>
-        hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-      </h1>
-      <h1>
-        hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-      </h1>
-      <h1>
-        hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-      </h1>
-      <h1>
-        hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-      </h1>
-      <h1>
-        hihidfgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-      </h1>
     </Box>
   );
 }

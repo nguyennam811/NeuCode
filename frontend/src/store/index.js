@@ -4,6 +4,7 @@ import problemReducer from './reducers/problemReducer'
 import problemDetailReducer from './reducers/problemDetailReducer'
 import submissionReducer from './reducers/submissionReducer'
 import testResultReducer from './reducers/testResultReducer'
+import testReducer from './reducers/testReducer'
 
 const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ const store = configureStore({
     problemDetail: problemDetailReducer.reducer,
     submission: submissionReducer.reducer,
     test_result: testResultReducer.reducer,
+    test: testReducer.reducer,
   },
 })
 

@@ -10,6 +10,7 @@ import {
   TableHead,
   TableRow,
   TextField,
+  Typography,
   styled,
 } from "@mui/material";
 import React from "react";
@@ -27,6 +28,7 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { addTestForProblem } from "../../../store/actions/testAction";
 
 function ProblemsTeacher() {
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
@@ -43,8 +45,8 @@ function ProblemsTeacher() {
   const problems = useSelector((reducers) => reducers.problem.data);
   console.log(problems);
 
-  const sortedProblems = [...problems].sort((a, b) => b.created - a.created);
-  console.log(sortedProblems);
+  // const sortedProblems = [...problems].sort((a, b) => b.created - a.created);
+  // console.log(sortedProblems);
 
   const [open, setOpen] = React.useState(false);
 
@@ -84,6 +86,7 @@ function ProblemsTeacher() {
   const handleSubmit = () => {
     // Gửi dữ liệu testCases lên máy chủ hoặc thực hiện xử lý dữ liệu ở đây
     console.log(testCases);
+    dispatch(addTestForProblem(testCases))
     setOpen(false);
   };
 
@@ -94,7 +97,8 @@ function ProblemsTeacher() {
   };
 
   return (
-    <TableContainer component={Paper}>
+    <Box p={6}>
+      <TableContainer component={Paper}>
       <Table>
         <TableHead sx={{ backgroundColor: "#cdd0d3" }}>
           <StyledTableRow>
@@ -111,14 +115,14 @@ function ProblemsTeacher() {
           </StyledTableRow>
         </TableHead>
         <TableBody>
-          {sortedProblems.map((problem) => (
+          {problems.map((problem) => (
             <StyledTableRow key={problem.id}>
               <TableCell>{problem.id}</TableCell>
               <TableCell>{problem.title}</TableCell>
               <TableCell>{problem.difficulty}</TableCell>
               <TableCell>{problem.problem_type}</TableCell>
               <TableCell>{problem.max_execution_time} s</TableCell>
-              <TableCell>{problem.max_memory_limit}</TableCell>
+              <TableCell>{problem.max_memory_limit} MB</TableCell>
               <TableCell>
                 {problem.tests.length === 0 ? (
                   <Button onClick={() => handleClickOpen(problem.id)}>
@@ -203,6 +207,7 @@ function ProblemsTeacher() {
           </div>
         </DialogContent>
         <DialogActions>
+        <Typography marginRight={5}>Số test: {testCases.length}</Typography>
           <Button variant="contained" autoFocus onClick={addTestCase}>
             Thêm Test
           </Button>
@@ -212,6 +217,7 @@ function ProblemsTeacher() {
         </DialogActions>
       </Dialog>
     </TableContainer>
+    </Box>
   );
 }
 

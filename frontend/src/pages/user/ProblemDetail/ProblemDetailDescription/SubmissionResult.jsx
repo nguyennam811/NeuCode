@@ -64,7 +64,7 @@ function SubmissionResult() {
     if (Object.keys(submission).length > 0 && test_result.length === 0) { 
       const intervalId = setInterval(() => {
         setReloadCounter((prevCounter) => prevCounter + 1);
-      }, 2000);
+      }, 1000);
       return () => {
         clearInterval(intervalId);
       };

@@ -144,3 +144,11 @@
 .comp2 {
   height: 100%;
 }
+
+/*React quill*/
+.react_quill {
+  width: 100%;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+}
