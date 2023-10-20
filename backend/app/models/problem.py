@@ -13,7 +13,7 @@ class Difficulty(enum.Enum):
 class Problem(Base, TimeModel):
     __tablename__ = 'problems'
 
-    id = Column(String, primary_key=True, index=True)
+    id = Column(String, primary_key=True, index=True, nullable=False)
     user_id = Column(String, ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
     title = Column(String, nullable=False)
     difficulty = Column(Enum(Difficulty), default=Difficulty.EASY)
