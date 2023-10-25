@@ -27,6 +27,7 @@ class Problem(Base, TimeModel):
     user = relationship("User", back_populates="problems")
     submissions = relationship("Submission", back_populates="problems")
     tests = relationship("Test", back_populates="problems")
+    assignment = relationship("Assignment", back_populates="problems")
 
 # {
 #   "id": "sum",

@@ -22,3 +22,5 @@ class User(Base, TimeModel):
 
     problems = relationship("Problem", back_populates="user")
     submissions = relationship("Submission", back_populates="user")
+    courses = relationship("Course", back_populates="user")
+    student_course = relationship("CourseStudent", back_populates="user")

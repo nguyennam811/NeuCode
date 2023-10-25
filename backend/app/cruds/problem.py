@@ -7,11 +7,42 @@ def get_problem_all(db: Session):
     problems = db.query(models.Problem).all()
     return problems
 
-def create_problem(request: schemas.Problem, db: Session):
-    new_problem = models.Problem(**request.dict())
-    db.add(new_problem)
-    db.commit()
-    db.refresh(new_problem)
+def create_problem(request: schemas.ProblemAssignment, db: Session, course_id: str):
+    new_problem_data = {
+        "id": request.id,
+        "user_id": request.user_id,
+        "title": request.title,
+        "difficulty": request.difficulty,
+        "problem_type": request.problem_type,
+        "description": request.description,
+        "max_memory_limit": request.max_memory_limit,
+        "max_execution_time": request.max_execution_time,
+    }
+
+    if course_id is not None:
+        course = db.query(models.Course).filter(models.Course.id == course_id).first()
+        if course:
+            new_problem = models.Problem(**new_problem_data)
+            db.add(new_problem)
+            db.commit()
+            db.refresh(new_problem)
+
+            assignment_data = {
+                'problem_id': new_problem.id,
+                'course_id': course_id,
+                'deadline': request.deadline,
+                'isPublic': request.isPublic,
+            }
+            new_assignment = models.Assignment(**assignment_data)
+            db.add(new_assignment)
+            db.commit()
+        else:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Course not found")
+    else:
+        new_problem = models.Problem(**new_problem_data)
+        db.add(new_problem)
+        db.commit()
+
     return new_problem
 
 def get_problem_by_id(id: str, db: Session):

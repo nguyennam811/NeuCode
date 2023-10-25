@@ -10,6 +10,8 @@ class Submission(Base, TimeModel):
     id = Column(String, primary_key=True, index=True, default=lambda: str(uuid.uuid4()))
     problem_id = Column(String, ForeignKey('problems.id', ondelete='CASCADE'), nullable=False)
     user_id = Column(String, ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
+    assignment_id = Column(String, ForeignKey('assignments.id', ondelete='CASCADE'), nullable=True)
+
 
     language = Column(String, nullable=False, default='C++')
     code = Column(Text, nullable=False)
@@ -19,6 +21,7 @@ class Submission(Base, TimeModel):
     user = relationship("User", back_populates="submissions")
     problems = relationship("Problem", back_populates="submissions")
     tests_result = relationship("Test_Result", back_populates="submissions")
+    assignment = relationship("Assignment", back_populates="submissions")
 
 
 # # include <iostream>
