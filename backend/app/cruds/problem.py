@@ -1,11 +1,47 @@
 from sqlalchemy.orm import Session
 from .. import models, schemas
 from fastapi import HTTPException, status
+from sqlalchemy import select, update, delete, and_, text, func
+from typing import List
+def get_problems_with_conditions(db: Session, offset: int, limit: int, conditions):
+    statement = select(models.Problem).where(text(' or '.join(conditions))).offset(
+        offset).limit(limit).order_by(models.Problem.created.desc())
+    return db.execute(statement).scalars().all()
 
+def count_problem_with_conditions(db: Session, conditions):
+    return db.query(func.count(models.Problem.id)).where(text(' or '.join(conditions))).scalar()
 
-def get_problem_all(db: Session):
-    problems = db.query(models.Problem).all()
-    return problems
+def get_problem_all(
+        db: Session,
+        # search_key: str,
+        search_value: str,
+        filter_authors: List[str],
+        filter_problem_types: List[str],
+        filter_difficultys: List[str],
+        offset: int = 0,
+        limit: int = 10,
+):
+    arr = [
+        [f"user_id = '{author}'" for author in filter_authors],
+        [f"problem_type = '{problem_type}'" for problem_type in filter_problem_types],
+        [f"difficulty = '{difficulty}'" for difficulty in filter_difficultys],
+    ]
+    conditions = []
+    for item in arr:
+        temp = ' or '.join(item)
+        if temp != '':
+            conditions.append('(' + temp + ')')
+
+    if search_value != '':
+        conditions.append(f"cast(title as varchar) like('%{search_value}%')")
+    print(conditions)
+
+    # problems = db.query(models.Problem).all()
+    # return problems
+    return {
+        'data': get_problems_with_conditions(db=db, offset=offset, limit=limit, conditions=conditions),
+        'total': count_problem_with_conditions(db=db, conditions=conditions)
+    }
 
 def create_problem(request: schemas.ProblemAssignment, db: Session, course_id: str):
     new_problem_data = {

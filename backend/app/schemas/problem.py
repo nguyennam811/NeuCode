@@ -29,3 +29,9 @@ class ShowProblem(Problem):
     updated: Optional[datetime.datetime]
     class Config():
         orm_mode = True
+
+class ResponseProblem(BaseModel):
+    total: int
+    data: List[ShowProblem]
+    class Config:
+        orm_mode = True
