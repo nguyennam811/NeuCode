@@ -1,32 +1,24 @@
 import { Box, Typography, Button, Grid } from "@mui/material";
-import learn1 from "../../../assets/images/home-icon.png";
-import facebook from "../../../assets/brand/facebook.png";
-import github from "../../../assets/brand/github.png";
-import google from "../../../assets/brand/google.png";
-import beginer from "../../../assets/images/homeBegin.png";
-import fontend from "../../../assets/images/homeFrontend.png";
-import backend from "../../../assets/images/homeBackend.png";
-import start from "../../../assets/images/homeRegister.png";
-import data from "../../../assets/images/homeScience.png";
-import education from "../../../assets/images/education.png";
-import slide1 from "../../../assets/images/Slide1.png";
-import slide3 from "../../../assets/images/Slide3.png";
+import learn1 from "../../assets/images/home-icon.png";
+import facebook from "../../assets/brand/facebook.png";
+import github from "../../assets/brand/github.png";
+import google from "../../assets/brand/google.png";
+import beginer from "../../assets/images/homeBegin.png";
+import fontend from "../../assets/images/homeFrontend.png";
+import backend from "../../assets/images/homeBackend.png";
+import start from "../../assets/images/homeRegister.png";
+import data from "../../assets/images/homeScience.png";
+import education from "../../assets/images/education.png";
+import slide1 from "../../assets/images/Slide1.png";
+import slide3 from "../../assets/images/Slide3.png";
 import { useEffect, useRef, useState } from "react";
-import slide2 from "../../../assets/images/Slice2.jpg";
-import { getCurrentUser } from "../../../utils/auth";
-import { useDispatch } from "react-redux";
-import { getProblems } from "../../../store/actions/problemAction";
+import slide2 from "../../assets/images/Slice2.jpg";
+import { getCurrentUser } from "../../utils/auth";
 
 
 const Home = () => {
   const user = getCurrentUser();
   console.log(user);
-
-  // const dispatch = useDispatch();
-
-  // useEffect(()=> {
-  //   dispatch(getProblems())
-  // }, [dispatch])
 
   const [myIndex, setMyIndex] = useState(0);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);

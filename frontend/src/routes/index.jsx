@@ -1,19 +1,19 @@
 import { createBrowserRouter, redirect } from "react-router-dom";
-import About from "../pages/user/About";
-import Home from "../pages/user/Home";
+import About from "../pages/Student/About";
+import Home from "../pages/Home";
 import NotFound from "../pages/NotFound";
-import Users from "../pages/user/Users";
-import Problems from "../pages/user/Problems";
-import Submissions from "../pages/user/Submissions";
-import CreateProblem from "../pages/user/CreateProblem";
-import Login from "../pages/auth/Login";
-import Signup from "../pages/auth/Signup";
+import Users from "../pages/Student/Users";
+import Problems from "../pages/Student/Problems";
+import Submissions from "../pages/Student/Submissions";
+import CreateProblem from "../pages/Teacher/CreateProblem";
+import Login from "../pages/Auth/Login";
+import Signup from "../pages/Auth/Signup";
 import Layout from "../components/Layout";
 import { getAuthToken, getCurrentUser } from "../utils/auth";
 import Navbar from "../components/NavbarAdmin";
-import { action as logoutAction } from '../components/Logout';
-import ProblemDetail from "../pages/user/ProblemDetail";
-import ProblemsTeacher from "../pages/user/ProblemsTeacher";
+import { action as logoutAction } from "../components/Logout";
+import ProblemDetail from "../pages/Student/ProblemDetail";
+import ProblemsTeacher from "../pages/Teacher/ProblemsTeacher";
 
 const tokenLoader = () => {
   const token = getAuthToken();
@@ -23,7 +23,6 @@ const tokenLoader = () => {
   }
 
   return current_user;
-  
 };
 
 const router = [
@@ -125,7 +124,7 @@ const router = [
     element: <Signup />,
   },
   {
-    path: '/logout',
+    path: "/logout",
     action: logoutAction,
   },
 ];

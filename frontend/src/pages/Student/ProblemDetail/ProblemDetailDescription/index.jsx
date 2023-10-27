@@ -1,21 +1,8 @@
-import { Box, MenuItem, Tab, TextField, styled, tableCellClasses } from "@mui/material";
-import React, { useEffect } from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-} from "@mui/material";
+import { Box, Tab } from "@mui/material";
+import React from "react";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { useDispatch, useSelector } from "react-redux";
-import { getTestResult } from "../../../../store/actions/testResultAction";
-import { formatResponseTime, formatTimeSubmit } from "../../../../utils/time";
-import { mapLanguageSubmission } from "../../../../utils/mapLanguage";
 import { setTabValue } from "../../../../store/reducers/submissionReducer";
-import { useState } from "react";
 import Description from "./Description";
 import SubmissionResult from "./SubmissionResult";
 import Discussions from "./Discussions";
