@@ -78,7 +78,6 @@ function SubmissionResult() {
   //     setShouldProceed(false);
   //   }
   // }, [test_result]);
-  const hihi = 0;
 
   return (
     <>

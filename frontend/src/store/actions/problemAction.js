@@ -14,9 +14,9 @@ export const setStatusIdle = (state) => {
 
 export const getProblems = createAsyncThunk(
     "getProblems",
-    async () => {
+    async (params) => {
         try {
-            return await problemApi.fetchProblems()
+            return await problemApi.fetchProblems(params)
         } catch (error) {
             // console.log(error.message)
             throw new Error("Failed to fetch problems");
