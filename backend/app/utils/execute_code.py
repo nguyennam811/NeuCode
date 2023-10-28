@@ -37,6 +37,10 @@ async def run_code(db: Session, submission_id: str):
     if not test:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="test not found")
 
+    problem = db.query(models.Problem).filter(models.Problem.id == submission.problem_id).first()
+    if not problem:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="problem not found")
+
     current_datetime = datetime.datetime.now()
     formatted_datetime = current_datetime.strftime("%H_%M_%S-%d_%m_%Y")
     file_path = f"./temp/{formatted_datetime}-{submission.user_id}.{submission.language}"
@@ -46,7 +50,7 @@ async def run_code(db: Session, submission_id: str):
 
     test_results = []
     for test_case in test:
-        result = await run_file_code(db, file_path, test_case, submission.language)
+        result = await run_file_code(db, file_path, test_case, submission.language, problem.max_execution_time, problem.max_memory_limit)
         print(f"kết quả: {result} ")
         test_result = models.Test_Result(
             id=str(uuid.uuid4()),

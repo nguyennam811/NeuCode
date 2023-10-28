@@ -39,3 +39,15 @@ class Problem(Base, TimeModel):
 #   "max_memory_limit": 256,
 #   "max_execution_time": 1
 # }
+
+
+# {
+#   "id": "hieu",
+#   "user_id": "2",
+#   "title": "Bài toán: Hiệu Hai Số",
+#   "difficulty": "Dễ",
+#   "problem_type": "toán tử",
+#   "description": "<p><strong class=\"ql-size-large\">Mô tả:</strong></p><p><span class=\"ql-size-large\">Viết một chương trình để tính hiệu của hai số nguyên. Bạn cần nhận hai số nguyên đầu vào và trả về hiệu của chúng.</span></p><p><br></p><h2>Yêu cầu:</h2><ol><li><span style=\"color: rgb(55, 65, 81); background-color: rgb(204, 224, 245);\">Chương trình nhận vào hai số nguyên, </span><code style=\"color: var(--tw-prose-code); background-color: rgb(204, 224, 245);\">a</code><span style=\"color: rgb(55, 65, 81); background-color: rgb(204, 224, 245);\"> và </span><code style=\"color: var(--tw-prose-code); background-color: rgb(204, 224, 245);\">b</code><span style=\"color: rgb(55, 65, 81); background-color: rgb(204, 224, 245);\"> (|a|, |b| &lt;= 10^9).</span></li><li><span style=\"color: rgb(55, 65, 81); background-color: rgb(247, 247, 248);\">Chương trình trả về một số nguyên duy nhất, là hiệu của </span><code style=\"color: var(--tw-prose-code); background-color: rgb(247, 247, 248);\">a</code><span style=\"color: rgb(55, 65, 81); background-color: rgb(247, 247, 248);\"> và </span><code style=\"color: var(--tw-prose-code); background-color: rgb(247, 247, 248);\">b</code><span style=\"color: rgb(55, 65, 81); background-color: rgb(247, 247, 248);\">.</span></li></ol><p><br></p><h3>Ví dụ 1:</h3><pre class=\"ql-syntax\" spellcheck=\"false\">Input: \na = 5\nb = 3\n\nOutput:\n2\n</pre><p><br></p><h3>Ví dụ 2:</h3><pre class=\"ql-syntax\" spellcheck=\"false\">Input:\na = 20\nb = 10\n\nOutput:\n10\n</pre><p><br></p><h2>Giới hạn:</h2><ul><li><span class=\"ql-size-large\">|a|, |b| &lt;= 10</span><sup class=\"ql-size-large\">9</sup></li></ul><p><br></p><h2>Ghi chú:</h2><ul><li><span class=\"ql-size-large\">Nếu a là số nguyên đầu tiên và b là số nguyên thứ hai, thì hiệu a-b là số nguyên đầu ra</span></li><li><span class=\"ql-size-large\">đảm bảo kiểm tra cả trường hợp số nguyên âm và dương</span></li><li><span class=\"ql-size-large\">chắc chắn chương trình hoạt động cho mọi giá trị của a và b trong phạm vi giới hạn</span></li></ul><p><br></p><p><br></p>",
+#   "max_memory_limit": 1,
+#   "max_execution_time": 5
+# }

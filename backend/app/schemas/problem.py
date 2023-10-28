@@ -3,6 +3,7 @@ from typing import Optional, List
 from ..models import Difficulty
 from .user import ShowUser
 from .test import ShowTest
+from .submission import ShowSubmission
 import datetime
 
 class Problem(BaseModel):
@@ -23,6 +24,7 @@ class ProblemAssignment(Problem):
 class ShowProblem(Problem):
     user: Optional[ShowUser]
     tests: List[ShowTest]
+    submissions: List[ShowSubmission]
     instructions: Optional[str]
     points: Optional[NonNegativeFloat]
     created: datetime.datetime
