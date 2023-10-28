@@ -120,7 +120,7 @@ function EditorNav(props) {
         <MenuItem value="cpp">C++</MenuItem>
         <MenuItem value="php">PHP</MenuItem>
         <MenuItem value="python">Python</MenuItem>
-        <MenuItem value="javascript">Javascript</MenuItem>
+        {/* <MenuItem value="javascript">Javascript</MenuItem> */}
       </TextField>
 
       <Box

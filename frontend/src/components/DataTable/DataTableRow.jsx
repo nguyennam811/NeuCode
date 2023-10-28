@@ -52,7 +52,7 @@ const DataTableRow = ({ labelId, row }) => {
           {headCells.map((headCell) => (
             <TableCell
               key={`${row.id}--${headCell.id.toString()}`}
-              align={headCell.numeric ? "right" : "left"}
+              align={headCell.numeric ? "center" : "left"}
             >
               {headCell.id === "title" ? (
                 <Link

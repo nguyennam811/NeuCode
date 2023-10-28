@@ -5,8 +5,11 @@ import { useState } from "react";
 import AutocompleteField from "../../../components/FormDialog/FieldTypes/AutocompleteField";
 
 function FilterProblems({ data, onSearchFilter }) {
+  const [filtered, setFiltered] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [values, setValues] = useState({});
+
+  let keys = Object.keys(values);
 
   const difficultyOptions = [
     { value: "EASY", label: "Dễ" },
@@ -46,16 +49,16 @@ function FilterProblems({ data, onSearchFilter }) {
   const filterOptions = [
     {
       id: "filter_difficultys",
-      title: "Mức độ",
-      placeholder: "Chọn mức độ ...",
+      title: "Difficulty",
+      placeholder: "Select difficulty...",
       values: "",
       options: difficultyOptions,
       multipleValues: true,
     },
     {
       id: "filter_problem_types",
-      title: "Dạng bài",
-      placeholder: "Chọn dạng bài ...",
+      title: "Problem Type",
+      placeholder: "Select problem type...",
       values: "",
       options: problemTypeOptions.sort(
         (a, b) =>
@@ -66,8 +69,8 @@ function FilterProblems({ data, onSearchFilter }) {
     },
     {
       id: "filter_authors",
-      title: "Người đăng",
-      placeholder: "Chọn người đăng ...",
+      title: "Author",
+      placeholder: "Select author...",
       values: "",
       options: authorOptions.sort(
         (a, b) => -b.label.toUpperCase().localeCompare(a.label.toUpperCase())
@@ -90,7 +93,7 @@ function FilterProblems({ data, onSearchFilter }) {
           }}
         >
           <Typography variant="body1" fontSize={20}>
-            Tìm kiếm bài tập
+            {/* Tìm kiếm bài tập */}Problem search
           </Typography>
           <SearchIcon sx={{ fontSize: "30px" }} />
         </Box>
@@ -98,10 +101,11 @@ function FilterProblems({ data, onSearchFilter }) {
           <Box>
             <TextField
               id="search-input"
-              placeholder="Tìm bài ..."
+              placeholder="Search title problems..."
               variant="outlined"
               size="small"
               fullWidth
+              value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
             />
           </Box>
@@ -131,16 +135,27 @@ function FilterProblems({ data, onSearchFilter }) {
           <Box mt={3}>
             <Button
               variant={"contained"}
-              color={"primary"}
+              color={filtered ? 'error' : 'primary'}
               onClick={() => {
-                onSearchFilter({
-                  ...values,
-                  search_value: searchValue,
-                });
+                onSearchFilter(!filtered
+                  ? {
+                    ...values,
+                    search_value: searchValue,
+                  }
+                  : keys.reduce((pre, cur) => {
+                      return {
+                        ...pre,
+                        [cur]: [],
+                        search_value: ""
+                      };
+                    }, {})
+              );
+              setFiltered("")
+              setFiltered(!filtered);
               }}
               fullWidth
             >
-              Filter
+              {filtered ? 'Unfilter' : 'Filter'}
             </Button>
           </Box>
         </Box>

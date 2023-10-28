@@ -81,6 +81,13 @@ export const problemsTableHeaders = [
     renderFn: (problem) => problem.user.fullname,
   },
   {
+    id: "submission",
+    label: "Submissions",
+    numeric: true,
+    disablePadding: false,
+    renderFn: (problem) => problem.submissions.length,
+  },
+  {
     id: "created",
     label: "Created",
     numeric: false,
@@ -121,6 +128,7 @@ const ProblemsPage = () => {
   const [fetchingParams, setFetchingParams] = useState({
     offset: 0,
     limit: 10,
+    // filter_authors: ['3'],
   });
 
   const dispatch = useDispatch();
@@ -164,17 +172,17 @@ const ProblemsPage = () => {
     <>
       {status === "error" && <ErrorData />}
       <Box p={5} pt={2}>
-        <Typography variant="h5" gutterBottom>
-          Problem List
-        </Typography>
-        <Box
-          display="flex"
-          flexDirection="row"
-          width="100%"
-          justifyContent="space-between"
-        >
-          {status !== "error" && (
-            <>
+        {status !== "error" && (
+          <>
+            <Typography variant="h5" gutterBottom>
+              Problem List
+            </Typography>
+            <Box
+              display="flex"
+              flexDirection="row"
+              width="100%"
+              justifyContent="space-between"
+            >
               <Box width="72%">
                 <TableFrame
                   // title="Table Devices"
@@ -191,9 +199,9 @@ const ProblemsPage = () => {
                 data={data?.data ?? []}
                 onSearchFilter={handleDeviceSearchAndFilter}
               />
-            </>
-          )}
-        </Box>
+            </Box>
+          </>
+        )}
       </Box>
     </>
   );

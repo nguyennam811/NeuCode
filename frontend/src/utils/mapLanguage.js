@@ -6,8 +6,8 @@ export const mapLanguage = (clientLanguage) => {
       return "php";
     case "python":
       return "py";
-    case "javascript":
-      return "js";
+    // case "javascript":
+    //   return "js";
     default:
       return clientLanguage;
   }
@@ -21,8 +21,8 @@ export const mapLanguageSubmission = (language_submission) => {
       return "PHP";
     case "py":
       return "Python";
-    case "js":
-      return "Javascript";
+    // case "js":
+    //   return "Javascript";
     default:
       return language_submission;
   }
