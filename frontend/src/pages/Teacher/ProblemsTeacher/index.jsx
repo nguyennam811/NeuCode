@@ -242,7 +242,7 @@ import { useState } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getProblems } from "../../../store/actions/problemAction";
+import { deleteProblems, getProblems } from "../../../store/actions/problemAction";
 import { formatResponseTime } from "../../../utils/time";
 import ErrorData from "../../ErrorData";
 import { getCurrentUser } from "../../../utils/auth";
@@ -250,8 +250,9 @@ import TableFrameDetail from "../../../components/TableFrame/TableFrameDetail";
 import { useMemo } from "react";
 import { IconButton } from "@mui/material";
 import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
-import ProblemCreateFormDialog from "./ProblemCreateFormDialog"
-import { addProblem } from "../../../store/actions/problemDetailAction";
+import ProblemCreateFormDialog from "./ProblemCreateFormDialog";
+import { addProblem, updateProblemByUser } from "../../../store/actions/problemDetailAction";
+import ProblemUpdateFormDialog from "./ProblemUpdateFormDialog";
 export const problemsTableHeaders = [
   {
     id: "id",
@@ -330,10 +331,8 @@ export const problemsTableHeaders = [
     numeric: false,
     disablePadding: false,
     renderFn: (problem) => problem.user.fullname,
-  }
+  },
 ];
-
-
 
 const ProblemsPage = () => {
   const current_user = getCurrentUser();
@@ -358,9 +357,9 @@ const ProblemsPage = () => {
 
   const handleProblemSearch = (searchOptions) => {
     let keys = Object.keys(searchOptions[0]);
-    console.log(keys)
+    console.log(keys);
     let values = Object.values(searchOptions[0]);
-    console.log(values)
+    console.log(values);
     setFetchingParams({
       ...fetchingParams,
       offset: 0,
@@ -394,19 +393,35 @@ const ProblemsPage = () => {
     });
   };
 
+  
+
   const handleCreateDevice = async (values) => {
-    console.log(values)
-    // dispatch(addProblem(values));
+    console.log(values);
+    
+    await dispatch(addProblem(values));
+    dispatch(getProblems(fetchingParams));
   };
 
-  // const isEditing = editingDevice !== undefined;
+  const handleUpdateDevice = async (values) => {
+    console.log(values);
+    await dispatch(updateProblemByUser(values));
+    dispatch(getProblems(fetchingParams));
+  };
+
+  const handleDeviceDeleteRows = async (ids) => {
+    console.log(ids)
+    await dispatch(deleteProblems(ids));
+    dispatch(getProblems(fetchingParams));
+  };
+
+  const isEditing = editingDevice !== undefined;
 
   const updatedHeadProblems = useMemo(() => {
     return [
       ...problemsTableHeaders,
       {
-        id: 'test',
-        label: 'Tests',
+        id: "test",
+        label: "Tests",
         numeric: false,
         disablePadding: false,
         // renderFn: (problem) => {
@@ -428,7 +443,7 @@ const ProblemsPage = () => {
               <Button
                 onClick={(e) => {
                   e.stopPropagation(); // Ngăn sự kiện click lan truyền lên phần tử cha
-                  console.log('object');
+                  console.log("object");
                   // Thêm mã xử lý tại đây để thực hiện hành động khi click vào nút "Thêm Test"
                 }}
               >
@@ -442,18 +457,20 @@ const ProblemsPage = () => {
             return problem.tests.length === 0 ? (
               <p>Chưa có test.</p>
             ) : (
-              <p><Button
-              onClick={(e) => {
-                e.stopPropagation(); // Ngăn sự kiện click lan truyền lên phần tử cha
-                console.log('object');
-                // Thêm mã xử lý tại đây để thực hiện hành động khi click vào nút "Thêm Test"
-              }}
-            >
-              Xem Test
-            </Button></p>
+              <p>
+                <Button
+                  onClick={(e) => {
+                    e.stopPropagation(); // Ngăn sự kiện click lan truyền lên phần tử cha
+                    console.log("object");
+                    // Thêm mã xử lý tại đây để thực hiện hành động khi click vào nút "Thêm Test"
+                  }}
+                >
+                  Xem Test
+                </Button>
+              </p>
             );
           }
-        }
+        },
       },
       {
         id: "created",
@@ -479,11 +496,11 @@ const ProblemsPage = () => {
         renderFn: (device) => formatResponseTime(device.updated),
         descComparatorFn: (a, b) => {
           if (!a.updated || !b.updated) return 0;
-    
+
           if (b.updated < a.updated) {
             return -1;
           }
-    
+
           if (b.updated > a.updated) {
             return 1;
           }
@@ -534,14 +551,34 @@ const ProblemsPage = () => {
     <>
       {status === "error" && <ErrorData />}
 
-        {/* {!isEditing && ( */}
-          <ProblemCreateFormDialog
+      {!isEditing && (
+        <ProblemCreateFormDialog
           open={isShowCreateDialog}
           onSave={handleCreateDevice}
           onClose={() => setIsShowCreateDialog(false)}
         />
-        {/* )} */}
+      )}
 
+      {isEditing && (
+        <ProblemUpdateFormDialog
+          row={editingDevice}
+          open={isEditing}
+          onSave={handleUpdateDevice}
+          onClose={() => {
+            setEditingDevice(undefined);
+          }}
+          initialFn={(problem) => ({
+            id: problem.id,
+            user_id: problem.user_id,
+            title: problem.title,
+            difficulty: problem.difficulty ?? "",
+            problem_type: problem.problem_type ?? "",
+            max_memory_limit: problem.max_memory_limit ?? "",
+            max_execution_time: problem.max_execution_time ?? "",
+            description: problem.description ?? "",
+          })}
+        />
+      )}
       <Box p={8} pt={2}>
         {status !== "error" && (
           <TableFrameDetail
@@ -558,6 +595,7 @@ const ProblemsPage = () => {
             handleNewClick={() => {
               setIsShowCreateDialog(true);
             }}
+            onDeleteRows={handleDeviceDeleteRows}
           />
         )}
       </Box>

@@ -61,6 +61,7 @@ const FilterBox = (props) => {
                   }, {})
             );
             setFiltered(!filtered);
+            props.setFiltered(!filtered);
           }}
           disabled={isDisabled}
           fullWidth

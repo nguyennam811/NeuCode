@@ -34,8 +34,8 @@ export const DataTableProvider = ({
   children,
 } = TableProviderProps) => {
   const [visibleRows, setVisibleRows] = useState(data);
-  const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('id');
+  const [order, setOrder] = useState('desc');
+  const [orderBy, setOrderBy] = useState('created');
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);

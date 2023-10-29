@@ -23,3 +23,11 @@ export const fetchProblems = async (params) => {
   const res = await axiosInstance.get(`/problems/`, { params: searchParams });
   return res.data;
 };
+
+export const deleteProblem = async (ids) => {
+  const params = new URLSearchParams();
+  ids.forEach((id) => params.append('id', id));
+  const res = await axiosInstance.delete(`/problems/`, { params: params });
+  console.log(res)
+  return res.data;
+};

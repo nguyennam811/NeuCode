@@ -11,6 +11,8 @@ const ActionBox = ({
   handleNewClick,
   handleDeleteClick,
   onToggleFilterBox,
+
+  filtered
 }) => {
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'end' }}>
@@ -22,6 +24,8 @@ const ActionBox = ({
             variant='text'
             onClick={onToggleFilterBox}
             sx={{ mr: 2 }}
+
+            disabled={filtered}
           >
             Filter
           </Button>

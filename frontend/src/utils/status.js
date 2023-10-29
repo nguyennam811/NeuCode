@@ -14,7 +14,7 @@ export const getColorDifficulty = (difficulty) => {
     case "Dễ":
       return "green";
     case "Trung bình":
-      return "Yellow";
+      return "blue";
     case "Khó":
       return "red";
     default:

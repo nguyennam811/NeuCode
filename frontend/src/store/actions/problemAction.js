@@ -18,8 +18,21 @@ export const getProblems = createAsyncThunk(
         try {
             return await problemApi.fetchProblems(params)
         } catch (error) {
-            // console.log(error.message)
+            // return error.message
             throw new Error("Failed to fetch problems");
+        }
+    }
+)
+
+export const deleteProblems = createAsyncThunk(
+    "deleteProblems",
+    async (ids) => {
+        try {
+            return await problemApi.deleteProblem(ids)
+        } catch (error) {
+            // console.log(error.message)
+            // return error.message
+            throw new Error(error.message);
         }
     }
 )

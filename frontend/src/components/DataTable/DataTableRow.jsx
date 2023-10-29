@@ -46,7 +46,17 @@ const DataTableRow = ({ labelId, row }) => {
               key={`${row.id}--${headCell.id.toString()}`}
               align={headCell.numeric ? "center" : "left"}
             >
-              {headCell.renderFn(row)}
+              {headCell.id === "difficulty" ? (
+                <span
+                  style={{
+                    color: getColorDifficulty(row.difficulty),
+                  }}
+                >
+                  {headCell.renderFn(row)}
+                </span>
+              ) : (
+                headCell.renderFn(row)
+              )}
             </TableCell>
           ))}
         </TableRow>

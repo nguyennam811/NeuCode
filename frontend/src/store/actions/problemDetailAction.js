@@ -36,3 +36,16 @@ export const addProblem = createAsyncThunk(
     }
 )
 
+
+export const updateProblemByUser = createAsyncThunk(
+    "updateProblem",
+    async (problem) => {
+        try {
+            return await problemDetailApi.updateProblem(problem)
+        } catch (error) {
+            // console.log(error.message)
+            throw new Error("Failed to update Problem");
+        }
+    }
+)
+

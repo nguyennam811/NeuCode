@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import * as problemDetail from '../actions/problemDetailAction'
+import { toast } from 'react-toastify'
 
 const problemDetailSlice = createSlice({
     name: 'problemDetail',
@@ -34,15 +35,33 @@ const problemDetailSlice = createSlice({
         
         builder.addCase(problemDetail.addProblem.fulfilled, (state, action) => {
             state.data = action.payload
-            console.log(action.payload)
             state.status = 'success'
-            console.log('add Problem Detail is success')
+            toast.success("Add Problem Successfully");
         })
 
         builder.addCase(problemDetail.addProblem.rejected, (state, action) => {
             state.status = 'error'
             state.error = action.error.message;
-            console.log('add Problem Detail is error')
+            toast.error(`Add Problem is Error: ${state.error}`);
+
+        })
+
+        // Update Problem 
+        builder.addCase(problemDetail.updateProblemByUser.pending, (state) => {
+            state.status = 'loading'
+        })
+        
+        builder.addCase(problemDetail.updateProblemByUser.fulfilled, (state, action) => {
+            state.data = action.payload
+            state.status = 'success'
+            toast.success("Update Problem Successfully");
+
+        })
+
+        builder.addCase(problemDetail.updateProblemByUser.rejected, (state, action) => {
+            state.status = 'error'
+            state.error = action.error.message;
+            toast.error(`Update Problem is Error: ${state.error}`);
         })
     }
 })

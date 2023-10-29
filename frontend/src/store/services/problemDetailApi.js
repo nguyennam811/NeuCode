@@ -22,3 +22,14 @@ export const addProblem = async (problem) => {
       );
     return res.data;
 };
+
+export const updateProblem = async (problem) => {
+  const body = JSON.stringify(problem);
+  const res = await axiosInstance.put(`/problems/${problem.id}`,
+      body,
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+  return res.data;
+};

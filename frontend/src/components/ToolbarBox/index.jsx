@@ -17,6 +17,8 @@ const ToolbarBox = ({
 }) => {
   const [isOpenFilter, setIsOpenFilter] = useState(false);
 
+  const [filtered, setFiltered] = useState(false);
+
   const toggleFilterBoxHandler = () => {
     setIsOpenFilter((prevState) => !prevState);
   };
@@ -42,6 +44,8 @@ const ToolbarBox = ({
             handleNewClick={handleNewClick}
             handleDeleteClick={handleDeleteClick}
             onToggleFilterBox={toggleFilterBoxHandler}
+
+            filtered={filtered} // Pass the state to ActionBox
           />
         </Grid>
 
@@ -56,6 +60,8 @@ const ToolbarBox = ({
               filterOptions={filterOptions}
               numOfColumnsInFilter={numOfColumnsInFilter}
               handleFilter={handleFilter}
+
+              setFiltered={setFiltered} // Pass the setter function to FilterBox
             />
           </Grid>
         )}
