@@ -13,7 +13,7 @@ def count_problem_with_conditions(db: Session, conditions):
 
 def get_problem_all(
         db: Session,
-        # search_key: str,
+        search_key: str,
         search_value: str,
         filter_authors: List[str],
         filter_problem_types: List[str],
@@ -33,7 +33,7 @@ def get_problem_all(
             conditions.append('(' + temp + ')')
 
     if search_value != '':
-        conditions.append(f"cast(title as varchar) like('%{search_value}%')")
+        conditions.append(f"cast({search_key} as varchar) like('%{search_value}%')")
     print(conditions)
 
     # problems = db.query(models.Problem).all()

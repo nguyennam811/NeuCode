@@ -11,7 +11,7 @@ router = APIRouter()
 @router.get('/', status_code=status.HTTP_200_OK, response_model=schemas.ResponseProblem)
 async def get_problem(
         db: Session = Depends(get_db),
-        # search_key: str = Query(default=''),
+        search_key: str = Query(default=''),
         search_value: str = Query(default=''),
         filter_authors: List[str] = Query(default=[], alias='filter_authors'),
         filter_problem_types: List[str] = Query(default=[], alias='filter_problem_types'),
@@ -20,7 +20,7 @@ async def get_problem(
 ):
     return problem.get_problem_all(
         db,
-        # search_key=search_key,
+        search_key=search_key,
         search_value=search_value,
         filter_authors=filter_authors,
         filter_problem_types=filter_problem_types,
