@@ -46,7 +46,7 @@ const CreateProblem = () => {
     e.preventDefault(); //ngăn trình duyệt gửi biểu mẫu lên máy chủ và tải lại trang web.
     // Gửi dữ liệu formData đến máy chủ hoặc thực hiện xử lý dữ liệu ở đây
     console.log(formData);
-    dispatch(addProblem(formData));
+    // dispatch(addProblem(formData));
   };
 
   const toolbarOptions = [

@@ -22,15 +22,6 @@ const DataTableHead = () => {
     handleRequestSort(event, property);
   };
 
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
-    },
-    // hide last border
-    '&:last-child td, &:last-child th': {
-      border: 0,
-    },
-  }));
 
   return (
     <TableHead>
@@ -68,7 +59,7 @@ const DataTableHead = () => {
             <TableCell
             // sx={{color: 'black'}}
               key={idx}
-              align={headCell.numeric ? 'right' : 'left'}
+              align={headCell.numeric ? 'center' : 'left'}
               padding={headCell.disablePadding ? 'none' : 'normal'}
               sortDirection={orderBy === headCell.id ? order : false}
             >

@@ -38,12 +38,16 @@ const AutocompleteField = (props) => {
       </InputLabel>
       <Autocomplete
         id={props.id}
-        size='small'
         options={optionsState}
         multiple={props.multipleValues}
         value={props.options.find(
           (item) => item.value === props.values[props.id]
         )}
+        // onInputChange={(e, value, reason) => {
+        //   if (reason === 'input') {
+        //     // props.setFieldValue(props.id, value, true);
+        //   }
+        // }}
         onChange={(e, option, reason, details) =>
           props.setFieldValue(
             props.id,

@@ -81,8 +81,8 @@ function FilterProblems({ data, onSearchFilter }) {
   ];
 
   return (
-    <Box width="calc(100% - 75%)" position="fixed" right="2.5%">
-      <Box sx={{ border: "2px solid #e0e0e0" }}>
+    <Box width="calc(100% - 75%)" >
+      <Box sx={{ border: "2px solid #e0e0e0" }} position='sticky' top='2%'>
         <Box
           sx={{
             backgroundColor: "#726868",
@@ -103,7 +103,6 @@ function FilterProblems({ data, onSearchFilter }) {
               id="search-input"
               placeholder="Search title problems..."
               variant="outlined"
-              size="small"
               fullWidth
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
@@ -136,22 +135,35 @@ function FilterProblems({ data, onSearchFilter }) {
             <Button
               variant={"contained"}
               color={filtered ? 'error' : 'primary'}
+              // onClick={() => {
+              //   onSearchFilter(!filtered
+              //     ? {
+              //       ...values,
+              //       search_value: searchValue,
+              //     }
+              //     : keys.reduce((pre, cur) => {
+              //         return {
+              //           search_value: "",
+              //           ...pre,
+              //           [cur]: [],
+                        
+              //         };
+              //       }, {})
+              // );
+              // setFiltered(!filtered);
+              // }}
               onClick={() => {
-                onSearchFilter(!filtered
-                  ? {
-                    ...values,
-                    search_value: searchValue,
+                const newValues = { ...values };
+                keys.forEach((key) => {
+                  if (key !== 'search_value') {
+                    newValues[key] = [];
                   }
-                  : keys.reduce((pre, cur) => {
-                      return {
-                        ...pre,
-                        [cur]: [],
-                        search_value: ""
-                      };
-                    }, {})
-              );
-              setFiltered("")
-              setFiltered(!filtered);
+                });
+                newValues.search_value = '';
+                newValues.search_key = '';
+                
+                onSearchFilter(!filtered ? { ...values, search_value: searchValue, search_key: 'title'} : newValues);
+                setFiltered(!filtered);
               }}
               fullWidth
             >
