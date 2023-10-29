@@ -93,15 +93,27 @@ def update_problem(id: str, request: schemas.Problem, db: Session):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'not found {id}')
     problem.update(request.dict(), synchronize_session=False)
     db.commit()
-    return 'updated problem'
+    return problem.first()
+    # updated_problem = problem.first()
+    # if updated_problem:
+    #     return updated_problem
+    # else:
+    #     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'not found {id}')
 
-def delete_problem(id: str, db: Session):
-    problem = db.query(models.Problem).filter(models.Problem.id == id)
-    if not problem.first():
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'problem with id {id} not found')
-    problem.delete(synchronize_session=False)
-    # Tham số synchronize_session=False được sử dụng để chỉ định rằng đối tượng problem không cần được đồng bộ hóa
-    # với phiên làm việc (session) hiện tại. Tham số này giúp tối ưu hóa hiệu suất và tránh các tình
-    # huống đồng bộ hóa không cần thiết
+
+# def delete_problem(id: str, db: Session):
+#     problem = db.query(models.Problem).filter(models.Problem.id == id)
+#     if not problem.first():
+#         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'problem with id {id} not found')
+#     problem.delete(synchronize_session=False)
+#     # Tham số synchronize_session=False được sử dụng để chỉ định rằng đối tượng problem không cần được đồng bộ hóa
+#     # với phiên làm việc (session) hiện tại. Tham số này giúp tối ưu hóa hiệu suất và tránh các tình
+#     # huống đồng bộ hóa không cần thiết
+#     db.commit()
+#     return 'deleted problem'
+
+def delete_problem(db: Session, device_ids: List[str]):
+    statement = delete(models.Problem).where(models.Problem.id.in_(device_ids)).returning(models.Problem.id)
+    db.execute(statement).scalars().all()
     db.commit()
-    return 'deleted problem'
+    return None

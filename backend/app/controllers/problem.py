@@ -41,8 +41,12 @@ async def get_problem_by_id(id: str, db: Session = Depends(get_db)):
 async def update_problem(id: str, request: schemas.Problem, db: Session = Depends(get_db)):
     return problem.update_problem(id, request, db)
 
-@router.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
-async def delete_problem(id: str, db: Session = Depends(get_db)):
-    return problem.delete_problem(id, db)
+# @router.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
+# async def delete_problem(id: str, db: Session = Depends(get_db)):
+#     return problem.delete_problem(id, db)
+
+@router.delete('/', status_code=status.HTTP_204_NO_CONTENT)
+async def delete_problem(device_ids: List[str] = Query(default=[], alias='id'), db: Session = Depends(get_db)):
+    return problem.delete_problem(db=db, device_ids=device_ids)
 
 
