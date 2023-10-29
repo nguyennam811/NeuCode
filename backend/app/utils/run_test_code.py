@@ -7,9 +7,11 @@ import psutil
 import time
 import datetime
 import secrets
+import re
 
 async def run_file_code(db: Session, file_path: str, test_case: models.Test, language: str, timeout_seconds: float, memory_limit_mb: float):
-
+    input = re.sub(r'[\(\)\{\}\[\]\s]+', '\n', test_case.input)
+    print(input)
     elapsed_time = timeout_seconds
     memory_usage = memory_limit_mb
     try:
@@ -33,7 +35,7 @@ async def run_file_code(db: Session, file_path: str, test_case: models.Test, lan
                         output = "Quá bộ nhớ"
                         break
 
-                    output, _ = process.communicate(input=test_case.input, timeout=timeout_seconds)
+                    output, _ = process.communicate(input=input, timeout=timeout_seconds)
 
                 end_time = time.time()
                 elapsed_time = end_time - start_time
@@ -65,7 +67,7 @@ async def run_file_code(db: Session, file_path: str, test_case: models.Test, lan
                         output = "Quá bộ nhớ"
                         break
 
-                    output, _ = process.communicate(input=test_case.input, timeout=timeout_seconds)
+                    output, _ = process.communicate(input=input, timeout=timeout_seconds)
 
                 end_time = time.time()
                 elapsed_time = end_time - start_time
@@ -104,9 +106,9 @@ async def run_file_code(db: Session, file_path: str, test_case: models.Test, lan
         #         print(f"Thời gian thực thi: {elapsed_time} giây")
         #         print(f"Bộ nhớ sử dụng: {memory_usage} MB")
         #         print(output)
-
-            except subprocess.TimeoutExpired:
-                output = "Quá thời gian"
+        #
+        #     except subprocess.TimeoutExpired:
+        #         output = "Quá thời gian"
 
         elif language == "cpp":
             try:
@@ -138,7 +140,7 @@ async def run_file_code(db: Session, file_path: str, test_case: models.Test, lan
                             output = "Quá bộ nhớ"
                             break
 
-                        output, _ = process.communicate(input=test_case.input, timeout=timeout_seconds)
+                        output, _ = process.communicate(input=input, timeout=timeout_seconds)
 
                     end_time = time.time()
                     elapsed_time = end_time - start_time

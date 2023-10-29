@@ -2,13 +2,8 @@ from sqlalchemy.orm import Session
 from .. import models
 from fastapi import HTTPException, status
 import os
-import subprocess
-import asyncio
-import psutil
-import time
 import uuid
 import datetime
-import secrets
 from .run_test_code import run_file_code
 
 async def execute_code(db: Session, submission_id: str):

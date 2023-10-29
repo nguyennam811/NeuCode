@@ -2,12 +2,6 @@ from sqlalchemy.orm import Session
 from .. import models, schemas
 from fastapi import HTTPException, status
 import os
-import subprocess
-import asyncio
-import psutil
-import time
-import uuid
-import datetime
 import secrets
 from .run_test_code import run_file_code
 
@@ -17,6 +11,10 @@ async def run_code_testcase( test_case_data: schemas.TestCase, db: Session):
     if not test:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="test not found")
 
+    problem = db.query(models.Problem).filter(models.Problem.id == test_case_data.problem_id).first()
+    if not problem:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="problem not found")
+
     file_path = f"./temp/{random}.{test_case_data.language}"
     with open(file_path, "w", encoding="utf-8") as program_file:
         program_file.write(test_case_data.code)
@@ -24,11 +22,11 @@ async def run_code_testcase( test_case_data: schemas.TestCase, db: Session):
 
     test_results = []
     for test_case in test:
-        result = await run_file_code(db, file_path, test_case, test_case_data.language)
+        result = await run_file_code(db, file_path, test_case, test_case_data.language, problem.max_execution_time, problem.max_memory_limit)
+
         print(f"kết quả: {result} ")
         test_results.append(result)
         # await asyncio.sleep(3)
-
 
     try:
         os.remove(file_path)
