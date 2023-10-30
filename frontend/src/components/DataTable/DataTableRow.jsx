@@ -31,7 +31,10 @@ const DataTableRow = ({ labelId, row }) => {
           tabIndex={-1}
           key={row.id}
           selected={showCheckbox && isItemSelected}
-          sx={{ cursor: "pointer" }}
+          // sx={{ cursor: "pointer" }}
+          sx={{
+            cursor: row.user_id === current_user.sub ? "pointer" : "default",
+          }}
         >
           <TableCell padding="checkbox">
             <Checkbox

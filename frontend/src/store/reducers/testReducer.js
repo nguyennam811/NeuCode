@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import * as test from '../actions/testAction'
+import { toast } from 'react-toastify'
 
 const testSlice = createSlice({
     name: 'test',
@@ -15,15 +16,14 @@ const testSlice = createSlice({
         
         builder.addCase(test.addTestForProblem.fulfilled, (state, action) => {
             state.data = action.payload
-            console.log(action.payload)
             state.status = 'success'
-            console.log('add test is success')
+            toast.success("Test For Problem Successfully");
         })
 
         builder.addCase(test.addTestForProblem.rejected, (state, action) => {
             state.status = 'error'
             state.error = action.error.message;
-            console.log('add test is error')
+            toast.error(`Test For Problem is Error: ${state.error}`);
         })
     }
 })

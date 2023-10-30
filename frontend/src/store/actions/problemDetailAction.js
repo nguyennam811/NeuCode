@@ -31,7 +31,8 @@ export const addProblem = createAsyncThunk(
             return await problemDetailApi.addProblem(problem)
         } catch (error) {
             // console.log(error.message)
-            throw new Error("Failed to add Problem");
+            throw new Error(error.message);
+
         }
     }
 )
@@ -44,7 +45,8 @@ export const updateProblemByUser = createAsyncThunk(
             return await problemDetailApi.updateProblem(problem)
         } catch (error) {
             // console.log(error.message)
-            throw new Error("Failed to update Problem");
+            throw new Error(error.message);
+
         }
     }
 )

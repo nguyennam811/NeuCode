@@ -14,6 +14,7 @@ import Navbar from "../components/NavbarAdmin";
 import { action as logoutAction } from "../components/Logout";
 import ProblemDetail from "../pages/Student/ProblemDetail";
 import ProblemsTeacher from "../pages/Teacher/ProblemsTeacher";
+import ProblemDetailTeacher from "../pages/Teacher/ProblemsTeacher/ProblemDetailTeacher";
 
 const tokenLoader = () => {
   const token = getAuthToken();
@@ -83,6 +84,11 @@ const router = [
           {
             path: "problems",
             element: <ProblemsTeacher />,
+          },
+          {
+            path: "problems/:id",
+            loader: tokenLoader,
+            element: <ProblemDetailTeacher />,
           },
           {
             path: "create_problem",

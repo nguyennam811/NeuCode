@@ -1,6 +1,7 @@
 // import {
 //   Box,
 //   Button,
+//   ButtonGroup,
 //   Grid,
 //   Paper,
 //   Table,
@@ -29,6 +30,8 @@
 // import { useState } from "react";
 // import DeleteIcon from "@mui/icons-material/Delete";
 // import { addTestForProblem } from "../../../store/actions/testAction";
+// import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
+// import { v4 as uuidv4 } from 'uuid';
 
 // function ProblemsTeacher() {
 //   const StyledTableRow = styled(TableRow)(({ theme }) => ({
@@ -38,15 +41,6 @@
 //   }));
 //   const dispatch = useDispatch();
 
-//   // useEffect(() => {
-//   //   dispatch(getProblems());
-//   // }, [dispatch]);
-
-//   // const problems = useSelector((reducers) => reducers.problem.data);
-//   // console.log(problems);
-
-//   // // const sortedProblems = [...problems].sort((a, b) => b.created - a.created);
-//   // // console.log(sortedProblems);
 //   const [fetchingParams, setFetchingParams] = useState({
 //     offset: 0,
 //     limit: 10,
@@ -62,11 +56,269 @@
 //   console.log(status);
 //   console.log(data);
 
-//   const [open, setOpen] = React.useState(false);
+//   const [selectedProblemId, setSelectedProblemId] = useState(null);
+//   const [viewTestCases, setViewTestCases] = useState(false);
+//   const [selectedProblemTests, setSelectedProblemTests] = useState([]);
+//   const [disabled, setDisabled] = useState(true);
+
+//   const addTestCase = () => {
+//     setSelectedProblemTests([
+//       ...selectedProblemTests,
+//       { problem_id: selectedProblemId, input: "", output: "", id: uuidv4()},
+//     ]);
+//   };
+
+//   const handleInputChange = (index, field, value) => {
+//     setSelectedProblemTests((prevTests) => {
+//       return prevTests.map((test, testIndex) => {
+//         if (testIndex === index) {
+//           return { ...test, [field]: value };
+//         } else {
+//           return test;
+//         }
+//       });
+//     });
+//   };
+
+//   const XemTest = (tests, problem_id) => {
+//     const selectedFields = tests.map((test) => ({
+//       problem_id: test.problem_id,
+//       input: test.input,
+//       output: test.output,
+//       id: test.id,
+//     }));
+//     setSelectedProblemTests(selectedFields);
+//     setSelectedProblemId(problem_id);
+//     setViewTestCases(true);
+//   };
+//   const closeTestCases = () => {
+//     setViewTestCases(false);
+//     setDisabled(true);
+//   };
+
+//   const handleSubmit = () => {
+//     // Gửi dữ liệu testCases lên máy chủ hoặc thực hiện xử lý dữ liệu ở đây
+//     console.log(selectedProblemTests);
+//     // dispatch(addTestForProblem(testCases))
+//     setViewTestCases(false);
+//     setDisabled(true);
+//   };
+
+//   const removeTestCase = (index) => {
+//     const updatedTestCases = [...selectedProblemTests];
+//     updatedTestCases.splice(index, 1); // Xóa bộ test tại chỉ mục (index)
+//     setSelectedProblemTests(updatedTestCases);
+//   };
+
+//   return (
+//     <Box p={6}>
+//       <TableContainer component={Paper}>
+//         <Table>
+//           <TableHead sx={{ backgroundColor: "#cdd0d3" }}>
+//             <StyledTableRow>
+//               <TableCell>ID</TableCell>
+//               <TableCell>Title</TableCell>
+//               <TableCell>Difficulty</TableCell>
+//               <TableCell>Problem Type</TableCell>
+//               <TableCell>Max Time</TableCell>
+//               <TableCell>Max Memory</TableCell>
+//               <TableCell>Test</TableCell>
+//               <TableCell>Author</TableCell>
+//               <TableCell>Created</TableCell>
+//               <TableCell>updated</TableCell>
+//             </StyledTableRow>
+//           </TableHead>
+//           <TableBody>
+//             {data?.data?.map((problem) => (
+//               <StyledTableRow key={problem.id}>
+//                 <TableCell>{problem.id}</TableCell>
+//                 <TableCell>{problem.title}</TableCell>
+//                 <TableCell>{problem.difficulty}</TableCell>
+//                 <TableCell>{problem.problem_type}</TableCell>
+//                 <TableCell>{problem.max_execution_time} s</TableCell>
+//                 <TableCell>{problem.max_memory_limit} MB</TableCell>
+//                 <TableCell>
+//                   {problem.tests.length === 0 ? (
+//                     <p>Thêm Test</p>
+//                   ) : (
+//                     <Button onClick={() => XemTest(problem.tests, problem.id)}>
+//                       Xem Test
+//                     </Button>
+//                   )}
+//                 </TableCell>
+//                 <TableCell>{problem.user.fullname}</TableCell>
+
+//                 <TableCell>{formatResponseTime(problem.created)}</TableCell>
+//                 <TableCell>{formatResponseTime(problem.updated)}</TableCell>
+//               </StyledTableRow>
+//             ))}
+//           </TableBody>
+//         </Table>
+
+//         <Dialog
+//           onClose={closeTestCases}
+//           aria-labelledby="customized-dialog-title"
+//           open={viewTestCases}
+//         >
+//           <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
+//             Danh sách bộ Test
+//           </DialogTitle>
+//           <IconButton
+//             color={disabled === true ? "success" : "error"}
+//             sx={{
+//               position: "absolute",
+//               right: 60,
+//               top: 8,
+//             }}
+//             aria-label="edit device type"
+//             onClick={() => setDisabled((preState) => !preState)}
+//           >
+//             <ModeEditOutlinedIcon />
+//           </IconButton>
+//           <IconButton
+//             aria-label="close"
+//             onClick={closeTestCases}
+//             sx={{
+//               position: "absolute",
+//               right: 8,
+//               top: 8,
+//               color: (theme) => theme.palette.grey[500],
+//             }}
+//           >
+//             <CloseIcon />
+//           </IconButton>
+//           <DialogContent dividers>
+//             {selectedProblemTests.map((test, index) => (
+//               <Box sx={{ flexGrow: 1 }}>
+//                 <Grid container spacing={3} marginBottom={3}>
+//                   <Grid item xs={5}>
+//                     <TextField
+//                       label="Input"
+//                       multiline
+//                       rows={2}
+//                       variant="outlined"
+//                       value={test.input}
+//                       disabled={disabled}
+//                       onChange={(e) =>
+//                         handleInputChange(index, "input", e.target.value)
+//                       }
+//                     />
+//                   </Grid>
+//                   <Grid item xs={5}>
+//                     <TextField
+//                       label="Output"
+//                       multiline
+//                       rows={2}
+//                       variant="outlined"
+//                       value={test.output}
+//                       disabled={disabled}
+//                       onChange={(e) =>
+//                         handleInputChange(index, "output", e.target.value)
+//                       }
+//                     />
+//                   </Grid>
+
+//                   <Grid item xs={2}>
+//                     <Box>
+
+//                       <IconButton
+//                         aria-label="view"
+//                         color="primary"
+//                         // onClick={() => {
+//                         //   navigate(`${deviceType.id}`);
+//                         // }}
+//                         onClick={() => removeTestCase(index)}
+//                       >
+//                         <DeleteIcon />
+//                       </IconButton>
+//                     </Box>
+//                   </Grid>
+//                 </Grid>
+//               </Box>
+//             ))}
+//           </DialogContent>
+//           <DialogActions>
+//             <DialogActions>
+//               <Typography marginRight={5}>
+//                 Số test: {selectedProblemTests.length}
+//               </Typography>
+//               <Button variant="contained" autoFocus onClick={addTestCase}>
+//                 Thêm Test
+//               </Button>
+//               <Button variant="contained" autoFocus onClick={handleSubmit}>
+//                 Submit
+//               </Button>
+//             </DialogActions>
+//           </DialogActions>
+//         </Dialog>
+//       </TableContainer>
+//     </Box>
+//   );
+// }
+
+// export default ProblemsTeacher;
+
+// import {
+//   Box,
+//   Button,
+//   Grid,
+//   Paper,
+//   Table,
+//   TableBody,
+//   TableCell,
+//   TableContainer,
+//   TableHead,
+//   TableRow,
+//   TextField,
+//   Typography,
+//   styled,
+// } from "@mui/material";
+// import React from "react";
+
+// import { useDispatch, useSelector } from "react-redux";
+// import { useEffect } from "react";
+
+// import { getProblems } from "../../../store/actions/problemAction";
+// import { formatResponseTime } from "../../../utils/time";
+// import Dialog from "@mui/material/Dialog";
+// import DialogTitle from "@mui/material/DialogTitle";
+// import DialogContent from "@mui/material/DialogContent";
+// import DialogActions from "@mui/material/DialogActions";
+// import IconButton from "@mui/material/IconButton";
+// import CloseIcon from "@mui/icons-material/Close";
+// import { useState } from "react";
+// import DeleteIcon from "@mui/icons-material/Delete";
+// import { addTestForProblem } from "../../../store/actions/testAction";
+// import AddTestDialog from "./ProblemTest/AddTestDialog";
+// import UpdateTestDialog from "./ProblemTest/UpdateTestDialog";
+
+// function ProblemsTeacher() {
+//   const StyledTableRow = styled(TableRow)(({ theme }) => ({
+//     "& td, & th": {
+//       border: "1px solid #a19797",
+//     },
+//   }));
+//   const dispatch = useDispatch();
+
+//   const [fetchingParams, setFetchingParams] = useState({
+//     offset: 0,
+//     limit: 10,
+//     // filter_authors: [`${current_user.sub}`],
+//   });
+
+//   useEffect(() => {
+//     dispatch(getProblems(fetchingParams));
+//   }, [fetchingParams]);
+
+//   const data = useSelector((reducers) => reducers.problem.data);
+//   const status = useSelector((reducers) => reducers.problem.status);
+//   console.log(status);
+//   console.log(data);
 
 //   const [selectedProblemId, setSelectedProblemId] = useState(null);
-//   const [testCases, setTestCases] = useState([]);
 
+//   const [open, setOpen] = useState(false);
+//   const [testCases, setTestCases] = useState([]);
 //   const handleClickOpen = (problemId) => {
 //     console.log(problemId);
 //     setSelectedProblemId(problemId);
@@ -80,169 +332,107 @@
 //     setTestCases(newTestCases);
 //     setOpen(true);
 //   };
-//   const handleClose = () => {
-//     setOpen(false);
+
+//   const [openUpdateTestCases, setOpenUpdateTestCases] = useState(false);
+//   const [selectedProblemTests, setSelectedProblemTests] = useState([]);
+
+//   const XemTest = (tests, problem_id) => {
+//     const selectedFields = tests.map((test) => ({
+//       problem_id: test.problem_id,
+//       input: test.input,
+//       output: test.output,
+//       // id: test.id,
+//     }));
+//     setSelectedProblemTests(selectedFields);
+//     setSelectedProblemId(problem_id);
+//     setOpenUpdateTestCases(true);
 //   };
 
-//   const addTestCase = () => {
-//     setTestCases([
-//       ...testCases,
-//       { problem_id: selectedProblemId, input: "", output: "" },
-//     ]);
-//   };
-
-//   const handleInputChange = (index, field, value) => {
-//     const updatedTestCases = [...testCases];
-//     updatedTestCases[index][field] = value;
-//     setTestCases(updatedTestCases);
-//   };
-
-//   const handleSubmit = () => {
-//     // Gửi dữ liệu testCases lên máy chủ hoặc thực hiện xử lý dữ liệu ở đây
-//     console.log(testCases);
-//     dispatch(addTestForProblem(testCases))
-//     setOpen(false);
-//   };
-
-//   const removeTestCase = (index) => {
-//     const updatedTestCases = [...testCases];
-//     updatedTestCases.splice(index, 1); // Xóa bộ test tại chỉ mục (index)
-//     setTestCases(updatedTestCases);
+//   const handleSubmitAddTest = () => {
+//     dispatch(getProblems(fetchingParams));
 //   };
 
 //   return (
 //     <Box p={6}>
 //       <TableContainer component={Paper}>
-//       <Table>
-//         <TableHead sx={{ backgroundColor: "#cdd0d3" }}>
-//           <StyledTableRow>
-//             <TableCell>ID</TableCell>
-//             <TableCell>Title</TableCell>
-//             <TableCell>Difficulty</TableCell>
-//             <TableCell>Problem Type</TableCell>
-//             <TableCell>Max Time</TableCell>
-//             <TableCell>Max Memory</TableCell>
-//             <TableCell>Test</TableCell>
-//             <TableCell>Author</TableCell>
-//             <TableCell>Created</TableCell>
-//             <TableCell>updated</TableCell>
-//           </StyledTableRow>
-//         </TableHead>
-//         <TableBody>
-//           {data?.data?.map((problem) => (
-//             <StyledTableRow key={problem.id}>
-//               <TableCell>{problem.id}</TableCell>
-//               <TableCell>{problem.title}</TableCell>
-//               <TableCell>{problem.difficulty}</TableCell>
-//               <TableCell>{problem.problem_type}</TableCell>
-//               <TableCell>{problem.max_execution_time} s</TableCell>
-//               <TableCell>{problem.max_memory_limit} MB</TableCell>
-//               <TableCell>
-//                 {problem.tests.length === 0 ? (
-//                   <Button onClick={() => handleClickOpen(problem.id)}>
-//                     Thêm Test
-//                   </Button>
-//                 ) : (
-//                   <p>Đã có test.</p>
-//                 )}
-//               </TableCell>
-//               <TableCell>{problem.user.fullname}</TableCell>
-
-//               <TableCell>{formatResponseTime(problem.created)}</TableCell>
-//               <TableCell>{formatResponseTime(problem.updated)}</TableCell>
+//         <Table>
+//           <TableHead sx={{ backgroundColor: "#cdd0d3" }}>
+//             <StyledTableRow>
+//               <TableCell>ID</TableCell>
+//               <TableCell>Title</TableCell>
+//               <TableCell>Difficulty</TableCell>
+//               <TableCell>Problem Type</TableCell>
+//               <TableCell>Max Time</TableCell>
+//               <TableCell>Max Memory</TableCell>
+//               <TableCell>Test</TableCell>
+//               <TableCell>Author</TableCell>
+//               <TableCell>Created</TableCell>
+//               <TableCell>updated</TableCell>
 //             </StyledTableRow>
-//           ))}
-//         </TableBody>
-//       </Table>
+//           </TableHead>
+//           <TableBody>
+//             {data?.data?.map((problem) => (
+//               <StyledTableRow key={problem.id}>
+//                 <TableCell>{problem.id}</TableCell>
+//                 <TableCell>{problem.title}</TableCell>
+//                 <TableCell>{problem.difficulty}</TableCell>
+//                 <TableCell>{problem.problem_type}</TableCell>
+//                 <TableCell>{problem.max_execution_time} s</TableCell>
+//                 <TableCell>{problem.max_memory_limit} MB</TableCell>
+//                 <TableCell>
+//                   {problem.tests.length === 0 ? (
+//                     <Button onClick={() => handleClickOpen(problem.id)}>
+//                       Thêm Test
+//                     </Button>
+//                   ) : (
+//                     // <p>Đã có test.</p>
+//                     <Button onClick={() => XemTest(problem.tests, problem.id)}>
+//                       Xem Test
+//                     </Button>
+//                   )}
+//                 </TableCell>
+//                 <TableCell>{problem.user.fullname}</TableCell>
 
-//       <Dialog
-//         onClose={handleClose}
-//         aria-labelledby="customized-dialog-title"
-//         open={open}
-//       >
-//         <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-//           Modal title
-//         </DialogTitle>
-//         <IconButton
-//           aria-label="close"
-//           onClick={handleClose}
-//           sx={{
-//             position: "absolute",
-//             right: 8,
-//             top: 8,
-//             color: (theme) => theme.palette.grey[500],
-//           }}
-//         >
-//           <CloseIcon />
-//         </IconButton>
-//         <DialogContent dividers>
-//           <div>
-//             {testCases.map((testCase, index) => (
-//               <Box sx={{ flexGrow: 1 }}>
-//                 <Grid container spacing={3} marginBottom={3}>
-//                   <Grid item xs={5}>
-//                     <TextField
-//                       label="Input"
-//                       multiline
-//                       rows={2}
-//                       variant="outlined"
-//                       value={testCase.input}
-//                       onChange={(e) =>
-//                         handleInputChange(index, "input", e.target.value)
-//                       }
-//                     />
-//                   </Grid>
-//                   <Grid item xs={5}>
-//                     <TextField
-//                       label="Output"
-//                       multiline
-//                       rows={2}
-//                       variant="outlined"
-//                       value={testCase.output}
-//                       onChange={(e) =>
-//                         handleInputChange(index, "output", e.target.value)
-//                       }
-//                     />
-//                   </Grid>
-
-//                   <Grid item xs={2}>
-//                     <Box>
-//                       <IconButton
-//                         aria-label="delete"
-//                         onClick={() => removeTestCase(index)}
-//                       >
-//                         <DeleteIcon />
-//                       </IconButton>
-//                     </Box>
-//                   </Grid>
-//                 </Grid>
-//               </Box>
+//                 <TableCell>{formatResponseTime(problem.created)}</TableCell>
+//                 <TableCell>{formatResponseTime(problem.updated)}</TableCell>
+//               </StyledTableRow>
 //             ))}
-//           </div>
-//         </DialogContent>
-//         <DialogActions>
-//         <Typography marginRight={5}>Số test: {testCases.length}</Typography>
-//           <Button variant="contained" autoFocus onClick={addTestCase}>
-//             Thêm Test
-//           </Button>
-//           <Button variant="contained" autoFocus onClick={handleSubmit}>
-//             Submit
-//           </Button>
-//         </DialogActions>
-//       </Dialog>
-//     </TableContainer>
+//           </TableBody>
+//         </Table>
+
+//       </TableContainer>
+
+//       <AddTestDialog
+//           open={open}
+//           setOpen={setOpen}
+//           testCases={testCases}
+//           selectedProblemId={selectedProblemId}
+//           onSubmit= {handleSubmitAddTest}
+//         />
+
+//        <UpdateTestDialog
+//        openUpdateTestCases = {openUpdateTestCases}
+//        setOpenUpdateTestCases = {setOpenUpdateTestCases}
+//         selectedProblemTests = {selectedProblemTests}
+//         selectedProblemId={selectedProblemId}
+//         onSubmit= {handleSubmitAddTest}
+//        />
+
 //     </Box>
+
 //   );
 // }
 
 // export default ProblemsTeacher;
 
-import TableFrame from "../../../components/TableFrame";
 import { useState } from "react";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, ButtonGroup, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { deleteProblems, getProblems } from "../../../store/actions/problemAction";
+import {
+  deleteProblems,
+  getProblems,
+} from "../../../store/actions/problemAction";
 import { formatResponseTime } from "../../../utils/time";
 import ErrorData from "../../ErrorData";
 import { getCurrentUser } from "../../../utils/auth";
@@ -251,8 +441,17 @@ import { useMemo } from "react";
 import { IconButton } from "@mui/material";
 import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
 import ProblemCreateFormDialog from "./ProblemCreateFormDialog";
-import { addProblem, updateProblemByUser } from "../../../store/actions/problemDetailAction";
+import {
+  addProblem,
+  updateProblemByUser,
+} from "../../../store/actions/problemDetailAction";
 import ProblemUpdateFormDialog from "./ProblemUpdateFormDialog";
+import AddTestDialog from "./ProblemTest/AddTestDialog";
+import UpdateTestDialog from "./ProblemTest/UpdateTestDialog";
+import { VisibilityOutlined } from '@mui/icons-material';
+import { useNavigate } from "react-router-dom";
+
+
 export const problemsTableHeaders = [
   {
     id: "id",
@@ -335,6 +534,7 @@ export const problemsTableHeaders = [
 ];
 
 const ProblemsPage = () => {
+  const navigate = useNavigate();
   const current_user = getCurrentUser();
   const [isShowCreateDialog, setIsShowCreateDialog] = useState(false);
   const [editingDevice, setEditingDevice] = useState();
@@ -393,11 +593,9 @@ const ProblemsPage = () => {
     });
   };
 
-  
-
   const handleCreateDevice = async (values) => {
     console.log(values);
-    
+
     await dispatch(addProblem(values));
     dispatch(getProblems(fetchingParams));
   };
@@ -409,12 +607,50 @@ const ProblemsPage = () => {
   };
 
   const handleDeviceDeleteRows = async (ids) => {
-    console.log(ids)
+    console.log(ids);
     await dispatch(deleteProblems(ids));
     dispatch(getProblems(fetchingParams));
   };
 
   const isEditing = editingDevice !== undefined;
+
+  //TEST
+  const [selectedProblemId, setSelectedProblemId] = useState(null);
+
+  const [open, setOpen] = useState(false);
+  const [testCases, setTestCases] = useState([]);
+  const handleClickOpen = (problemId) => {
+    console.log(problemId);
+    setSelectedProblemId(problemId);
+    const newTestCases = [
+      {
+        problem_id: problemId,
+        input: "",
+        output: "",
+      },
+    ];
+    setTestCases(newTestCases);
+    setOpen(true);
+  };
+
+  const [openUpdateTestCases, setOpenUpdateTestCases] = useState(false);
+  const [selectedProblemTests, setSelectedProblemTests] = useState([]);
+
+  const XemTest = (tests, problem_id) => {
+    const selectedFields = tests.map((test) => ({
+      problem_id: test.problem_id,
+      input: test.input,
+      output: test.output,
+      // id: test.id,
+    }));
+    setSelectedProblemTests(selectedFields);
+    setSelectedProblemId(problem_id);
+    setOpenUpdateTestCases(true);
+  };
+
+  const handleSubmitTest = () => {
+    dispatch(getProblems(fetchingParams));
+  };
 
   const updatedHeadProblems = useMemo(() => {
     return [
@@ -441,33 +677,33 @@ const ProblemsPage = () => {
           if (problem.user_id === current_user.sub) {
             return problem.tests.length === 0 ? (
               <Button
+                color="error"
+                variant="outlined"
                 onClick={(e) => {
                   e.stopPropagation(); // Ngăn sự kiện click lan truyền lên phần tử cha
-                  console.log("object");
+                  handleClickOpen(problem.id);
                   // Thêm mã xử lý tại đây để thực hiện hành động khi click vào nút "Thêm Test"
                 }}
               >
                 Thêm Test
               </Button>
             ) : (
-              <p>Đã có test.</p>
+              <Button
+                variant="outlined"
+                onClick={(e) => {
+                  e.stopPropagation(); // Ngăn sự kiện click lan truyền lên phần tử cha
+                  XemTest(problem.tests, problem.id);
+                  // Thêm mã xử lý tại đây để thực hiện hành động khi click vào nút "Thêm Test"
+                }}
+              >
+                Xem Test
+              </Button>
             );
           } else {
-            // return <p>Chưa có test.</p>;
             return problem.tests.length === 0 ? (
-              <p>Chưa có test.</p>
+              <p>CHƯA CÓ TEST</p>
             ) : (
-              <p>
-                <Button
-                  onClick={(e) => {
-                    e.stopPropagation(); // Ngăn sự kiện click lan truyền lên phần tử cha
-                    console.log("object");
-                    // Thêm mã xử lý tại đây để thực hiện hành động khi click vào nút "Thêm Test"
-                  }}
-                >
-                  Xem Test
-                </Button>
-              </p>
+              <p>ĐÃ CÓ TEST</p>
             );
           }
         },
@@ -524,24 +760,55 @@ const ProblemsPage = () => {
         //     <ModeEditOutlinedIcon />
         //   </IconButton>
         // ),
-        renderFn: (problem) => {
-          // Kiểm tra xem `problem.user_id` có trùng với `current_sub` không
-          if (problem.user_id === current_user.sub) {
-            return (
+        // renderFn: (problem) => {
+        //   // Kiểm tra xem `problem.user_id` có trùng với `current_sub` không
+        //   if (problem.user_id === current_user.sub) {
+        //     return (
+        //       <IconButton
+        //         color="warning"
+        //         aria-label="edit problem"
+        //         onClick={(e) => {
+        //           e.stopPropagation();
+        //           setEditingDevice(problem);
+        //         }}
+        //       >
+        //         <ModeEditOutlinedIcon />
+        //       </IconButton>
+        //     );
+        //   }
+        //   return null; // Trả về null nếu không trùng khớp
+        // },
+        renderFn: (problem) => (
+          <ButtonGroup
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            <IconButton
+              aria-label='view'
+              color='primary'
+              onClick={() => {
+                navigate(`${problem.id}`);
+              }}
+            >
+              <VisibilityOutlined />
+            </IconButton>
+            {
+              problem.user_id === current_user.sub &&
               <IconButton
-                color="warning"
-                aria-label="edit problem"
-                onClick={(e) => {
-                  e.stopPropagation();
+              color='warning'
+              aria-label='edit device type'
+              onClick={(e) => {
+                e.stopPropagation();
                   setEditingDevice(problem);
-                }}
-              >
-                <ModeEditOutlinedIcon />
-              </IconButton>
-            );
-          }
-          return null; // Trả về null nếu không trùng khớp
-        },
+              }}
+            >
+              <ModeEditOutlinedIcon />
+            </IconButton>
+            }
+            
+          </ButtonGroup>
+        )
       },
     ];
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -599,6 +866,22 @@ const ProblemsPage = () => {
           />
         )}
       </Box>
+
+      <AddTestDialog
+        open={open}
+        setOpen={setOpen}
+        testCases={testCases}
+        selectedProblemId={selectedProblemId}
+        onSubmit={handleSubmitTest}
+      />
+
+      <UpdateTestDialog
+        openUpdateTestCases={openUpdateTestCases}
+        setOpenUpdateTestCases={setOpenUpdateTestCases}
+        selectedProblemTests={selectedProblemTests}
+        selectedProblemId={selectedProblemId}
+        onSubmit={handleSubmitTest}
+      />
     </>
   );
 };

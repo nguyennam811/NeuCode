@@ -19,7 +19,7 @@ export const addTestForProblem = createAsyncThunk(
             return await testApi.addTest(formTest)
         } catch (error) {
             // console.log(error.message)
-            throw new Error("Failed to add test for problem");
+            throw new Error(error.message);
         }
     }
 )
