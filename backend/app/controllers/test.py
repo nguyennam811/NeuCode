@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, status, Header
+from fastapi import APIRouter, Depends, status, Header, Query
 from sqlalchemy.orm import Session
 from .. import schemas
 from ..dependencies import get_db
@@ -16,8 +16,8 @@ async def get_test(db: Session = Depends(get_db), exercise: str = Header()):
 #     return test.create_test(request, db)
 
 @router.post('/', status_code=status.HTTP_201_CREATED, response_model=List[schemas.ShowTest])
-async def create_test(request: List[schemas.Test], db: Session = Depends(get_db)):
-    return test.create_test(request, db)
+async def create_test(request: List[schemas.Test], db: Session = Depends(get_db), problem_id: str = Query(default='')):
+    return test.create_test(request, db, problem_id)
 
 @router.get('/{id}', status_code=status.HTTP_200_OK ,response_model=schemas.ShowTest)
 async def get_test_by_id(id: str, db: Session = Depends(get_db)):

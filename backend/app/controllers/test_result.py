@@ -11,6 +11,10 @@ router = APIRouter()
 async def get_test_result(db: Session = Depends(get_db), submission: str = Header()):
     return test_result.get_test_result_all(db, submission)
 
+# @router.get('/', status_code=status.HTTP_200_OK, response_model=List[schemas.ShowTestResult])
+# async def get_test_result(db: Session = Depends(get_db)):
+#     return test_result.get_test_result_all(db)
+
 @router.post('/', status_code=status.HTTP_201_CREATED, response_model=schemas.ShowTestResult)
 async def create_test_result(request: schemas.Test_Result, db: Session = Depends(get_db)):
     return test_result.create_test_result(request, db)

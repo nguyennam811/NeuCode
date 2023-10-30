@@ -6,6 +6,9 @@ from fastapi import HTTPException, status
 def get_test_result_all(db: Session, submission: str):
     test_results = db.query(models.Test_Result).filter(models.Test_Result.submission_id == submission).all()
     return test_results
+# def get_test_result_all(db: Session):
+#     test_results = db.query(models.Test_Result).all()
+#     return test_results
 
 def create_test_result(request: schemas.Test_Result, db: Session):
     new_test_result = models.Test_Result(**request.dict())

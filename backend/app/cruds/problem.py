@@ -112,8 +112,8 @@ def update_problem(id: str, request: schemas.Problem, db: Session):
 #     db.commit()
 #     return 'deleted problem'
 
-def delete_problem(db: Session, device_ids: List[str]):
-    statement = delete(models.Problem).where(models.Problem.id.in_(device_ids)).returning(models.Problem.id)
+def delete_problem(db: Session, problem_ids: List[str]):
+    statement = delete(models.Problem).where(models.Problem.id.in_(problem_ids)).returning(models.Problem.id)
     db.execute(statement).scalars().all()
     db.commit()
     return None

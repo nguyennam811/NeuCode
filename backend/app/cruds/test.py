@@ -9,22 +9,22 @@ def get_test_all(db: Session, exercise: str):
     tests = db.query(models.Test).filter(models.Test.problem_id == exercise).all()
     return tests
 
-# def create_test(request: schemas.Test, db: Session):
-#     new_test = models.Test(**request.dict())
-#     db.add(new_test)
-#     db.commit()
-#     db.refresh(new_test)
-#     return new_test
 
-def create_test(request: List[schemas.Test], db: Session):
+def create_test(request: List[schemas.Test], db: Session, problem_id: str):
+    records_to_delete = db.query(models.Test).filter(models.Test.problem_id == problem_id).all()
+    print(records_to_delete)
+    for record in records_to_delete:
+        db.delete(record)
+
+    db.commit()
+
 
     new_tests = [models.Test(id=str(uuid.uuid4()), **test.dict()) for test in request]
     for new_test in new_tests:
-        db.add(new_test)  # Thêm từng đối tượng vào session
+        db.add(new_test)
 
-    db.commit()  # Commit một lần duy nhất để lưu các thay đổi vào cơ sở dữ liệu
+    db.commit()
 
-    # Sau khi commit, bạn có thể refresh từng đối tượng nếu cần thiết
     for new_test in new_tests:
         db.refresh(new_test)
 
