@@ -19,7 +19,7 @@ def get_problem_all(
         filter_problem_types: List[str],
         filter_difficultys: List[str],
         offset: int = 0,
-        limit: int = 10,
+        limit: int = 50,
 ):
     arr = [
         [f"user_id = '{author}'" for author in filter_authors],

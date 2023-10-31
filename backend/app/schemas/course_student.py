@@ -1,7 +1,7 @@
 from pydantic import BaseModel, NonNegativeFloat
 from typing import Optional, List
-from .user import ShowUser
-from .course import ShowCourse
+# from .user import ShowUser
+# from .course import ShowCourse
 import datetime
 
 class CourseStudent(BaseModel):

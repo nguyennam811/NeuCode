@@ -1,5 +1,5 @@
 from pydantic import BaseModel, NonNegativeFloat
-from typing import Optional
+from typing import Optional, List
 from .user import ShowUser
 # from .course_student import ShowCourseStudent
 import datetime
@@ -20,3 +20,8 @@ class ShowCourse(Course):
     class Config():
         orm_mode = True
 
+class ResponseCourses(BaseModel):
+    total: int
+    data: List[ShowCourse]
+    class Config:
+        orm_mode = True

@@ -1,11 +1,45 @@
 from sqlalchemy.orm import Session
 from .. import models, schemas
 from fastapi import HTTPException, status
+from sqlalchemy import select, text, func, delete
+from typing import List
 
+def get_courses_with_conditions(db: Session, offset: int, limit: int, conditions):
+    statement = select(models.Course).where(text(' and '.join(conditions))).offset(
+        offset).limit(limit).order_by(models.Course.created.desc())
+    return db.execute(statement).scalars().all()
 
-def get_course_all(db: Session):
-    courses = db.query(models.Course).all()
-    return courses
+def count_course_with_conditions(db: Session, conditions):
+    return db.query(func.count(models.Course.id)).where(text(' and '.join(conditions))).scalar()
+def get_course_all(
+        db: Session,
+        search_key: str,
+        search_value: str,
+        teacher_id: str,
+        offset: int = 0,
+        limit: int = 30,
+):
+    # courses = db.query(models.Course).all()
+    # return courses
+    # statement = select(models.Course).offset(offset).limit(limit).order_by(
+    #     models.Course.created)
+    # return db.execute(statement).scalars().all()
+    arr = [
+        f"teacher_id = '{teacher_id}'",
+    ]
+    conditions = []
+    for item in arr:
+        if isinstance(item, str):  # Kiểm tra nếu item là chuỗi
+            conditions.append('(' + item + ')')
+
+    if search_value != '':
+        conditions.append(f"cast({search_key} as varchar) like('%{search_value}%')")
+    print(conditions)
+
+    return {
+        'data': get_courses_with_conditions(db=db, offset=offset, limit=limit, conditions=conditions),
+        'total': count_course_with_conditions(db=db, conditions=conditions)
+    }
 
 def create_course(request: schemas.Course, db: Session):
     new_course = models.Course(**request.dict())
@@ -28,13 +62,9 @@ def update_course(id: str, request: schemas.Course, db: Session):
     db.commit()
     return 'updated course'
 
-def delete_course(id: str, db: Session):
-    course = db.query(models.Course).filter(models.Course.id == id)
-    if not course.first():
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'course with id {id} not found')
-    course.delete(synchronize_session=False)
-    # Tham số synchronize_session=False được sử dụng để chỉ định rằng đối tượng course không cần được đồng bộ hóa
-    # với phiên làm việc (session) hiện tại. Tham số này giúp tối ưu hóa hiệu suất và tránh các tình
-    # huống đồng bộ hóa không cần thiết
+
+def delete_course(db: Session, course_ids: List[str]):
+    statement = delete(models.Course).where(models.Course.id.in_(course_ids)).returning(models.Course.id)
+    db.execute(statement).scalars().all()
     db.commit()
-    return 'deleted course'
+    return None
