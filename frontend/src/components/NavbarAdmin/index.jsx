@@ -15,6 +15,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
 import RequestQuoteIcon from "@mui/icons-material/RequestQuote";
 import UpgradeIcon from "@mui/icons-material/Upgrade";
+import ViewListIcon from '@mui/icons-material/ViewList';
 import PersonIcon from "@mui/icons-material/Person";
 import { NavLink } from "react-router-dom";
 import { useSubmit } from "react-router-dom";
@@ -130,16 +131,16 @@ const Navbar = () => {
               </ListItemButton>
             </Link>
 
-            <Link to="/admin/user">
+            <Link to="/admin/problems">
               <ListItemButton
-                selected={selectedItem === "user"} // check if this is the selected item
-                onClick={() => handleItemClick("user")}
+                selected={selectedItem === "problems"} // check if this is the selected item
+                onClick={() => handleItemClick("problems")}
                 style={{ color: "black" }}
               >
                 <ListItemIcon>
-                  <PersonIcon />
+                  <ViewListIcon />
                 </ListItemIcon>
-                {!collapsed && <ListItemText primary="User" />}
+                {!collapsed && <ListItemText primary="Problems" />}
               </ListItemButton>
             </Link>
 

@@ -15,6 +15,7 @@ import { action as logoutAction } from "../components/Logout";
 import ProblemDetail from "../pages/Student/ProblemDetail";
 import ProblemsTeacher from "../pages/Teacher/ProblemsTeacher";
 import ProblemDetailTeacher from "../pages/Teacher/ProblemsTeacher/ProblemDetailTeacher";
+import ProblemList from "../pages/Admin/ProblemList";
 
 const tokenLoader = () => {
   const token = getAuthToken();
@@ -113,8 +114,14 @@ const router = [
         element: <Problems />,
       },
       {
-        path: "user",
-        element: <About />,
+        path: "problems",
+        loader: tokenLoader,
+        element: <ProblemList />,
+      },
+      {
+        path: "problems/:id",
+        loader: tokenLoader,
+        element: <ProblemDetailTeacher />,
       },
       {
         path: "*",
