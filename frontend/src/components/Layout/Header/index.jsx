@@ -128,6 +128,14 @@ const Header = () => {
               CREATE PROBLEM
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              to={"/teacher/courses"}
+              style={{ color: isCurrentPage("/courses") ? "red" : "" }}
+            >
+              COURSES
+            </NavLink>
+          </li>
         </ul>
       )}
     </Box>
@@ -265,6 +273,21 @@ const Header = () => {
                         style={{ color: isCurrentPage("/create_problem") ? "red" : "" }}
                       >
                         CREATE PROBLEM
+                      </NavLink>
+                    </li>
+
+                    <li
+                      style={{
+                        borderBottom: isCurrentPage("/courses")
+                          ? "3px solid #ff0000"
+                          : "none",
+                      }}
+                    >
+                      <NavLink
+                        to={"/teacher/courses"}
+                        style={{ color: isCurrentPage("/courses") ? "red" : "" }}
+                      >
+                        COURSES
                       </NavLink>
                     </li>
                   </ul>

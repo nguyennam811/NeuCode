@@ -1,35 +1,15 @@
 import React from "react";
 import * as Yup from "yup";
-import { getCurrentUser } from "../../../utils/auth";
 import FormDialog from "../../../components/FormDialog"
 
 function ProblemUpdateFormDialog(props) {
-//   const current_user = getCurrentUser();
   const difficultyOptions = [
     { value: "Dễ", label: "Dễ" },
     { value: "Trung bình", label: "Trung bình" },
     { value: "Khó", label: "Khó" },
   ];
-//   const initialValues = {
-//     id: "",
-//     user_id: current_user.sub,
-//     title: "",
-//     difficulty: "Dễ",
-//     problem_type: "",
-//     max_memory_limit: 0,
-//     max_execution_time: 0,
-//     description: "",
-//   };
+
   const problemFormFields = [
-    // {
-    //   id: "id",
-    //   title: "ID",
-    //   type: "text",
-    //   required: true,
-    //   name: "id",
-    //   placeholder: "Enter problem id...",
-    //   validator: Yup.string().max(255).required("ID is required"),
-    // },
     {
       id: "title",
       title: "Title",

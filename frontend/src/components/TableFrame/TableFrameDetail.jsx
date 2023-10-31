@@ -12,8 +12,8 @@ const TableFrameDetail = (props) => {
         {props.title}
       </Typography>
       <TableStack
-        // searchFields={props.searchFields || []}
-        // filterOptions={props.filterOptions || []}
+        searchFields={props.searchFields || []}
+        filterOptions={props.filterOptions || []}
         numOfColumnsInFilter={props.numOfColumnsInFilter}
         onSearch={props.onSearch}
         onFilter={props.onFilter}

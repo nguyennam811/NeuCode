@@ -426,7 +426,7 @@
 // export default ProblemsTeacher;
 
 import { useState } from "react";
-import { Box, Button, ButtonGroup, Typography } from "@mui/material";
+import { Box, Button, ButtonGroup, Tooltip, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import {
@@ -448,9 +448,8 @@ import {
 import ProblemUpdateFormDialog from "./ProblemUpdateFormDialog";
 import AddTestDialog from "./ProblemTest/AddTestDialog";
 import UpdateTestDialog from "./ProblemTest/UpdateTestDialog";
-import { VisibilityOutlined } from '@mui/icons-material';
+import { VisibilityOutlined } from "@mui/icons-material";
 import { useLoaderData, useNavigate } from "react-router-dom";
-
 
 export const problemsTableHeaders = [
   {
@@ -538,7 +537,7 @@ const ProblemsPage = () => {
   const current_user = getCurrentUser();
   // const current_user = useLoaderData();
   const [isShowCreateDialog, setIsShowCreateDialog] = useState(false);
-  const [editingDevice, setEditingDevice] = useState();
+  const [editingProblem, setEditingProblem] = useState();
   const [fetchingParams, setFetchingParams] = useState({
     offset: 0,
     limit: 10,
@@ -555,6 +554,85 @@ const ProblemsPage = () => {
   const status = useSelector((reducers) => reducers.problem.status);
   console.log(status);
   console.log(data);
+
+  //Search
+  const problemSearchFields = [
+    { id: "id", title: "ID" },
+    { id: "title", title: "Title" },
+  ];
+  //Search
+
+  const difficultyOptions = [
+    { value: "EASY", label: "Dễ" },
+    { value: "MEDIUM", label: "Trung bình" },
+    { value: "DIFFICULT", label: "Khó" },
+  ];
+
+  //Filter
+  // lọc theo problem type
+  const uniqueProblemTypes = new Set();
+  if (data?.data) {
+    data.data.forEach((item) => {
+      uniqueProblemTypes.add(item.problem_type);
+    });
+  }
+  const problemTypeOptions = [...uniqueProblemTypes].map((value) => ({
+    value: value,
+    label: value,
+  }));
+
+  //lọc theo author
+
+  const authorOptions = [];
+  const userMap = {};
+  if (data?.data) {
+    data?.data.forEach((item) => {
+      const user = item.user;
+
+      if (!userMap[user.id]) {
+        authorOptions.push({
+          value: user.id,
+          label: user.fullname,
+        });
+        userMap[user.id] = true;
+      }
+    });
+  }
+
+  const filterOptions = [
+    {
+      id: "filter_difficultys",
+      title: "Difficulty",
+      placeholder: "Select difficulty...",
+      values: "",
+      options: difficultyOptions,
+      multipleValues: true,
+    },
+    {
+      id: "filter_problem_types",
+      title: "Problem Type",
+      placeholder: "Select problem type...",
+      values: "",
+      options: problemTypeOptions.sort(
+        (a, b) =>
+          -b.label[0].toUpperCase().localeCompare(a.label[0].toUpperCase())
+      ),
+      groupByFn: (option) => option.label[0].toUpperCase(),
+      multipleValues: true,
+    },
+    {
+      id: "filter_authors",
+      title: "Author",
+      placeholder: "Select author...",
+      values: "",
+      options: authorOptions.sort(
+        (a, b) => -b.label.toUpperCase().localeCompare(a.label.toUpperCase())
+      ),
+      groupByFn: (option) => option.label[0].toUpperCase(),
+      multipleValues: true,
+    },
+  ];
+  //Filter
 
   const handleProblemSearch = (searchOptions) => {
     let keys = Object.keys(searchOptions[0]);
@@ -594,26 +672,26 @@ const ProblemsPage = () => {
     });
   };
 
-  const handleCreateDevice = async (values) => {
+  const handleCreateProblem = async (values) => {
     console.log(values);
 
     await dispatch(addProblem(values));
     dispatch(getProblems(fetchingParams));
   };
 
-  const handleUpdateDevice = async (values) => {
+  const handleUpdateProblem = async (values) => {
     console.log(values);
     await dispatch(updateProblemByUser(values));
     dispatch(getProblems(fetchingParams));
   };
 
-  const handleDeviceDeleteRows = async (ids) => {
+  const handleProblemDeleteRows = async (ids) => {
     console.log(ids);
     await dispatch(deleteProblems(ids));
     dispatch(getProblems(fetchingParams));
   };
 
-  const isEditing = editingDevice !== undefined;
+  const isEditing = editingProblem !== undefined;
 
   //TEST
   const [selectedProblemId, setSelectedProblemId] = useState(null);
@@ -714,7 +792,7 @@ const ProblemsPage = () => {
         label: "Created",
         numeric: false,
         disablePadding: false,
-        renderFn: (device) => formatResponseTime(device.created),
+        renderFn: (problem) => formatResponseTime(problem.created),
         descComparatorFn: (a, b) => {
           if (b.created < a.created) {
             return -1;
@@ -730,7 +808,7 @@ const ProblemsPage = () => {
         label: "Updated",
         numeric: false,
         disablePadding: false,
-        renderFn: (device) => formatResponseTime(device.updated),
+        renderFn: (problem) => formatResponseTime(problem.updated),
         descComparatorFn: (a, b) => {
           if (!a.updated || !b.updated) return 0;
 
@@ -785,29 +863,33 @@ const ProblemsPage = () => {
               e.stopPropagation();
             }}
           >
+            <Tooltip title="View problem">
             <IconButton
-              aria-label='view'
-              color='primary'
+              aria-label="view"
+              color="primary"
               onClick={() => {
                 navigate(`${problem.id}`);
               }}
             >
               <VisibilityOutlined />
             </IconButton>
+            </Tooltip>
             {
-              problem.user_id === current_user.sub &&
+            problem.user_id === current_user.sub && 
+            <Tooltip title="Update Problem">
+
               <IconButton
-              color='warning'
-              aria-label='edit device type'
-              onClick={(e) => {
-                e.stopPropagation();
-                  setEditingDevice(problem);
-              }}
-            >
-              <ModeEditOutlinedIcon />
-            </IconButton>
+                color="warning"
+                aria-label="edit problem"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setEditingProblem(problem);
+                }}
+              >
+                <ModeEditOutlinedIcon />
+              </IconButton>
+            </Tooltip>
             }
-            
           </ButtonGroup>
         )
       },
@@ -822,18 +904,18 @@ const ProblemsPage = () => {
       {!isEditing && (
         <ProblemCreateFormDialog
           open={isShowCreateDialog}
-          onSave={handleCreateDevice}
+          onSave={handleCreateProblem}
           onClose={() => setIsShowCreateDialog(false)}
         />
       )}
 
       {isEditing && (
         <ProblemUpdateFormDialog
-          row={editingDevice}
+          row={editingProblem}
           open={isEditing}
-          onSave={handleUpdateDevice}
+          onSave={handleUpdateProblem}
           onClose={() => {
-            setEditingDevice(undefined);
+            setEditingProblem(undefined);
           }}
           initialFn={(problem) => ({
             id: problem.id,
@@ -848,23 +930,25 @@ const ProblemsPage = () => {
         />
       )}
       <Box p={8} pt={2}>
-        {status !== "error" && (
-          <TableFrameDetail
-            title="Table Problems"
-            data={data?.data ?? []}
-            isLoading={status === "loading"}
-            total={data?.total ?? 0}
-            numOfColumnsInFilter={4}
-            headCells={updatedHeadProblems}
-            onPagination={handlePagination}
-            showCheckbox={true}
-            onSearch={handleProblemSearch}
-            onFilter={handleProblemFilter}
-            handleNewClick={() => {
-              setIsShowCreateDialog(true);
-            }}
-            onDeleteRows={handleDeviceDeleteRows}
-          />
+            {status !== "error" && (
+              <TableFrameDetail
+                title="Table Problems"
+                data={data?.data ?? []}
+                isLoading={status === "loading"}
+                total={data?.total ?? 0}
+                searchFields={problemSearchFields}
+                filterOptions={filterOptions}
+                numOfColumnsInFilter={4}
+                headCells={updatedHeadProblems}
+                onPagination={handlePagination}
+                showCheckbox={true}
+                onSearch={handleProblemSearch}
+                onFilter={handleProblemFilter}
+                handleNewClick={() => {
+                  setIsShowCreateDialog(true);
+                }}
+                onDeleteRows={handleProblemDeleteRows}
+              />
         )}
       </Box>
 

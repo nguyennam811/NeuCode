@@ -16,6 +16,7 @@ import ProblemDetail from "../pages/Student/ProblemDetail";
 import ProblemsTeacher from "../pages/Teacher/ProblemsTeacher";
 import ProblemDetailTeacher from "../pages/Teacher/ProblemsTeacher/ProblemDetailTeacher";
 import ProblemList from "../pages/Admin/ProblemList";
+import CoursesTeacher from "../pages/Teacher/CoursesTeacher";
 
 const tokenLoader = () => {
   const token = getAuthToken();
@@ -95,6 +96,11 @@ const router = [
           {
             path: "create_problem",
             element: <CreateProblem />,
+          },
+          {
+            path: "courses",
+            loader: tokenLoader,
+            element: <CoursesTeacher />,
           },
           {
             path: "*",

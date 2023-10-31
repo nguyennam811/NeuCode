@@ -23,7 +23,7 @@ const DataTableRow = ({ labelId, row }) => {
           // onClick={(e) => handleSelectRow(e, row.id)}
           onClick={(e) => {
             // Kiểm tra nếu problem.user_id trùng với current_user.sub
-            if (row.user_id === current_user.sub) {
+            if (row.user_id === current_user.sub || row.teacher_id === current_user.sub) {
               handleSelectRow(e, row.id);
             }
           }}
@@ -34,7 +34,7 @@ const DataTableRow = ({ labelId, row }) => {
           selected={showCheckbox && isItemSelected}
           // sx={{ cursor: "pointer" }}
           sx={{
-            cursor: row.user_id === current_user.sub ? "pointer" : "default",
+            cursor: row.user_id === current_user.sub || row.teacher_id === current_user.sub ? "pointer" : "default",
           }}
         >
           <TableCell padding="checkbox">

@@ -43,7 +43,6 @@ const problemDetailSlice = createSlice({
             state.status = 'error'
             state.error = action.error.message;
             toast.error(`Add Problem is Error: ${state.error}`);
-
         })
 
         // Update Problem 
@@ -55,7 +54,6 @@ const problemDetailSlice = createSlice({
             state.data = action.payload
             state.status = 'success'
             toast.success("Update Problem Successfully");
-
         })
 
         builder.addCase(problemDetail.updateProblemByUser.rejected, (state, action) => {

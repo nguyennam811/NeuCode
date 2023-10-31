@@ -1,18 +1,13 @@
-import React from 'react';
-import { Form, FormikProps, useFormikContext } from 'formik';
-import AutocompleteField from '../FieldTypes/AutocompleteField';
-import SelectField from '../FieldTypes/SelectField';
-import { FormHelperText, Grid, Stack } from '@mui/material';
-import CheckboxField from '../FieldTypes/CheckboxField';
-import InputField from '../FieldTypes/InputField';
-import ReactQuill from 'react-quill';
+import React from "react";
+import { Form, FormikProps, useFormikContext } from "formik";
+import AutocompleteField from "../FieldTypes/AutocompleteField";
+import SelectField from "../FieldTypes/SelectField";
+import { FormHelperText, Grid, Stack } from "@mui/material";
+import CheckboxField from "../FieldTypes/CheckboxField";
+import InputField from "../FieldTypes/InputField";
+import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-const FormContent = ({
-  formFields,
-  onSave,
-  numOfColumns,
-  submitError,
-}) => {
+const FormContent = ({ formFields, onSave, numOfColumns, submitError }) => {
   const formikProps = useFormikContext();
   const toolbarOptions = [
     [{ font: [] }],
@@ -39,7 +34,7 @@ const FormContent = ({
     toolbar: toolbarOptions,
   };
   return (
-    <Form noValidate id='data-form' onSubmit={formikProps.handleSubmit}>
+    <Form noValidate id="data-form" onSubmit={formikProps.handleSubmit}>
       <Grid container spacing={3}>
         {submitError && (
           <Grid item xs={12}>
@@ -49,7 +44,7 @@ const FormContent = ({
         {formFields.map((field) => {
           let fieldContent;
 
-          if (field.type === 'select') {
+          if (field.type === "select") {
             fieldContent = (
               <SelectField
                 id={field.id}
@@ -65,7 +60,7 @@ const FormContent = ({
                 )}
               />
             );
-          } else if (field.type === 'autocomplete') {
+          } else if (field.type === "autocomplete") {
             fieldContent = (
               <AutocompleteField
                 id={field.id}
@@ -84,27 +79,26 @@ const FormContent = ({
                 )}
               />
             );
-          } else if (field.type === 'checkbox') {
+          } else if (field.type === "checkbox") {
             fieldContent = (
               <CheckboxField
                 id={field.id}
                 title={field.title}
                 value={formikProps.values[field.id]}
                 setFieldValue={formikProps.setFieldValue}
-                
               />
             );
-          } else if (field.type === 'react-quill') {
+          } else if (field.type === "react-quill") {
             fieldContent = (
               <ReactQuill
-        theme="snow"
-        value={formikProps.values[field.id]}
-        onChange={(value) => formikProps.setFieldValue(field.id, value)}
-        modules={modules}
-        className="react_quill"
-      />
+                theme="snow"
+                value={formikProps.values[field.id]}
+                onChange={(value) => formikProps.setFieldValue(field.id, value)}
+                modules={modules}
+                className="react_quill"
+              />
             );
-          }else {
+          } else {
             fieldContent = (
               <InputField
                 id={field.id}
@@ -132,7 +126,7 @@ const FormContent = ({
                 {fieldContent}
                 {formikProps.touched[field.id] &&
                   formikProps.errors[field.id] && (
-                    <FormHelperText error id='test-heper-form'>
+                    <FormHelperText error id="test-heper-form">
                       {formikProps.errors[field.id]?.toString()}
                     </FormHelperText>
                   )}

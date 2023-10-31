@@ -10,6 +10,11 @@ function FilterProblems({ data, onSearchFilter }) {
   const [values, setValues] = useState({});
 
   let keys = Object.keys(values);
+  let valuesInObj = Object.values(values);
+
+  let isDisabled =
+    keys.length === 0 ||
+    valuesInObj.reduce((pre, cur) => pre + (cur === '' ? 1 : 0), 0) !== 0;
 
   const difficultyOptions = [
     { value: "EASY", label: "Dễ" },
@@ -127,6 +132,7 @@ function FilterProblems({ data, onSearchFilter }) {
                   });
                 }}
                 groupByFn={filter.groupByFn}
+                isDisabled={filtered}
               />
             </Grid>
           ))}
@@ -135,23 +141,6 @@ function FilterProblems({ data, onSearchFilter }) {
             <Button
               variant={"contained"}
               color={filtered ? 'error' : 'primary'}
-              // onClick={() => {
-              //   onSearchFilter(!filtered
-              //     ? {
-              //       ...values,
-              //       search_value: searchValue,
-              //     }
-              //     : keys.reduce((pre, cur) => {
-              //         return {
-              //           search_value: "",
-              //           ...pre,
-              //           [cur]: [],
-                        
-              //         };
-              //       }, {})
-              // );
-              // setFiltered(!filtered);
-              // }}
               onClick={() => {
                 const newValues = { ...values };
                 keys.forEach((key) => {
@@ -166,6 +155,7 @@ function FilterProblems({ data, onSearchFilter }) {
                 setFiltered(!filtered);
               }}
               fullWidth
+              disabled={isDisabled}
             >
               {filtered ? 'Unfilter' : 'Filter'}
             </Button>
