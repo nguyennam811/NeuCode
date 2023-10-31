@@ -1,18 +1,19 @@
 import React from "react";
 import { Checkbox, TableCell, TableRow, styled } from "@mui/material";
 import useDataTable from "../../hooks/use-data-table";
-import { Link } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import { getColorDifficulty } from "../../utils/status";
-import { getCurrentUser } from "../../utils/auth";
+// import { getCurrentUser } from "../../utils/auth";
 
 const DataTableRow = ({ labelId, row }) => {
   const dataTableCtx = useDataTable();
+  const current_user = useLoaderData();
   const { showCheckbox } = useDataTable();
   const headCells = dataTableCtx.headCells;
   const { isSelected, handleSelectRow } = dataTableCtx;
   const isItemSelected = isSelected(row.id);
 
-  const current_user = getCurrentUser();
+  // const current_user = getCurrentUser();
 
   return (
     <>

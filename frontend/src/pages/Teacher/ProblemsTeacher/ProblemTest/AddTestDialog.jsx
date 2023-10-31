@@ -80,7 +80,7 @@ function AddTestDialog({ open, setOpen, testCases, selectedProblemId, onSubmit }
       open={open}
     >
       <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-        Modal title
+        Add Test
       </DialogTitle>
       <IconButton
         aria-label="close"

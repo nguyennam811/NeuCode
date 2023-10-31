@@ -449,7 +449,7 @@ import ProblemUpdateFormDialog from "./ProblemUpdateFormDialog";
 import AddTestDialog from "./ProblemTest/AddTestDialog";
 import UpdateTestDialog from "./ProblemTest/UpdateTestDialog";
 import { VisibilityOutlined } from '@mui/icons-material';
-import { useNavigate } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 
 
 export const problemsTableHeaders = [
@@ -536,6 +536,7 @@ export const problemsTableHeaders = [
 const ProblemsPage = () => {
   const navigate = useNavigate();
   const current_user = getCurrentUser();
+  // const current_user = useLoaderData();
   const [isShowCreateDialog, setIsShowCreateDialog] = useState(false);
   const [editingDevice, setEditingDevice] = useState();
   const [fetchingParams, setFetchingParams] = useState({

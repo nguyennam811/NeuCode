@@ -23,7 +23,7 @@ function App() {
         <CssBaseline />
         <RouterProvider router={Routes()} />
         <ToastContainer
-          position="bottom-center"
+          position="bottom-left"
           autoClose={1000}
           hideProgressBar={false}
           newestOnTop={false}
@@ -32,7 +32,7 @@ function App() {
           pauseOnFocusLoss
           draggable
           pauseOnHover
-          theme="dark"
+          theme="colored"
         />
       </ThemeProvider>
     </div>

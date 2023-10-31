@@ -86,7 +86,7 @@ function UpdateTestDialog({
       open={openUpdateTestCases}
     >
       <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-        Modal title
+        Update Test
       </DialogTitle>
       <IconButton
         color={disabled === true ? "success" : "error"}

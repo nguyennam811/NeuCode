@@ -1,10 +1,12 @@
 import React from "react";
 import * as Yup from "yup";
-import { getCurrentUser } from "../../../utils/auth";
+// import { getCurrentUser } from "../../../utils/auth";
 import FormDialog from "../../../components/FormDialog"
+import { useLoaderData } from "react-router-dom";
 
 function ProblemCreateFormDialog(props) {
-  const current_user = getCurrentUser();
+  // const current_user = getCurrentUser();
+  const current_user = useLoaderData();
   const difficultyOptions = [
     { value: "Dễ", label: "Dễ" },
     { value: "Trung bình", label: "Trung bình" },

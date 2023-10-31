@@ -16,9 +16,11 @@ import { useLoaderData } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { mapLanguage } from "../../../../../utils/mapLanguage";
+// import { getCurrentUser } from "../../../../../utils/auth";
 
 function EditorTestCase(props) {
   const current_user = useLoaderData();
+  // const current_user = getCurrentUser();
   const { code, languages } = props;
   const [value, setValue] = useState("1");
   const [testCase, setTestCase] = useState([]);
