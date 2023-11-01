@@ -7,7 +7,7 @@ function DescriptionTeacher() {
   const problem = useSelector((reducers) => reducers.problemDetail.data);
   console.log(problem);
   return (
-    <Box pl={2} pt={1} pr={2} pb={1}>
+    <Box pl={3} pt={1} pr={2} pb={1} overflow="auto">
       <Box mb={2}>
         <Typography variant="h6" gutterBottom>
           {problem.title}
@@ -37,32 +37,32 @@ function DescriptionTeacher() {
             </Grid>
           </Grid>
         </Box> */}
-        <Box sx={{ width: '100%' }}>
-      <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-        <Grid item xs={6}>
-        <Typography>
-                Difficulty:{" "}
-                <span style={{ color: getColorDifficulty(problem.difficulty) }}>
-                  {problem.difficulty}
-                </span>
+        <Box sx={{ width: "100%" }}>
+          <Grid
+            container
+            rowSpacing={1}
+            columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          >
+            <Grid item xs={6}>
+              <Typography>
+                Difficulty: <span dangerouslySetInnerHTML={{ __html: getColorDifficulty(problem.difficulty) }} />
               </Typography>
-        </Grid>
-        <Grid item xs={6}>
-        <Typography>Problem type: {problem.problem_type}</Typography>
-
-        </Grid>
-        <Grid item xs={6}>
-        <Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography>Problem type: {problem.problem_type}</Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography>
                 Time limit: {problem.max_execution_time} s
               </Typography>
-        </Grid>
-        <Grid item xs={6}>
-        <Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography>
                 Memory limit: {problem.max_memory_limit} MB
               </Typography>
-        </Grid>
-      </Grid>
-    </Box>
+            </Grid>
+          </Grid>
+        </Box>
       </Box>
       <div dangerouslySetInnerHTML={{ __html: problem.description }} />
     </Box>

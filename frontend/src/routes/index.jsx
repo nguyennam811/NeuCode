@@ -17,6 +17,7 @@ import ProblemsTeacher from "../pages/Teacher/ProblemsTeacher";
 import ProblemDetailTeacher from "../pages/Teacher/ProblemsTeacher/ProblemDetailTeacher";
 import ProblemList from "../pages/Admin/ProblemList";
 import CoursesTeacher from "../pages/Teacher/CoursesTeacher";
+import CourseAssignmentList from "../pages/Teacher/CoursesTeacher/CourseAssignmentList";
 
 const tokenLoader = () => {
   const token = getAuthToken();
@@ -101,6 +102,16 @@ const router = [
             path: "courses",
             loader: tokenLoader,
             element: <CoursesTeacher />,
+          },
+          {
+            path: "courses/:id",
+            loader: tokenLoader,
+            element: <CourseAssignmentList />,
+          },
+          {
+            path: "courses/:id/students",
+            loader: tokenLoader,
+            element: <About />,
           },
           {
             path: "*",

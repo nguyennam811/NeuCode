@@ -8,10 +8,11 @@ const CheckboxField = (props) => {
         <Checkbox
           id={props.id}
           onChange={(e) => props.setFieldValue(props.id, e.target.checked)}
-          defaultChecked={!!props.value}
+          // defaultChecked={!!props.value}
+          checked={props.value}
         />
       }
-      label={props.title}
+      // label={props.title}
       labelPlacement='end'
     />
   );

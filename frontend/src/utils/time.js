@@ -45,9 +45,9 @@ export const formatTimeSubmit = (timeSubmit) => {
   const seconds = isoDate.getSeconds();
 
   // Định dạng lại các giá trị thành chuỗi với định dạng mong muốn
-  const formattedDate = `${day < 10 ? "0" : ""}${day}-${
+  const formattedDate = `${day < 10 ? "0" : ""}${day}/${
     month < 10 ? "0" : ""
-  }${month}-${year} ${hours}:${minutes}:${seconds}`;
+  }${month}/${year} ${hours}:${minutes}:${seconds}`;
 
   return formattedDate;
 };

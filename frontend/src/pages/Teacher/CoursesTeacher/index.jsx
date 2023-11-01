@@ -17,15 +17,15 @@ import {
 import TableFrameDetail from "../../../components/TableFrame/TableFrameDetail";
 import { useMemo } from "react";
 import { formatResponseTime } from "../../../utils/time";
-import { VisibilityOutlined } from "@mui/icons-material";
 import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
 import CourseCreateFormDialog from "./CourseCreateFormDialog";
 import { useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import ErrorData from "../../ErrorData";
 import CourseUpdateFormDialog from "./CourseUpdateFormDialog";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import GroupsIcon from "@mui/icons-material/Groups";
+
 export const coursesTableHeaders = [
   {
     id: "course_name",
@@ -86,6 +86,7 @@ export const coursesTableHeaders = [
 
 const CoursesTeacher = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const current_user = useLoaderData();
   const [isShowCreateDialog, setIsShowCreateDialog] = useState(false);
   const [editingCourse, setEditingCourse] = useState();
@@ -215,9 +216,9 @@ const CoursesTeacher = () => {
               <IconButton
                 aria-label="view"
                 color="info"
-                // onClick={() => {
-                //   navigate(`${problem.id}`);
-                // }}
+                onClick={() => {
+                  navigate(`${course.id}`);
+                }}
               >
                 <ListAltIcon />
               </IconButton>
@@ -226,9 +227,9 @@ const CoursesTeacher = () => {
               <IconButton
                 aria-label="view"
                 color="error"
-                // onClick={() => {
-                //   navigate(`${problem.id}`);
-                // }}
+                onClick={() => {
+                  navigate(`${course.id}/students`);
+                }}
               >
                 <GroupsIcon />
               </IconButton>

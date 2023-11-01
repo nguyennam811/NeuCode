@@ -450,6 +450,7 @@ import AddTestDialog from "./ProblemTest/AddTestDialog";
 import UpdateTestDialog from "./ProblemTest/UpdateTestDialog";
 import { VisibilityOutlined } from "@mui/icons-material";
 import { useLoaderData, useNavigate } from "react-router-dom";
+import { getColorDifficulty } from "../../../utils/status";
 
 export const problemsTableHeaders = [
   {
@@ -489,7 +490,8 @@ export const problemsTableHeaders = [
     label: "Difficulty",
     numeric: false,
     disablePadding: false,
-    renderFn: (problem) => problem.difficulty,
+    renderFn: (problem) => <div dangerouslySetInnerHTML={{ __html: getColorDifficulty(problem.difficulty) }} />,
+
     descComparatorFn: (a, b) => {
       if (b.difficulty < a.difficulty) {
         return -1;

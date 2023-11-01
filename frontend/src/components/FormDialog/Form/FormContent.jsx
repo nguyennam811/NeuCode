@@ -2,11 +2,16 @@ import React from "react";
 import { Form, FormikProps, useFormikContext } from "formik";
 import AutocompleteField from "../FieldTypes/AutocompleteField";
 import SelectField from "../FieldTypes/SelectField";
-import { FormHelperText, Grid, Stack } from "@mui/material";
+import { FormHelperText, Grid, Stack, Typography } from "@mui/material";
 import CheckboxField from "../FieldTypes/CheckboxField";
 import InputField from "../FieldTypes/InputField";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import dayjs from 'dayjs';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+
 const FormContent = ({ formFields, onSave, numOfColumns, submitError }) => {
   const formikProps = useFormikContext();
   const toolbarOptions = [
@@ -81,15 +86,20 @@ const FormContent = ({ formFields, onSave, numOfColumns, submitError }) => {
             );
           } else if (field.type === "checkbox") {
             fieldContent = (
+              <>
+              <Typography variant="body1" sx={{color:'#0009'}}>{field.title}</Typography>
               <CheckboxField
                 id={field.id}
                 title={field.title}
                 value={formikProps.values[field.id]}
                 setFieldValue={formikProps.setFieldValue}
               />
+              </>
             );
           } else if (field.type === "react-quill") {
             fieldContent = (
+              <>
+              <Typography variant="body1" sx={{color:'#0009'}}>{field.title}</Typography>
               <ReactQuill
                 theme="snow"
                 value={formikProps.values[field.id]}
@@ -97,6 +107,20 @@ const FormContent = ({ formFields, onSave, numOfColumns, submitError }) => {
                 modules={modules}
                 className="react_quill"
               />
+              </>
+            );
+          } else if (field.type === "date") {
+            fieldContent = (
+              <>
+              <Typography variant="body1" sx={{color:'#0009'}}>{field.title}</Typography>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DateTimePicker
+                    value={formikProps.values[field.id]}
+                    onChange={(value) => formikProps.setFieldValue(field.id, value)}
+                    referenceDate={dayjs(Date.now())}
+                  />
+              </LocalizationProvider>
+              </>
             );
           } else {
             fieldContent = (

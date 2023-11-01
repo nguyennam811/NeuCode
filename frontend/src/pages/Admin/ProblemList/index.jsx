@@ -23,6 +23,7 @@ import ProblemUpdateFormDialog from "../../Teacher/ProblemsTeacher/ProblemUpdate
 import ProblemCreateFormDialog from "../../Teacher/ProblemsTeacher/ProblemCreateFormDialog";
 import AddTestDialog from "../../Teacher/ProblemsTeacher/ProblemTest/AddTestDialog";
 import UpdateTestDialog from "../../Teacher/ProblemsTeacher/ProblemTest/UpdateTestDialog";
+import { getColorDifficulty } from "../../../utils/status";
 
 
 export const problemsTableHeaders = [
@@ -63,7 +64,7 @@ export const problemsTableHeaders = [
     label: "Difficulty",
     numeric: false,
     disablePadding: false,
-    renderFn: (problem) => problem.difficulty,
+    renderFn: (problem) => <div dangerouslySetInnerHTML={{ __html: getColorDifficulty(problem.difficulty) }} />,
     descComparatorFn: (a, b) => {
       if (b.difficulty < a.difficulty) {
         return -1;

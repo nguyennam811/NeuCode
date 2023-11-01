@@ -12,12 +12,12 @@ export const getCellColor = (statusData) => {
 export const getColorDifficulty = (difficulty) => {
   switch (difficulty) {
     case "Dễ":
-      return "green";
+      return "<span style='color: green;'>Dễ</span>";
     case "Trung bình":
-      return "blue";
+      return "<span style='color: blue;'>Trung bình</span>";
     case "Khó":
-      return "red";
+      return "<span style='color: red;'>Khó</span>";
     default:
-      return "black";
+      return "<span style='color: black;'>Khác</span>";
   }
 };

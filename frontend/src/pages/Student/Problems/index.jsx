@@ -7,6 +7,7 @@ import { getProblems } from "../../../store/actions/problemAction";
 import { formatResponseTime } from "../../../utils/time";
 import ErrorData from "../../ErrorData";
 import FilterProblems from "./FilterProblems";
+import { getColorDifficulty } from "../../../utils/status";
 
 export const problemsTableHeaders = [
   {
@@ -46,7 +47,8 @@ export const problemsTableHeaders = [
     label: "Difficulty",
     numeric: false,
     disablePadding: false,
-    renderFn: (problem) => problem.difficulty,
+    renderFn: (problem) => <div dangerouslySetInnerHTML={{ __html: getColorDifficulty(problem.difficulty) }} />,
+
     descComparatorFn: (a, b) => {
       if (b.difficulty < a.difficulty) {
         return -1;

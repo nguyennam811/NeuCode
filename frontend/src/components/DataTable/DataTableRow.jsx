@@ -1,8 +1,7 @@
 import React from "react";
 import { Checkbox, TableCell, TableRow, styled } from "@mui/material";
 import useDataTable from "../../hooks/use-data-table";
-import { Link, useLoaderData } from "react-router-dom";
-import { getColorDifficulty } from "../../utils/status";
+import { Link, useLoaderData, useLocation } from "react-router-dom";
 // import { getCurrentUser } from "../../utils/auth";
 
 const DataTableRow = ({ labelId, row }) => {
@@ -14,7 +13,7 @@ const DataTableRow = ({ labelId, row }) => {
   const isItemSelected = isSelected(row.id);
 
   // const current_user = getCurrentUser();
-
+  const location = useLocation();
   return (
     <>
       {showCheckbox === true ? (
@@ -23,7 +22,8 @@ const DataTableRow = ({ labelId, row }) => {
           // onClick={(e) => handleSelectRow(e, row.id)}
           onClick={(e) => {
             // Kiểm tra nếu problem.user_id trùng với current_user.sub
-            if (row.user_id === current_user.sub || row.teacher_id === current_user.sub) {
+            // if (row.user_id === current_user.sub || row.teacher_id === current_user.sub || location.pathname.includes('courses')) {
+            if (row.user_id === current_user.sub || location.pathname.includes('courses')) {
               handleSelectRow(e, row.id);
             }
           }}
@@ -34,7 +34,8 @@ const DataTableRow = ({ labelId, row }) => {
           selected={showCheckbox && isItemSelected}
           // sx={{ cursor: "pointer" }}
           sx={{
-            cursor: row.user_id === current_user.sub || row.teacher_id === current_user.sub ? "pointer" : "default",
+            // cursor: row.user_id === current_user.sub || row.teacher_id === current_user.sub || location.pathname.includes('courses') ? "pointer" : "default",
+            cursor: row.user_id === current_user.sub || location.pathname.includes('courses') ? "pointer" : "default",
           }}
         >
           <TableCell padding="checkbox">
@@ -50,17 +51,7 @@ const DataTableRow = ({ labelId, row }) => {
               key={`${row.id}--${headCell.id.toString()}`}
               align={headCell.numeric ? "center" : "left"}
             >
-              {headCell.id === "difficulty" ? (
-                <span
-                  style={{
-                    color: getColorDifficulty(row.difficulty),
-                  }}
-                >
                   {headCell.renderFn(row)}
-                </span>
-              ) : (
-                headCell.renderFn(row)
-              )}
             </TableCell>
           ))}
         </TableRow>
@@ -89,14 +80,6 @@ const DataTableRow = ({ labelId, row }) => {
                 >
                   {headCell.renderFn(row)}
                 </Link>
-              ) : headCell.id === "difficulty" ? (
-                <span
-                  style={{
-                    color: getColorDifficulty(row.difficulty),
-                  }}
-                >
-                  {headCell.renderFn(row)}
-                </span>
               ) : (
                 headCell.renderFn(row)
               )}
