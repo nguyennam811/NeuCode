@@ -8,7 +8,7 @@ class Assignment(BaseModel):
     problem_id: str
     course_id: str
     deadline: Optional[datetime.datetime]
-    isPublic: bool
+    is_public: bool
 
 class ShowAssignment(Assignment):
     id: str
@@ -17,4 +17,10 @@ class ShowAssignment(Assignment):
     created: datetime.datetime
     updated: Optional[datetime.datetime]
     class Config():
+        orm_mode = True
+
+class ResponseAssignments(BaseModel):
+    total: int
+    data: List[ShowAssignment]
+    class Config:
         orm_mode = True

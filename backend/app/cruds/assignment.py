@@ -1,11 +1,37 @@
 from sqlalchemy.orm import Session
 from .. import models, schemas
 from fastapi import HTTPException, status
+from sqlalchemy import select, text, func, delete
 
+def get_assignments_with_conditions(db: Session, offset: int, limit: int, conditions):
+    statement = select(models.Assignment).where(text(' and '.join(conditions))).offset(
+        offset).limit(limit).order_by(models.Assignment.created.desc())
+    return db.execute(statement).scalars().all()
 
-def get_assignment_all(db: Session):
-    assignments = db.query(models.Assignment).all()
-    return assignments
+def count_assignment_with_conditions(db: Session, conditions):
+    return db.query(func.count(models.Assignment.id)).where(text(' and '.join(conditions))).scalar()
+def get_assignment_all(
+        db: Session,
+        search_key: str,
+        search_value: str,
+        course_id: str,
+        offset: int = 0,
+        limit: int = 30,
+):
+    # assignments = db.query(models.Assignment).all()
+    # return assignments
+    conditions = []
+    if course_id:
+        conditions.append(f"course_id = '{course_id}'")
+
+    if search_value != '':
+        conditions.append(f"cast({search_key} as varchar) like('%{search_value}%')")
+    print(conditions)
+
+    return {
+        'data': get_assignments_with_conditions(db=db, offset=offset, limit=limit, conditions=conditions),
+        'total': count_assignment_with_conditions(db=db, conditions=conditions)
+    }
 
 def create_assignment(request: schemas.Assignment, db: Session):
     new_assignment = models.Assignment(**request.dict())

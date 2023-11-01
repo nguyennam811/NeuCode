@@ -19,7 +19,7 @@ class Problem(BaseModel):
 
 class ProblemAssignment(Problem):
     deadline: Optional[datetime.datetime]  # Sử dụng kiểu dữ liệu datetime từ thư viện Python
-    isPublic: Optional[bool]
+    is_public: Optional[bool]
 
 class ShowProblem(Problem):
     user: Optional[ShowUser]

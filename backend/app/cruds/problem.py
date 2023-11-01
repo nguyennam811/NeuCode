@@ -1,15 +1,35 @@
 from sqlalchemy.orm import Session
 from .. import models, schemas
 from fastapi import HTTPException, status
-from sqlalchemy import select, update, delete, and_, text, func
+from sqlalchemy import select, update, delete, and_, text, func, or_
 from typing import List
+
+
 def get_problems_with_conditions(db: Session, offset: int, limit: int, conditions):
-    statement = select(models.Problem).where(text(' or '.join(conditions))).offset(
-        offset).limit(limit).order_by(models.Problem.created.desc())
+    # statement = select(models.Problem).where(text(' or '.join(conditions))).offset(
+    #     offset).limit(limit).order_by(models.Problem.created.desc())
+    # return db.execute(statement).scalars().all()
+
+    statement = select(models.Problem).where(
+        and_(
+            text(
+                'problems.id not in (select p.id from problems as p, assignments where assignments.is_public is false and assignments.problem_id = problems.id)'),
+            text(' or '.join(conditions)),
+        )
+    ).offset(offset).limit(limit).order_by(models.Problem.created.desc())
+
+    print(statement)
+
     return db.execute(statement).scalars().all()
 
+
 def count_problem_with_conditions(db: Session, conditions):
-    return db.query(func.count(models.Problem.id)).where(text(' or '.join(conditions))).scalar()
+    return db.query(func.count(models.Problem.id)).where(and_(
+        text(
+            'problems.id not in (select p.id from problems as p, assignments where assignments.is_public is false and assignments.problem_id = problems.id)'),
+        text(' or '.join(conditions)),
+    )).scalar()
+
 
 def get_problem_all(
         db: Session,
@@ -43,6 +63,7 @@ def get_problem_all(
         'total': count_problem_with_conditions(db=db, conditions=conditions)
     }
 
+
 def create_problem(request: schemas.ProblemAssignment, db: Session, course_id: str):
     new_problem_data = {
         "id": request.id,
@@ -67,7 +88,7 @@ def create_problem(request: schemas.ProblemAssignment, db: Session, course_id: s
                 'problem_id': new_problem.id,
                 'course_id': course_id,
                 'deadline': request.deadline,
-                'isPublic': request.isPublic,
+                'is_public': request.is_public,
             }
             new_assignment = models.Assignment(**assignment_data)
             db.add(new_assignment)
@@ -81,11 +102,13 @@ def create_problem(request: schemas.ProblemAssignment, db: Session, course_id: s
 
     return new_problem
 
+
 def get_problem_by_id(id: str, db: Session):
     problem = db.query(models.Problem).filter(models.Problem.id == id).first()
     if not problem:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="problem not found")
     return problem
+
 
 def update_problem(id: str, request: schemas.Problem, db: Session):
     problem = db.query(models.Problem).filter(models.Problem.id == id)

@@ -24,13 +24,17 @@ def get_course_all(
     # statement = select(models.Course).offset(offset).limit(limit).order_by(
     #     models.Course.created)
     # return db.execute(statement).scalars().all()
-    arr = [
-        f"teacher_id = '{teacher_id}'",
-    ]
+
+    # arr = [
+    #     f"teacher_id = '{teacher_id}'",
+    # ]
+    # conditions = []
+    # for item in arr:
+    #     if isinstance(item, str):  # Kiểm tra nếu item là chuỗi
+    #         conditions.append('(' + item + ')')
     conditions = []
-    for item in arr:
-        if isinstance(item, str):  # Kiểm tra nếu item là chuỗi
-            conditions.append('(' + item + ')')
+    if teacher_id:
+        conditions.append(f"teacher_id = '{teacher_id}'")
 
     if search_value != '':
         conditions.append(f"cast({search_key} as varchar) like('%{search_value}%')")

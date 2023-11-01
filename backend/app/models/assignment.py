@@ -14,7 +14,7 @@ class Assignment(Base, TimeModel):
     course_id = Column(String, ForeignKey('courses.id', ondelete='CASCADE'), nullable=False)
 
     deadline = Column(DateTime(timezone=True), nullable=True)
-    isPublic = Column(Boolean, nullable=False, default=False)
+    is_public = Column(Boolean, nullable=False, default=False)
 
     problems = relationship("Problem", back_populates="assignment")
     courses = relationship("Course", back_populates="assignment")
