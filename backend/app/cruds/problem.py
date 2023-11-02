@@ -18,8 +18,6 @@ def get_problems_with_conditions(db: Session, offset: int, limit: int, condition
         )
     ).offset(offset).limit(limit).order_by(models.Problem.created.desc())
 
-    print(statement)
-
     return db.execute(statement).scalars().all()
 
 
@@ -110,30 +108,81 @@ def get_problem_by_id(id: str, db: Session):
     return problem
 
 
-def update_problem(id: str, request: schemas.Problem, db: Session):
-    problem = db.query(models.Problem).filter(models.Problem.id == id)
-    if not problem.first():
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'not found {id}')
-    problem.update(request.dict(), synchronize_session=False)
-    db.commit()
-    return problem.first()
-    # updated_problem = problem.first()
-    # if updated_problem:
-    #     return updated_problem
-    # else:
-    #     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'not found {id}')
-
-
-# def delete_problem(id: str, db: Session):
+# def update_problem(id: str, request: schemas.Problem, db: Session):
 #     problem = db.query(models.Problem).filter(models.Problem.id == id)
 #     if not problem.first():
-#         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'problem with id {id} not found')
-#     problem.delete(synchronize_session=False)
-#     # Tham số synchronize_session=False được sử dụng để chỉ định rằng đối tượng problem không cần được đồng bộ hóa
-#     # với phiên làm việc (session) hiện tại. Tham số này giúp tối ưu hóa hiệu suất và tránh các tình
-#     # huống đồng bộ hóa không cần thiết
+#         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'not found {id}')
+#     problem.update(request.dict(), synchronize_session=False)
 #     db.commit()
-#     return 'deleted problem'
+#     return problem.first()
+
+def update_problem(request: schemas.ProblemAssignment, db: Session, course_id: str):
+
+    # problem = db.query(models.Problem).filter(models.Problem.id == request.id).first()
+    # if not problem:
+    #     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'not found {id}')
+    #
+    # new_problem_data = {
+    #     "id": request.id,
+    #     "user_id": request.user_id,
+    #     "title": request.title,
+    #     "difficulty": request.difficulty,
+    #     "problem_type": request.problem_type,
+    #     "description": request.description,
+    #     "max_memory_limit": request.max_memory_limit,
+    #     "max_execution_time": request.max_execution_time,
+    # }
+    #
+    # if course_id is not None:
+    #     assignment = db.query(models.Assignment).filter(models.Assignment.course_id == course_id, models.Assignment.problem_id == request.id).first()
+    #     if assignment is not None:
+    #         # new_problem = models.Problem(**new_problem_data)
+    #         problem.update(new_problem_data.dict(), synchronize_session=False)
+    #         db.commit()
+    #
+    #         assignment_data = {
+    #             'deadline': request.deadline,
+    #             'is_public': request.is_public,
+    #         }
+    #         assignment.update(assignment_data.dict(), synchronize_session=False)
+    #         db.commit()
+    #     else:
+    #         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Course not found")
+    # else:
+    #     problem.update(new_problem_data.dict(), synchronize_session=False)
+    #     db.commit()
+    #
+    # return 'new_problem'
+    problem = db.query(models.Problem).filter(models.Problem.id == request.id).first()
+    if not problem:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'not found {id}')
+
+    # Cập nhật từng trường trong đối tượng Problem
+    problem.id = request.id
+    problem.user_id = request.user_id
+    problem.title = request.title
+    problem.difficulty = request.difficulty
+    problem.problem_type = request.problem_type
+    problem.description = request.description
+    problem.max_memory_limit = request.max_memory_limit
+    problem.max_execution_time = request.max_execution_time
+
+    if course_id is not None:
+        assignment = db.query(models.Assignment).filter(models.Assignment.course_id == course_id,
+                                                        models.Assignment.problem_id == request.id).first()
+        if assignment is not None:
+            # Cập nhật từng trường trong đối tượng Assignment
+            assignment.deadline = request.deadline
+            assignment.is_public = request.is_public
+
+        else:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Course not found")
+
+    # Lưu thay đổi vào cơ sở dữ liệu
+    db.commit()
+
+    return 'new_problem'
+
 
 def delete_problem(db: Session, problem_ids: List[str]):
     statement = delete(models.Problem).where(models.Problem.id.in_(problem_ids)).returning(models.Problem.id)

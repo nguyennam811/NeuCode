@@ -36,6 +36,6 @@ async def get_assignment_by_id(id: str, db: Session = Depends(get_db)):
 async def update_assignment(id: str, request: schemas.Assignment, db: Session = Depends(get_db)):
     return assignment.update_assignment(id, request, db)
 
-@router.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
-async def delete_assignment(id: str, db: Session = Depends(get_db)):
-    return assignment.delete_assignment(id, db)
+@router.delete('/', status_code=status.HTTP_204_NO_CONTENT)
+async def delete_assignment(assignment_ids: List[str] = Query(default=[], alias='id'), db: Session = Depends(get_db)):
+    return assignment.delete_assignment(db=db, assignment_ids=assignment_ids)

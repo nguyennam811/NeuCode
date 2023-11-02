@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from .. import models, schemas
 from fastapi import HTTPException, status
 from sqlalchemy import select, text, func, delete
+from typing import List
 
 def get_assignments_with_conditions(db: Session, offset: int, limit: int, conditions):
     statement = select(models.Assignment).where(text(' and '.join(conditions))).offset(
@@ -54,13 +55,9 @@ def update_assignment(id: str, request: schemas.Assignment, db: Session):
     db.commit()
     return 'updated assignment'
 
-def delete_assignment(id: str, db: Session):
-    assignment = db.query(models.Assignment).filter(models.Assignment.id == id)
-    if not assignment.first():
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'assignment with id {id} not found')
-    assignment.delete(synchronize_session=False)
-    # Tham số synchronize_session=False được sử dụng để chỉ định rằng đối tượng assignment không cần được đồng bộ hóa
-    # với phiên làm việc (session) hiện tại. Tham số này giúp tối ưu hóa hiệu suất và tránh các tình
-    # huống đồng bộ hóa không cần thiết
+
+def delete_assignment(db: Session, assignment_ids: List[str]):
+    statement = delete(models.Assignment).where(models.Assignment.id.in_(assignment_ids)).returning(models.Assignment.id)
+    db.execute(statement).scalars().all()
     db.commit()
-    return 'deleted assignment'
+    return None

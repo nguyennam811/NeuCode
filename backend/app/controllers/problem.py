@@ -37,13 +37,13 @@ async def create_problem(request: schemas.ProblemAssignment, db: Session = Depen
 async def get_problem_by_id(id: str, db: Session = Depends(get_db)):
     return problem.get_problem_by_id(id, db)
 
-@router.put('/{id}', status_code=status.HTTP_202_ACCEPTED)
-async def update_problem(id: str, request: schemas.Problem, db: Session = Depends(get_db)):
-    return problem.update_problem(id, request, db)
+# @router.put('/{id}', status_code=status.HTTP_202_ACCEPTED)
+# async def update_problem(id: str, request: schemas.Problem, db: Session = Depends(get_db)):
+#     return problem.update_problem(id, request, db)
 
-# @router.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
-# async def delete_problem(id: str, db: Session = Depends(get_db)):
-#     return problem.delete_problem(id, db)
+@router.put('/', status_code=status.HTTP_202_ACCEPTED)
+async def update_problem(request: schemas.ProblemAssignment, db: Session = Depends(get_db), course_id: str = Query(None, description="Course ID (default is None)")):
+    return problem.update_problem(request, db, course_id)
 
 @router.delete('/', status_code=status.HTTP_204_NO_CONTENT)
 async def delete_problem(problem_ids: List[str] = Query(default=[], alias='id'), db: Session = Depends(get_db)):
