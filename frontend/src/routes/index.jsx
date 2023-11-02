@@ -18,6 +18,7 @@ import ProblemDetailTeacher from "../pages/Teacher/ProblemsTeacher/ProblemDetail
 import ProblemList from "../pages/Admin/ProblemList";
 import CoursesTeacher from "../pages/Teacher/CoursesTeacher";
 import CourseAssignmentList from "../pages/Teacher/CoursesTeacher/CourseAssignmentList";
+import StudentList from "../pages/Teacher/CoursesTeacher/StudentList";
 
 const tokenLoader = () => {
   const token = getAuthToken();
@@ -111,7 +112,7 @@ const router = [
           {
             path: "courses/:id/students",
             loader: tokenLoader,
-            element: <About />,
+            element: <StudentList />,
           },
           {
             path: "*",

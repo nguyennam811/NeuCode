@@ -10,11 +10,6 @@ function FilterProblems({ data, onSearchFilter }) {
   const [values, setValues] = useState({});
 
   let keys = Object.keys(values);
-  let valuesInObj = Object.values(values);
-
-  let isDisabled =
-    keys.length === 0 ||
-    valuesInObj.reduce((pre, cur) => pre + (cur === '' ? 1 : 0), 0) !== 0;
 
   const difficultyOptions = [
     { value: "EASY", label: "Dễ" },
@@ -110,7 +105,14 @@ function FilterProblems({ data, onSearchFilter }) {
               variant="outlined"
               fullWidth
               value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
+              disabled={filtered}
+              onChange={(e) => {
+
+                setSearchValue(e.target.value);
+                setFiltered(filtered);
+              }
+              
+              }
             />
           </Box>
           {filterOptions.map((filter) => (
@@ -155,7 +157,6 @@ function FilterProblems({ data, onSearchFilter }) {
                 setFiltered(!filtered);
               }}
               fullWidth
-              disabled={isDisabled}
             >
               {filtered ? 'Unfilter' : 'Filter'}
             </Button>

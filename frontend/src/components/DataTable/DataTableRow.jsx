@@ -1,8 +1,7 @@
 import React from "react";
-import { Checkbox, TableCell, TableRow, styled } from "@mui/material";
+import { Checkbox, TableCell, TableRow } from "@mui/material";
 import useDataTable from "../../hooks/use-data-table";
-import { Link, useLoaderData, useLocation } from "react-router-dom";
-// import { getCurrentUser } from "../../utils/auth";
+import { useLoaderData, useLocation } from "react-router-dom";
 
 const DataTableRow = ({ labelId, row }) => {
   const dataTableCtx = useDataTable();
@@ -11,8 +10,6 @@ const DataTableRow = ({ labelId, row }) => {
   const headCells = dataTableCtx.headCells;
   const { isSelected, handleSelectRow } = dataTableCtx;
   const isItemSelected = isSelected(row.id);
-
-  // const current_user = getCurrentUser();
   const location = useLocation();
   return (
     <>
@@ -21,8 +18,6 @@ const DataTableRow = ({ labelId, row }) => {
           hover
           // onClick={(e) => handleSelectRow(e, row.id)}
           onClick={(e) => {
-            // Kiểm tra nếu problem.user_id trùng với current_user.sub
-            // if (row.user_id === current_user.sub || row.teacher_id === current_user.sub || location.pathname.includes('courses')) {
             if (row.user_id === current_user.sub || location.pathname.includes('courses')) {
               handleSelectRow(e, row.id);
             }
@@ -32,9 +27,7 @@ const DataTableRow = ({ labelId, row }) => {
           tabIndex={-1}
           key={row.id}
           selected={showCheckbox && isItemSelected}
-          // sx={{ cursor: "pointer" }}
           sx={{
-            // cursor: row.user_id === current_user.sub || row.teacher_id === current_user.sub || location.pathname.includes('courses') ? "pointer" : "default",
             cursor: row.user_id === current_user.sub || location.pathname.includes('courses') ? "pointer" : "default",
           }}
         >
@@ -68,21 +61,7 @@ const DataTableRow = ({ labelId, row }) => {
               key={`${row.id}--${headCell.id.toString()}`}
               align={headCell.numeric ? "center" : "left"}
             >
-              {headCell.id === "title" ? (
-                <Link
-                  to={`${row.id}`}
-                  style={{
-                    color: "black",
-                    textDecoration: "none",
-                  }}
-                  onMouseEnter={(e) => (e.target.style.color = "red")}
-                  onMouseLeave={(e) => (e.target.style.color = "black")}
-                >
-                  {headCell.renderFn(row)}
-                </Link>
-              ) : (
-                headCell.renderFn(row)
-              )}
+                {headCell.renderFn(row)}
             </TableCell>
           ))}
         </TableRow>

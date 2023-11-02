@@ -5,13 +5,17 @@ import {
   ButtonGroup,
   IconButton,
   Tooltip,
-  Typography,
 } from "@mui/material";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
-import { addAssignment, deleteAssignments, getAssignments, updateAssignment } from "../../../../store/actions/assignmentAction";
+import {
+  addAssignment,
+  deleteAssignments,
+  getAssignments,
+  updateAssignment,
+} from "../../../../store/actions/assignmentAction";
 import ErrorData from "../../../ErrorData";
 import TableFrameDetail from "../../../../components/TableFrame/TableFrameDetail";
 import { formatResponseTime, formatTimeSubmit } from "../../../../utils/time";
@@ -23,7 +27,8 @@ import AssignmentCreateFormDialog from "./AssignmentCreateFormDialog";
 import AddTestDialog from "../../ProblemsTeacher/ProblemTest/AddTestDialog";
 import UpdateTestDialog from "../../ProblemsTeacher/ProblemTest/UpdateTestDialog";
 import AssignmentUpdateFormDialog from "./AssignmentUpdateFormDialog";
-
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import AssignmentSubmission from "./AssignmentSubmission";
 export const assignmentsTableHeaders = [
   {
     id: "course_name",
@@ -76,7 +81,6 @@ export const assignmentsTableHeaders = [
     label: "Difficulty",
     numeric: false,
     disablePadding: false,
-    // renderFn: (assignment) => assignment.problems.difficulty,
     renderFn: (assignment) => (
       <div
         dangerouslySetInnerHTML={{
@@ -100,6 +104,8 @@ const CoursesList = () => {
   const courseId = useParams();
   const [isShowCreateDialog, setIsShowCreateDialog] = useState(false);
   const [editingAssignment, setEditingAssignment] = useState();
+  const [isSubmission, setIsSubmission] = useState(false);
+
   const [fetchingParams, setFetchingParams] = useState({
     offset: 0,
     limit: 10,
@@ -213,30 +219,30 @@ const CoursesList = () => {
         numeric: false,
         disablePadding: false,
         renderFn: (assignment) => {
-            return assignment.problems.tests.length === 0 ? (
-              <Button
-                color="error"
-                variant="outlined"
-                onClick={(e) => {
-                  e.stopPropagation(); // Ngăn sự kiện click lan truyền lên phần tử cha
-                  handleClickOpen(assignment.problem_id);
-                  // Thêm mã xử lý tại đây để thực hiện hành động khi click vào nút "Thêm Test"
-                }}
-              >
-                Thêm Test
-              </Button>
-            ) : (
-              <Button
-                variant="outlined"
-                onClick={(e) => {
-                  e.stopPropagation(); // Ngăn sự kiện click lan truyền lên phần tử cha
-                  XemTest(assignment.problems.tests, assignment.problem_id);
-                  // Thêm mã xử lý tại đây để thực hiện hành động khi click vào nút "Thêm Test"
-                }}
-              >
-                Xem Test
-              </Button>
-            );
+          return assignment.problems.tests.length === 0 ? (
+            <Button
+              color="error"
+              variant="outlined"
+              onClick={(e) => {
+                e.stopPropagation(); // Ngăn sự kiện click lan truyền lên phần tử cha
+                handleClickOpen(assignment.problem_id);
+                // Thêm mã xử lý tại đây để thực hiện hành động khi click vào nút "Thêm Test"
+              }}
+            >
+              Thêm Test
+            </Button>
+          ) : (
+            <Button
+              variant="outlined"
+              onClick={(e) => {
+                e.stopPropagation(); // Ngăn sự kiện click lan truyền lên phần tử cha
+                XemTest(assignment.problems.tests, assignment.problem_id);
+                // Thêm mã xử lý tại đây để thực hiện hành động khi click vào nút "Thêm Test"
+              }}
+            >
+              Xem Test
+            </Button>
+          );
         },
       },
       {
@@ -291,10 +297,23 @@ const CoursesList = () => {
                 aria-label="edit device type"
                 onClick={(e) => {
                   e.stopPropagation();
-                    setEditingAssignment(assignment);
+                  setEditingAssignment(assignment);
                 }}
               >
                 <ModeEditOutlinedIcon />
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title="Submission">
+              <IconButton
+                color="inherit"
+                aria-label="submission student"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsSubmission(true);
+                }}
+              >
+                <AssignmentIndIcon />
               </IconButton>
             </Tooltip>
 
@@ -326,7 +345,7 @@ const CoursesList = () => {
         />
       )}
 
-{isEditing && (
+      {isEditing && (
         <AssignmentUpdateFormDialog
           row={editingAssignment}
           open={isEditing}
@@ -344,7 +363,7 @@ const CoursesList = () => {
             max_execution_time: assignment.problems.max_execution_time ?? "",
             description: assignment.problems.description ?? "",
             deadline: assignment.deadline,
-            is_public: assignment.is_public
+            is_public: assignment.is_public,
           })}
         />
       )}
@@ -384,6 +403,11 @@ const CoursesList = () => {
         selectedProblemTests={selectedProblemTests}
         selectedProblemId={selectedProblemId}
         onSubmit={handleSubmitTest}
+      />
+
+      <AssignmentSubmission
+        isSubmission={isSubmission}
+        setIsSubmission={setIsSubmission}
       />
     </>
   );

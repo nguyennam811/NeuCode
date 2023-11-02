@@ -8,6 +8,7 @@ import { formatResponseTime } from "../../../utils/time";
 import ErrorData from "../../ErrorData";
 import FilterProblems from "./FilterProblems";
 import { getColorDifficulty } from "../../../utils/status";
+import { Link } from "react-router-dom";
 
 export const problemsTableHeaders = [
   {
@@ -15,7 +16,19 @@ export const problemsTableHeaders = [
     label: "ID",
     numeric: false,
     disablePadding: false,
-    renderFn: (problem) => problem.id,
+    renderFn: (problem) => (
+      <Link
+        to={`${problem.id}`}
+        style={{
+          color: "black",
+          textDecoration: "none",
+        }}
+        onMouseEnter={(e) => (e.target.style.color = "red")}
+        onMouseLeave={(e) => (e.target.style.color = "black")}
+      >
+        {problem.id}
+      </Link>
+    ),
     descComparatorFn: (a, b) => {
       if (b.id < a.id) {
         return -1;
@@ -31,7 +44,19 @@ export const problemsTableHeaders = [
     label: "Title",
     numeric: false,
     disablePadding: false,
-    renderFn: (problem) => problem.title,
+    renderFn: (problem) => (
+      <Link
+        to={`${problem.id}`}
+        style={{
+          color: "black",
+          textDecoration: "none",
+        }}
+        onMouseEnter={(e) => (e.target.style.color = "red")}
+        onMouseLeave={(e) => (e.target.style.color = "black")}
+      >
+        {problem.title}
+      </Link>
+    ),
     descComparatorFn: (a, b) => {
       if (b.title < a.title) {
         return -1;
