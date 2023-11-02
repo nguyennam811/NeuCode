@@ -40,43 +40,43 @@ const assignmentSlice = createSlice({
     builder.addCase(assignment.addAssignment.rejected, (state, action) => {
       state.status = "error";
       state.error = action.error.message;
-      toast.error(`Add Assignment is Error: ${state.error}`);
+      toast.error(`Add Assignment is Error: ${state.error} Or ID Problem Already Exists.`);
     });
 
-  //   // Update Course 
-  //   builder.addCase(course.updateCourse.pending, (state) => {
-  //     state.status = 'loading'
-  // })
+    // Update Assignment 
+    builder.addCase(assignment.updateAssignment.pending, (state) => {
+      state.status = 'loading'
+  })
   
-  // builder.addCase(course.updateCourse.fulfilled, (state, action) => {
-  //     state.data = action.payload
-  //     state.status = 'success'
-  //     toast.success("Update Course Successfully");
+  builder.addCase(assignment.updateAssignment.fulfilled, (state, action) => {
+      state.data = action.payload
+      state.status = 'success'
+      toast.success("Update Assignment Successfully");
 
-  // })
+  })
 
-  // builder.addCase(course.updateCourse.rejected, (state, action) => {
-  //     state.status = 'error'
-  //     state.error = action.error.message;
-  //     toast.error(`Update Course is Error: ${state.error}`);
-  // })
+  builder.addCase(assignment.updateAssignment.rejected, (state, action) => {
+      state.status = 'error'
+      state.error = action.error.message;
+      toast.error(`Update Assignment is Error: ${state.error}`);
+  })
 
-  //   // delete Course
-  //   builder.addCase(course.deleteCourses.pending, (state) => {
-  //       state.status = 'loading'
-  //   })
+    // delete Assignment
+    builder.addCase(assignment.deleteAssignments.pending, (state) => {
+        state.status = 'loading'
+    })
     
-  //   builder.addCase(course.deleteCourses.fulfilled, (state, action) => {
-  //       state.data = action.payload;
-  //       state.status = 'success'
-  //       toast.success("Delete Course Successfully");
-  //   })
+    builder.addCase(assignment.deleteAssignments.fulfilled, (state, action) => {
+        state.data = action.payload;
+        state.status = 'success'
+        toast.success("Delete Assignment Successfully");
+    })
 
-  //   builder.addCase(course.deleteCourses.rejected, (state, action) => {
-  //       state.status = 'error'
-  //       state.error = action.error.message;
-  //       toast.error(`Delete Course is Error: ${state.error}`);
-  //   })
+    builder.addCase(assignment.deleteAssignments.rejected, (state, action) => {
+        state.status = 'error'
+        state.error = action.error.message;
+        toast.error(`Delete Assignment is Error: ${state.error}`);
+    })
   },
 });
 

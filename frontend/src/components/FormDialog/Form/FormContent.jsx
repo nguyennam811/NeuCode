@@ -112,10 +112,10 @@ const FormContent = ({ formFields, onSave, numOfColumns, submitError }) => {
           } else if (field.type === "date") {
             fieldContent = (
               <>
-              <Typography variant="body1" sx={{color:'#0009'}}>{field.title}</Typography>
+              <Typography variant="body1" sx={{color:'#0009'}}>{field.title} *</Typography>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DateTimePicker
-                    value={formikProps.values[field.id]}
+                    value={formikProps.values[field.id] ? dayjs(formikProps.values[field.id]) : null}
                     onChange={(value) => formikProps.setFieldValue(field.id, value)}
                     referenceDate={dayjs(Date.now())}
                   />

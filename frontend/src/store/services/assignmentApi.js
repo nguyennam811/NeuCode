@@ -35,22 +35,36 @@ export const addAssignment = async (assignment) => {
   return res.data;
 };
 
-// export const updateCourse = async (course) => {
-//   const { id, ...requestBody } = course;
-//   const body = JSON.stringify(requestBody);
-//   const res = await axiosInstance.put(`/course/${id}`,
-//       body,
-//       {
-//         headers: { "Content-Type": "application/json" },
-//       }
-//     );
-//   return res.data;
-// };
+export const updateAssignment = async (assignment) => {
+  // const { id, ...requestBody } = course;
+  // const body = JSON.stringify(requestBody);
+  // const res = await axiosInstance.put(`/course/${id}`,
+  //     body,
+  //     {
+  //       headers: { "Content-Type": "application/json" },
+  //     }
+  //   );
+  // return res.data;
 
-// export const deleteCourse = async (ids) => {
-//   const params = new URLSearchParams();
-//   ids.forEach((id) => params.append('id', id));
-//   const res = await axiosInstance.delete(`/course/`, { params: params });
-//   console.log(res)
-//   return res.data;
-// };
+  const { course_id, ...requestBody } = assignment;
+  const params = new URLSearchParams();
+  params.append('course_id', course_id)
+  const body = JSON.stringify(requestBody);
+  const res = await axiosInstance.put(
+      "/problems",
+      body,
+      {
+        params: params,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+  return res.data;
+};
+
+export const deleteAssignment = async (ids) => {
+  const params = new URLSearchParams();
+  ids.forEach((id) => params.append('id', id));
+  const res = await axiosInstance.delete(`/assignment/`, { params: params });
+  console.log(res)
+  return res.data;
+};

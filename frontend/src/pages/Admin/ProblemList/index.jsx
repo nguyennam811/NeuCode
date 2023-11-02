@@ -110,7 +110,7 @@ export const problemsTableHeaders = [
 const ProblemList = () => {
   const navigate = useNavigate();
   const [isShowCreateDialog, setIsShowCreateDialog] = useState(false);
-  const [editingDevice, setEditingDevice] = useState();
+  const [editingProblem, setEditingProblem] = useState();
   const [fetchingParams, setFetchingParams] = useState({
     offset: 0,
     limit: 10,
@@ -156,26 +156,26 @@ const ProblemList = () => {
     });
   };
 
-  const handleCreateDevice = async (values) => {
+  const handleCreateProblem = async (values) => {
     console.log(values);
 
     await dispatch(addProblem(values));
     dispatch(getProblems(fetchingParams));
   };
 
-  const handleUpdateDevice = async (values) => {
+  const handleUpdateProblem = async (values) => {
     console.log(values);
     await dispatch(updateProblemByUser(values));
     dispatch(getProblems(fetchingParams));
   };
 
-  const handleDeviceDeleteRows = async (ids) => {
+  const handleProblemDeleteRows = async (ids) => {
     console.log(ids);
     await dispatch(deleteProblems(ids));
     dispatch(getProblems(fetchingParams));
   };
 
-  const isEditing = editingDevice !== undefined;
+  const isEditing = editingProblem !== undefined;
 
   //TEST
   const [selectedProblemId, setSelectedProblemId] = useState(null);
@@ -309,7 +309,7 @@ const ProblemList = () => {
               aria-label='edit device type'
               onClick={(e) => {
                 e.stopPropagation();
-                  setEditingDevice(problem);
+                  setEditingProblem(problem);
               }}
             >
               <ModeEditOutlinedIcon />
@@ -328,18 +328,18 @@ const ProblemList = () => {
       {!isEditing && (
         <ProblemCreateFormDialog
           open={isShowCreateDialog}
-          onSave={handleCreateDevice}
+          onSave={handleCreateProblem}
           onClose={() => setIsShowCreateDialog(false)}
         />
       )}
 
       {isEditing && (
         <ProblemUpdateFormDialog
-          row={editingDevice}
+          row={editingProblem}
           open={isEditing}
-          onSave={handleUpdateDevice}
+          onSave={handleUpdateProblem}
           onClose={() => {
-            setEditingDevice(undefined);
+            setEditingProblem(undefined);
           }}
           initialFn={(problem) => ({
             id: problem.id,
@@ -368,7 +368,7 @@ const ProblemList = () => {
             handleNewClick={() => {
               setIsShowCreateDialog(true);
             }}
-            onDeleteRows={handleDeviceDeleteRows}
+            onDeleteRows={handleProblemDeleteRows}
           />
         )}
 

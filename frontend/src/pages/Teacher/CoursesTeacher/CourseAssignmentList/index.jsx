@@ -11,7 +11,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
-import { addAssignment, getAssignments } from "../../../../store/actions/assignmentAction";
+import { addAssignment, deleteAssignments, getAssignments, updateAssignment } from "../../../../store/actions/assignmentAction";
 import ErrorData from "../../../ErrorData";
 import TableFrameDetail from "../../../../components/TableFrame/TableFrameDetail";
 import { formatResponseTime, formatTimeSubmit } from "../../../../utils/time";
@@ -20,6 +20,9 @@ import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
 import { VisibilityOutlined } from "@mui/icons-material";
 import { getColorDifficulty } from "../../../../utils/status";
 import AssignmentCreateFormDialog from "./AssignmentCreateFormDialog";
+import AddTestDialog from "../../ProblemsTeacher/ProblemTest/AddTestDialog";
+import UpdateTestDialog from "../../ProblemsTeacher/ProblemTest/UpdateTestDialog";
+import AssignmentUpdateFormDialog from "./AssignmentUpdateFormDialog";
 
 export const assignmentsTableHeaders = [
   {
@@ -100,7 +103,7 @@ const CoursesList = () => {
   const [fetchingParams, setFetchingParams] = useState({
     offset: 0,
     limit: 10,
-    // course_id: courseId.id,
+    course_id: courseId.id,
   });
   useEffect(() => {
     dispatch(getAssignments(fetchingParams));
@@ -145,43 +148,97 @@ const CoursesList = () => {
     dispatch(getAssignments(fetchingParams));
   };
 
+  const handleUpdateAssignment = async (values) => {
+    const modifiedValues = {
+      ...values,
+      course_id: courseId.id,
+    };
+    console.log(modifiedValues);
+    await dispatch(updateAssignment(modifiedValues));
+    dispatch(getAssignments(fetchingParams));
+  };
+
+  const handleAssignmentDeleteRows = async (ids) => {
+    console.log(ids);
+    await dispatch(deleteAssignments(ids));
+    dispatch(getAssignments(fetchingParams));
+  };
+
   const isEditing = editingAssignment !== undefined;
+
+  //TEST
+  const [selectedProblemId, setSelectedProblemId] = useState(null);
+
+  const [open, setOpen] = useState(false);
+  const [testCases, setTestCases] = useState([]);
+  const handleClickOpen = (problemId) => {
+    console.log(problemId);
+    setSelectedProblemId(problemId);
+    const newTestCases = [
+      {
+        problem_id: problemId,
+        input: "",
+        output: "",
+      },
+    ];
+    setTestCases(newTestCases);
+    setOpen(true);
+  };
+
+  const [openUpdateTestCases, setOpenUpdateTestCases] = useState(false);
+  const [selectedProblemTests, setSelectedProblemTests] = useState([]);
+
+  const XemTest = (tests, problem_id) => {
+    const selectedFields = tests.map((test) => ({
+      problem_id: test.problem_id,
+      input: test.input,
+      output: test.output,
+      // id: test.id,
+    }));
+    setSelectedProblemTests(selectedFields);
+    setSelectedProblemId(problem_id);
+    setOpenUpdateTestCases(true);
+  };
+
+  const handleSubmitTest = () => {
+    dispatch(getAssignments(fetchingParams));
+  };
 
   const updatedHeadAssignments = useMemo(() => {
     return [
       ...assignmentsTableHeaders,
-      // {
-      //   id: "test",
-      //   label: "Tests",
-      //   numeric: false,
-      //   disablePadding: false,
-      //   renderFn: (problem) => {
-      //       return problem.tests.length === 0 ? (
-      //         <Button
-      //           color="error"
-      //           variant="outlined"
-      //           onClick={(e) => {
-      //             e.stopPropagation(); // Ngăn sự kiện click lan truyền lên phần tử cha
-      //             handleClickOpen(problem.id);
-      //             // Thêm mã xử lý tại đây để thực hiện hành động khi click vào nút "Thêm Test"
-      //           }}
-      //         >
-      //           Thêm Test
-      //         </Button>
-      //       ) : (
-      //         <Button
-      //           variant="outlined"
-      //           onClick={(e) => {
-      //             e.stopPropagation(); // Ngăn sự kiện click lan truyền lên phần tử cha
-      //             XemTest(problem.tests, problem.id);
-      //             // Thêm mã xử lý tại đây để thực hiện hành động khi click vào nút "Thêm Test"
-      //           }}
-      //         >
-      //           Xem Test
-      //         </Button>
-      //       );
-      //   },
-      // },
+      {
+        id: "test",
+        label: "Tests",
+        numeric: false,
+        disablePadding: false,
+        renderFn: (assignment) => {
+            return assignment.problems.tests.length === 0 ? (
+              <Button
+                color="error"
+                variant="outlined"
+                onClick={(e) => {
+                  e.stopPropagation(); // Ngăn sự kiện click lan truyền lên phần tử cha
+                  handleClickOpen(assignment.problem_id);
+                  // Thêm mã xử lý tại đây để thực hiện hành động khi click vào nút "Thêm Test"
+                }}
+              >
+                Thêm Test
+              </Button>
+            ) : (
+              <Button
+                variant="outlined"
+                onClick={(e) => {
+                  e.stopPropagation(); // Ngăn sự kiện click lan truyền lên phần tử cha
+                  XemTest(assignment.problems.tests, assignment.problem_id);
+                  // Thêm mã xử lý tại đây để thực hiện hành động khi click vào nút "Thêm Test"
+                }}
+              >
+                Xem Test
+              </Button>
+            );
+        },
+      },
       {
         id: "created",
         label: "Created",
@@ -232,10 +289,10 @@ const CoursesList = () => {
               <IconButton
                 color="warning"
                 aria-label="edit device type"
-                // onClick={(e) => {
-                //   e.stopPropagation();
-                //     setEditingDevice(problem);
-                // }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                    setEditingAssignment(assignment);
+                }}
               >
                 <ModeEditOutlinedIcon />
               </IconButton>
@@ -269,6 +326,29 @@ const CoursesList = () => {
         />
       )}
 
+{isEditing && (
+        <AssignmentUpdateFormDialog
+          row={editingAssignment}
+          open={isEditing}
+          onSave={handleUpdateAssignment}
+          onClose={() => {
+            setEditingAssignment(undefined);
+          }}
+          initialFn={(assignment) => ({
+            id: assignment.problems.id,
+            user_id: assignment.problems.user_id,
+            title: assignment.problems.title,
+            difficulty: assignment.problems.difficulty ?? "",
+            problem_type: assignment.problems.problem_type ?? "",
+            max_memory_limit: assignment.problems.max_memory_limit ?? "",
+            max_execution_time: assignment.problems.max_execution_time ?? "",
+            description: assignment.problems.description ?? "",
+            deadline: assignment.deadline,
+            is_public: assignment.is_public
+          })}
+        />
+      )}
+
       <Box p={8} pt={2}>
         {status !== "error" && (
           <TableFrameDetail
@@ -285,10 +365,26 @@ const CoursesList = () => {
             handleNewClick={() => {
               setIsShowCreateDialog(true);
             }}
-            // onDeleteRows={handleCourseDeleteRows}
+            onDeleteRows={handleAssignmentDeleteRows}
           />
         )}
       </Box>
+
+      <AddTestDialog
+        open={open}
+        setOpen={setOpen}
+        testCases={testCases}
+        selectedProblemId={selectedProblemId}
+        onSubmit={handleSubmitTest}
+      />
+
+      <UpdateTestDialog
+        openUpdateTestCases={openUpdateTestCases}
+        setOpenUpdateTestCases={setOpenUpdateTestCases}
+        selectedProblemTests={selectedProblemTests}
+        selectedProblemId={selectedProblemId}
+        onSubmit={handleSubmitTest}
+      />
     </>
   );
 };
