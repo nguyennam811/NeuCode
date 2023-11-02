@@ -2,12 +2,15 @@ from sqlalchemy.orm import Session
 from .. import models, schemas
 from ..utils import Hash
 from fastapi import HTTPException, status
+from ..models import Role
 
-
-def get_user_all(db: Session):
-    users = db.query(models.User).all()
+def get_user_all(db: Session, role: str):
+    users_query = db.query(models.User)
+    if role is not None:
+        users_query = users_query.filter(models.User.role == Role(role))
+    users = users_query.all()
     if not users:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'not found users')
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'No users found with role {role}')
     return users
 
 def get_user_by_id(id:int, db: Session):

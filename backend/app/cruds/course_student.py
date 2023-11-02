@@ -1,15 +1,42 @@
 from sqlalchemy.orm import Session
 from .. import models, schemas
 from fastapi import HTTPException, status
+from ..models import Role
+from sqlalchemy import select, text, func, delete
+from typing import List
 
-def get_course_student_all(db: Session, student_id: str):
-    query = db.query(models.CourseStudent)
 
-    if student_id is not None:
-        query = query.filter(models.CourseStudent.student_id == student_id)
+def get_course_student_with_conditions(db: Session, offset: int, limit: int, conditions):
+    statement = select(models.CourseStudent).where(text(' and '.join(conditions))).offset(
+        offset).limit(limit).order_by(models.CourseStudent.created.desc())
+    return db.execute(statement).scalars().all()
 
-    course_student = query.all()
-    return course_student
+def count_course_student_with_conditions(db: Session, conditions):
+    return db.query(func.count(models.CourseStudent.id)).where(text(' and '.join(conditions))).scalar()
+def get_course_student_all(
+        db: Session,
+        search_key: str,
+        search_value: str,
+        course_id: str,
+        student_id: str,
+        offset: int = 0,
+        limit: int = 30,
+):
+    conditions = []
+    if course_id:
+        conditions.append(f"course_id = '{course_id}'")
+
+    if student_id:
+        conditions.append(f"student_id = '{student_id}'")
+
+    if search_value != '':
+        conditions.append(f"cast({search_key} as varchar) like('%{search_value}%')")
+    print(conditions)
+
+    return {
+        'data': get_course_student_with_conditions(db=db, offset=offset, limit=limit, conditions=conditions),
+        'total': count_course_student_with_conditions(db=db, conditions=conditions)
+    }
 
 def create_course_student(request: schemas.CourseStudent, db: Session):
     course_id = request.course_id
@@ -22,11 +49,23 @@ def create_course_student(request: schemas.CourseStudent, db: Session):
     added_students = []
 
     for student_id in student_ids:
-        student = db.query(models.User).filter(models.User.id == student_id, models.User.role == "student").first()
-
-        if not student:
-            raise HTTPException(status_code=404, detail=f"Student with ID {student_id} not found or is not a student")
-
+        # student = db.query(models.User).filter(models.User.id == student_id, models.User.role == Role.STUDENT).first()
+        #
+        # if not student:
+        #     raise HTTPException(status_code=404, detail=f"Student with ID {student_id} not found or is not a student")
+        #
+        # # Kiểm tra xem sinh viên đã tồn tại trong danh sách chưa
+        # existing_student = db.query(models.CourseStudent).filter(
+        #     models.CourseStudent.course_id == course_id,
+        #     models.CourseStudent.student_id == student_id
+        # ).first()
+        #
+        # if existing_student:
+        #     raise HTTPException(status_code=400, detail=f"Student with ID {student_id} is already in the course")
+        #
+        # course_student = models.CourseStudent(course_id=course_id, student_id=student_id)
+        # db.add(course_student)
+        # added_students.append(course_student)
         # Kiểm tra xem sinh viên đã tồn tại trong danh sách chưa
         existing_student = db.query(models.CourseStudent).filter(
             models.CourseStudent.course_id == course_id,
@@ -34,7 +73,14 @@ def create_course_student(request: schemas.CourseStudent, db: Session):
         ).first()
 
         if existing_student:
-            raise HTTPException(status_code=400, detail=f"Student with ID {student_id} is already in the course")
+            # Nếu sinh viên đã tồn tại, bỏ qua và lọc tiếp đến đứa tiếp theo
+            continue
+
+        student = db.query(models.User).filter(models.User.id == student_id, models.User.role == Role.STUDENT).first()
+
+        if not student:
+            # raise HTTPException(status_code=404, detail=f"Student with ID {student_id} not found or is not a student")
+            continue
 
         course_student = models.CourseStudent(course_id=course_id, student_id=student_id)
         db.add(course_student)
@@ -67,3 +113,9 @@ def delete_course_student(id: str, db: Session):
     # huống đồng bộ hóa không cần thiết
     db.commit()
     return 'deleted course_student'
+
+def delete_course_student(db: Session, course_student_ids: List[str]):
+    statement = delete(models.CourseStudent).where(models.CourseStudent.id.in_(course_student_ids)).returning(models.CourseStudent.id)
+    db.execute(statement).scalars().all()
+    db.commit()
+    return None

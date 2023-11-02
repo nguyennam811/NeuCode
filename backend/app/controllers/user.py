@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, status, Query
 from sqlalchemy.orm import Session
 from .. import schemas
 from ..dependencies import get_db
@@ -8,8 +8,8 @@ from typing import List
 router = APIRouter()
 
 @router.get('/', status_code=status.HTTP_200_OK, response_model=List[schemas.ShowUser])
-async def get_user(db: Session = Depends(get_db)):
-    return user.get_user_all(db)
+async def get_user(db: Session = Depends(get_db), role: str = Query(None)):
+    return user.get_user_all(db, role)
 
 @router.get('/{id}', response_model=schemas.ShowUser)
 async def get_user_by_id(id: str, db: Session = Depends(get_db)):
