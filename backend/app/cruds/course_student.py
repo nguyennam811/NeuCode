@@ -7,12 +7,12 @@ from typing import List
 
 
 def get_course_student_with_conditions(db: Session, offset: int, limit: int, conditions):
-    statement = select(models.CourseStudent).where(text(' and '.join(conditions))).offset(
+    statement = select(models.CourseStudent).join(models.User, models.CourseStudent.student_id == models.User.id).where(text(' and '.join(conditions))).offset(
         offset).limit(limit).order_by(models.CourseStudent.created.desc())
     return db.execute(statement).scalars().all()
 
 def count_course_student_with_conditions(db: Session, conditions):
-    return db.query(func.count(models.CourseStudent.id)).where(text(' and '.join(conditions))).scalar()
+    return db.query(func.count(models.CourseStudent.id)).join(models.User, models.CourseStudent.student_id == models.User.id).where(text(' and '.join(conditions))).scalar()
 def get_course_student_all(
         db: Session,
         search_key: str,

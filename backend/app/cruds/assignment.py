@@ -5,12 +5,12 @@ from sqlalchemy import select, text, func, delete
 from typing import List
 
 def get_assignments_with_conditions(db: Session, offset: int, limit: int, conditions):
-    statement = select(models.Assignment).where(text(' and '.join(conditions))).offset(
+    statement = select(models.Assignment).join(models.Problem, models.Assignment.problem_id == models.Problem.id).where(text(' and '.join(conditions))).offset(
         offset).limit(limit).order_by(models.Assignment.created.desc())
     return db.execute(statement).scalars().all()
 
 def count_assignment_with_conditions(db: Session, conditions):
-    return db.query(func.count(models.Assignment.id)).where(text(' and '.join(conditions))).scalar()
+    return db.query(func.count(models.Assignment.id)).join(models.Problem, models.Assignment.problem_id == models.Problem.id).where(text(' and '.join(conditions))).scalar()
 def get_assignment_all(
         db: Session,
         search_key: str,

@@ -1,19 +1,27 @@
 from pydantic import BaseModel, NonNegativeFloat
 from typing import Optional, List
 from .user import ShowUser
-from .course import ShowCourse
 import datetime
 
 class CourseStudent(BaseModel):
     course_id: str
     student_ids: str
 
+class CourseInfo(BaseModel):
+    teacher_id: str
+    course_name: str
+    course_time: str
+    course_description: Optional[str]
+    user: Optional[ShowUser]
+    class Config():
+        orm_mode = True
+
 class ShowCourseStudent(BaseModel):
     id: str
     course_id: str
     student_id: str
     user: Optional[ShowUser]
-    courses: Optional[ShowCourse]
+    courses: Optional[CourseInfo]
     created: datetime.datetime
     updated: Optional[datetime.datetime]
     class Config():

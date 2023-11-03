@@ -1,7 +1,7 @@
 from pydantic import BaseModel, NonNegativeFloat
 from typing import Optional, List
 from .user import ShowUser
-# from .course_student import ShowCourseStudent
+from .course_student import ShowCourseStudent
 import datetime
 
 class Course(BaseModel):
@@ -14,7 +14,7 @@ class Course(BaseModel):
 class ShowCourse(Course):
     id: str
     user: Optional[ShowUser]
-    # student_course: Optional[ShowCourseStudent]
+    student_course: List[ShowCourseStudent]
     created: datetime.datetime
     updated: Optional[datetime.datetime]
     class Config():
