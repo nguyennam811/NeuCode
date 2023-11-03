@@ -51,7 +51,7 @@ const Footer = () => {
               <NavLink to={`${user.role}/submissions`}>Submissions</NavLink>
             </li>
             <li>
-              <NavLink to={`${user.role}/users`}>Users</NavLink>
+              <NavLink to={`${user.role}/courses`}>Courses</NavLink>
             </li>
             <li>
               <NavLink to={`${user.role}/about`}>About</NavLink>
@@ -62,6 +62,9 @@ const Footer = () => {
             <ul className="footer-menu">
             <li>
               <NavLink to={`${user.role}/problems`}>Problems</NavLink>
+            </li>
+            <li>
+              <NavLink to={`${user.role}/courses`}>Courses</NavLink>
             </li>
             
           </ul>

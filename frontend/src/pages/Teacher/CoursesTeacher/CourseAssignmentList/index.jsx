@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  IconButton,
-  Tooltip,
-} from "@mui/material";
+import { Box, Button, ButtonGroup, IconButton, Tooltip } from "@mui/material";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -27,7 +21,7 @@ import AssignmentCreateFormDialog from "./AssignmentCreateFormDialog";
 import AddTestDialog from "../../ProblemsTeacher/ProblemTest/AddTestDialog";
 import UpdateTestDialog from "../../ProblemsTeacher/ProblemTest/UpdateTestDialog";
 import AssignmentUpdateFormDialog from "./AssignmentUpdateFormDialog";
-import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import AssignmentSubmission from "./AssignmentSubmission";
 export const assignmentsTableHeaders = [
   {
@@ -121,7 +115,12 @@ const CoursesList = () => {
   console.log(data);
 
   //Search
-  const assignmentSearchFields = [{ id: "problem_id", title: "ID Problem" }];
+  const assignmentSearchFields = [
+    { id: "problem_id", title: "ID Problem" },
+    { id: "title", title: "Title Problem" },
+    { id: "difficulty", title: "Difficulty" },
+    { id: "problem_type", title: "Type Problem" },
+  ];
   const handleAssignmentSearch = (searchOptions) => {
     let keys = Object.keys(searchOptions[0]);
     console.log(keys);

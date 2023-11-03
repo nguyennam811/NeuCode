@@ -82,6 +82,13 @@ export const coursesTableHeaders = [
     disablePadding: false,
     renderFn: (course) => course.user.fullname,
   },
+  {
+    id: "students",
+    label: "Students",
+    numeric: true,
+    disablePadding: false,
+    renderFn: (course) => course.student_course.length,
+  },
 ];
 
 const CoursesTeacher = () => {

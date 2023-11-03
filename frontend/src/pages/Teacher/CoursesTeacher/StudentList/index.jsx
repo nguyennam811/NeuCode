@@ -112,7 +112,12 @@ function StudentList() {
   console.log(studentOptions);
 
   //Search
-  const courseStudentSearchFields = [{ id: "student_id", title: "Student ID" }];
+  // const courseStudentSearchFields = [{ id: "student_id", title: "Student ID" }];
+  const courseStudentSearchFields = [
+    { id: "student_id", title: "Student ID" },
+    { id: "fullname", title: "Full Name" },
+    { id: "email", title: "Email" },
+  ];
 
   const handleCourseStudentSearch = (searchOptions) => {
     let keys = Object.keys(searchOptions[0]);

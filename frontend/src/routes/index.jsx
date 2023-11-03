@@ -2,7 +2,7 @@ import { createBrowserRouter, redirect } from "react-router-dom";
 import About from "../pages/Student/About";
 import Home from "../pages/Home";
 import NotFound from "../pages/NotFound";
-import Users from "../pages/Student/Users";
+import Courses from "../pages/Student/Courses";
 import Problems from "../pages/Student/Problems";
 import Submissions from "../pages/Student/Submissions";
 import CreateProblem from "../pages/Teacher/CreateProblem";
@@ -52,8 +52,8 @@ const router = [
             element: <Home />,
           },
           {
-            path: "users",
-            element: <Users />,
+            path: "courses",
+            element: <Courses />,
           },
           {
             path: "problems",

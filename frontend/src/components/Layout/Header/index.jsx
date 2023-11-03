@@ -94,10 +94,10 @@ const Header = () => {
           </li>
           <li>
             <NavLink
-              to={"/student/users"}
-              style={{ color: isCurrentPage("/users") ? "red" : "" }}
+              to={"/student/courses"}
+              style={{ color: isCurrentPage("/courses") ? "red" : "" }}
             >
-              USERS
+              COURSES
             </NavLink>
           </li>
           <li>
@@ -120,14 +120,14 @@ const Header = () => {
               PROBLEMS
             </NavLink>
           </li>
-          <li>
+          {/* <li>
             <NavLink
               to={"/teacher/create_problem"}
               style={{ color: isCurrentPage("/create_problem") ? "red" : "" }}
             >
               CREATE PROBLEM
             </NavLink>
-          </li>
+          </li> */}
           <li>
             <NavLink
               to={"/teacher/courses"}
@@ -216,16 +216,16 @@ const Header = () => {
                     </li>
                     <li
                       style={{
-                        borderBottom: isCurrentPage("/users")
+                        borderBottom: isCurrentPage("/courses")
                           ? "3px solid #ff0000"
                           : "none",
                       }}
                     >
                       <NavLink
-                        to={"/student/users"}
-                        style={{ color: isCurrentPage("/users") ? "red" : "" }}
+                        to={"/student/courses"}
+                        style={{ color: isCurrentPage("/courses") ? "red" : "" }}
                       >
-                        USERS
+                        COURSES
                       </NavLink>
                     </li>
                     <li
@@ -261,7 +261,7 @@ const Header = () => {
                       </NavLink>
                     </li>
 
-                    <li
+                    {/* <li
                       style={{
                         borderBottom: isCurrentPage("/create_problem")
                           ? "3px solid #ff0000"
@@ -274,7 +274,7 @@ const Header = () => {
                       >
                         CREATE PROBLEM
                       </NavLink>
-                    </li>
+                    </li> */}
 
                     <li
                       style={{
