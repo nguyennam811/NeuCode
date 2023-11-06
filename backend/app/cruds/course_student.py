@@ -7,22 +7,35 @@ from typing import List
 
 
 def get_course_student_with_conditions(db: Session, offset: int, limit: int, conditions):
-    statement = select(models.CourseStudent).join(models.User, models.CourseStudent.student_id == models.User.id).where(text(' and '.join(conditions))).offset(
+    statement = select(models.CourseStudent).join(models.User, models.CourseStudent.student_id == models.User.id).join(models.Course, models.CourseStudent.course_id == models.Course.id).where(text(' and '.join(conditions))).offset(
         offset).limit(limit).order_by(models.CourseStudent.created.desc())
     return db.execute(statement).scalars().all()
 
 def count_course_student_with_conditions(db: Session, conditions):
-    return db.query(func.count(models.CourseStudent.id)).join(models.User, models.CourseStudent.student_id == models.User.id).where(text(' and '.join(conditions))).scalar()
+    return db.query(func.count(models.CourseStudent.id)).join(models.User, models.CourseStudent.student_id == models.User.id).join(models.Course, models.CourseStudent.course_id == models.Course.id).where(text(' and '.join(conditions))).scalar()
+
 def get_course_student_all(
         db: Session,
         search_key: str,
         search_value: str,
         course_id: str,
         student_id: str,
+        filter_teachers: List[str],
         offset: int = 0,
         limit: int = 30,
 ):
     conditions = []
+
+    if filter_teachers:
+        arr = [
+            [f"teacher_id = '{teacher}'" for teacher in filter_teachers]
+        ]
+        for item in arr:
+            temp = ' or '.join(item)
+            if temp != '':
+                conditions.append('(' + temp + ')')
+
+
     if course_id:
         conditions.append(f"course_id = '{course_id}'")
 

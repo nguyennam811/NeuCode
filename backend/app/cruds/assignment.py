@@ -16,12 +16,24 @@ def get_assignment_all(
         search_key: str,
         search_value: str,
         course_id: str,
+        filter_problem_types: List[str],
+        filter_difficultys: List[str],
         offset: int = 0,
         limit: int = 30,
 ):
     # assignments = db.query(models.Assignment).all()
     # return assignments
     conditions = []
+
+    arr = [
+        [f"problem_type = '{problem_type}'" for problem_type in filter_problem_types],
+        [f"difficulty = '{difficulty}'" for difficulty in filter_difficultys],
+    ]
+    for item in arr:
+        temp = ' or '.join(item)
+        if temp != '':
+            conditions.append('(' + temp + ')')
+
     if course_id:
         conditions.append(f"course_id = '{course_id}'")
 

@@ -13,6 +13,8 @@ async def get_assignment(
         search_key: str = Query(default=''),
         search_value: str = Query(default=''),
         course_id: str = Query(default=''),
+        filter_problem_types: List[str] = Query(default=[], alias='filter_problem_types'),
+        filter_difficultys: List[str] = Query(default=[], alias='filter_difficultys'),
         common: dict = Depends(common_parameters),
 ):
     return assignment.get_assignment_all(
@@ -20,6 +22,8 @@ async def get_assignment(
         search_key=search_key,
         search_value=search_value,
         course_id=course_id,
+        filter_problem_types=filter_problem_types,
+        filter_difficultys=filter_difficultys,
         offset=common['offset'],
         limit=common['limit']
     )

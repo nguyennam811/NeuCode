@@ -14,6 +14,7 @@ async def get_course_student(
         search_value: str = Query(default=''),
         course_id: str = Query(default=''),
         student_id: str = Query(default=''),
+        filter_teachers: List[str] = Query(default=[], alias='filter_teachers'),
         common: dict = Depends(common_parameters),
 ):
     return course_student.get_course_student_all(
@@ -22,6 +23,7 @@ async def get_course_student(
         search_value = search_value,
         course_id = course_id,
         student_id = student_id,
+        filter_teachers=filter_teachers,
         offset = common['offset'],
         limit = common['limit']
     )

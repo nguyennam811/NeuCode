@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from .. import models, schemas
 from fastapi import HTTPException, status, BackgroundTasks
 from ..utils import execute_code
-
+from datetime import datetime, timezone
 
 def get_submission_all(db: Session):
     submissions = db.query(models.Submission).all()
@@ -20,6 +20,13 @@ def get_submission_all(db: Session):
 #     return new_submission
 
 def create_submission(request: schemas.Submission, db: Session, background_tasks: BackgroundTasks):
+    if request.assignment_id:
+        assignment = db.query(models.Assignment).filter(models.Assignment.id == request.assignment_id).first()
+
+        if assignment:
+            if assignment.deadline and datetime.now(timezone.utc) > assignment.deadline:
+                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Không thể nộp bài sau hạn chót.")
+
     new_submission = models.Submission(**request.dict())
     new_submission.status = "đã nộp"
     db.add(new_submission)
