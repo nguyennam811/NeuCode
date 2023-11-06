@@ -1,27 +1,33 @@
-import TableFrame from "../../../components/TableFrame";
 import { useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getProblems } from "../../../store/actions/problemAction";
-import { formatResponseTime } from "../../../utils/time";
-import ErrorData from "../../ErrorData";
-// import FilterProblems from "./FilterProblems";
-import { getColorDifficulty } from "../../../utils/status";
-import { Link } from "react-router-dom";
-import { getCurrentUser } from "../../../utils/auth";
-import { getCourseStudent } from "../../../store/actions/courseStudentAction";
-import FilterCourses from "./FilterCourses";
+import FilterAssignments from "./FilterAssignments";
+import { Link, useParams } from "react-router-dom";
+import { getAssignments } from "../../../../store/actions/assignmentAction";
+import { getColorDifficulty } from "../../../../utils/status";
+import { formatResponseTime, formatTimeSubmit } from "../../../../utils/time";
+import ErrorData from "../../../ErrorData";
+import TableFrame from "../../../../components/TableFrame";
 
-export const courseStudentTableHeaders = [
+export const assignmentsTableHeaders = [
   {
     id: "course_name",
     label: "Course Name",
     numeric: false,
     disablePadding: false,
-    renderFn: (courseStudent) => (
+    renderFn: (assignment) => assignment.courses.course_name,
+  },
+  {
+    id: "problem_id",
+    label: "ID Problem",
+    numeric: false,
+    disablePadding: false,
+    // renderFn: (assignment) => assignment.problem_id,
+
+    renderFn: (assignment) => (
       <Link
-        to={`${courseStudent.course_id}/assignments`}
+        to={`/student/courses/assignments/${assignment.id}`}
         style={{
           color: "black",
           textDecoration: "none",
@@ -29,38 +35,81 @@ export const courseStudentTableHeaders = [
         onMouseEnter={(e) => (e.target.style.color = "red")}
         onMouseLeave={(e) => (e.target.style.color = "black")}
       >
-        {courseStudent.courses.course_name}
+        {assignment.problem_id}
+      </Link>
+    ),
+    descComparatorFn: (a, b) => {
+      if (b.problem_id < a.problem_id) {
+        return -1;
+      }
+      if (b.problem_id > a.problem_id) {
+        return 1;
+      }
+      return 0;
+    },
+  },
+  {
+    id: "title",
+    label: "Title",
+    numeric: false,
+    disablePadding: false,
+    // renderFn: (assignment) => assignment.problems.title,
+    renderFn: (assignment) => (
+      <Link
+        to={`/student/courses/assignments/${assignment.id}`}
+        style={{
+          color: "black",
+          textDecoration: "none",
+        }}
+        onMouseEnter={(e) => (e.target.style.color = "red")}
+        onMouseLeave={(e) => (e.target.style.color = "black")}
+      >
+        {assignment.problems.title}
       </Link>
     ),
   },
   {
-    id: "course_time",
-    label: "Course Time",
+    id: "deadline",
+    label: "Deadline",
     numeric: false,
     disablePadding: false,
-    renderFn: (courseStudent) => courseStudent.courses.course_time,
+    renderFn: (assignment) => formatTimeSubmit(assignment.deadline),
+    descComparatorFn: (a, b) => {
+      if (b.deadline < a.deadline) {
+        return -1;
+      }
+      if (b.deadline > a.deadline) {
+        return 1;
+      }
+      return 0;
+    },
   },
   {
-    id: "course_description",
-    label: "Course Description",
+    id: "difficulty",
+    label: "Difficulty",
     numeric: false,
     disablePadding: false,
-    renderFn: (courseStudent) => courseStudent.courses.course_description,
+    renderFn: (assignment) => (
+      <div
+        dangerouslySetInnerHTML={{
+          __html: getColorDifficulty(assignment.problems.difficulty),
+        }}
+      />
+    ),
   },
-  
   {
-    id: "teacher",
-    label: "Teacher",
+    id: "problem_type",
+    label: "Problem Type",
     numeric: false,
     disablePadding: false,
-    renderFn: (courseStudent) => courseStudent.courses.user.fullname,
+    renderFn: (assignment) => assignment.problems.problem_type,
   },
   {
     id: "created",
     label: "Created",
     numeric: false,
     disablePadding: false,
-    renderFn: (courseStudent) => formatResponseTime(courseStudent.created),
+    renderFn: (device) => formatResponseTime(device.created),
     descComparatorFn: (a, b) => {
       if (b.created < a.created) {
         return -1;
@@ -76,7 +125,7 @@ export const courseStudentTableHeaders = [
     label: "Updated",
     numeric: false,
     disablePadding: false,
-    renderFn: (courseStudent) => formatResponseTime(courseStudent.updated),
+    renderFn: (device) => formatResponseTime(device.updated),
     descComparatorFn: (a, b) => {
       if (!a.updated || !b.updated) return 0;
 
@@ -92,21 +141,20 @@ export const courseStudentTableHeaders = [
   },
 ];
 
-const Courses = () => {
-  const current_user = getCurrentUser()
+const AssignmentsPage = () => {
+  const courseId = useParams();
+  const dispatch = useDispatch();
   const [fetchingParams, setFetchingParams] = useState({
     offset: 0,
     limit: 10,
-    student_id: current_user.sub,
+    course_id: courseId.id,
   });
   useEffect(() => {
-    dispatch(getCourseStudent(fetchingParams));
+    dispatch(getAssignments(fetchingParams));
   }, [fetchingParams]);
 
-  const dispatch = useDispatch();
-
-  const data = useSelector((reducers) => reducers.course_student.data);
-  const status = useSelector((reducers) => reducers.course_student.status);
+  const data = useSelector((reducers) => reducers.assignment.data);
+  const status = useSelector((reducers) => reducers.assignment.status);
   console.log(status);
   console.log(data);
 
@@ -143,7 +191,7 @@ const Courses = () => {
         {status !== "error" && (
           <>
             <Typography variant="h5" gutterBottom>
-               List Courses
+              Assignment List
             </Typography>
             <Box
               display="flex"
@@ -153,16 +201,17 @@ const Courses = () => {
             >
               <Box width="72%">
                 <TableFrame
+                  // title="Table Devices"
                   data={data?.data ?? []}
                   isLoading={status === "loading"}
                   total={data?.total ?? 0}
                   numOfColumnsInFilter={4}
-                  headCells={courseStudentTableHeaders}
+                  headCells={assignmentsTableHeaders}
                   onPagination={handlePagination}
                   showCheckbox={false}
                 />
               </Box>
-              <FilterCourses
+              <FilterAssignments
                 data={data?.data ?? []}
                 onSearchFilter={handleDeviceSearchAndFilter}
               />
@@ -174,4 +223,4 @@ const Courses = () => {
   );
 };
 
-export default Courses;
+export default AssignmentsPage;

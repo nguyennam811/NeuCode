@@ -2,13 +2,12 @@ import { Box, Tab } from "@mui/material";
 import React from "react";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { useDispatch, useSelector } from "react-redux";
-import { setTabValue } from "../../../../store/reducers/submissionReducer";
 import Description from "./Description";
 import SubmissionResult from "./SubmissionResult";
-import Discussions from "./Discussions";
 import { memo } from "react";
-function ProblemDetailDescription() {
-  console.log("ProblemDetailDescription");
+import { setTabValue } from "../../../../../../store/reducers/assignmentReducer";
+function AssignmentDetailDescription({value, setValue, historyAssignment, SetHistoryAssignment}) {
+  console.log("AssignmentDetailDescription");
 
   const dispatch = useDispatch();
   const tabStyle = {
@@ -21,37 +20,19 @@ function ProblemDetailDescription() {
     textTransform: "capitalize",
   };
 
-  const value = useSelector((reducers) => reducers.submission.tabs);
+  // const value = useSelector((reducers) => reducers.assignment.tabs);
+  // console.log(value)
 
+  // const handleChange = (event, newValue) => {
+  //   dispatch(setTabValue(newValue));
+  // };
+  
   const handleChange = (event, newValue) => {
-    dispatch(setTabValue(newValue));
+    setValue(newValue);
+    SetHistoryAssignment(true)
   };
 
-  // const [test_result, setTestResult] = useState([]);
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     // Gọi API ở đây
-  //     fetch("http://localhost:8000/api/test_result", {
-  //     headers: { submission: 'c256e5bc-5d3f-484e-bf0b-3276a884f93c' },
-  //   }).then((response) => response.json())
-  //   .then((res) => {
-  //   console.log(res)
-  //     if (res.status_data === 'đã chấm') {
-  //       clearInterval(interval); // Dừng setInterval khi status là 'đã chấm'
-  //     }
-  //     setTestResult(res);
-  //   })
-  //   .catch((error) => {
-  //     console.error('Error fetching data:', error);
-  //   });
-  //   }, 1000); // Gọi API mỗi giây
-
-  //   // Xoá interval khi component unmount
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // }, []);
-
+  console.log('value', value)
   return (
     <Box sx={{ width: "100%" }} display="flex" flexDirection="column">
       <TabContext value={value}>
@@ -74,11 +55,6 @@ function ProblemDetailDescription() {
                 value="2"
                 sx={value === "2" ? tabStyle : { textTransform: "capitalize" }}
               />
-              <Tab
-                label="Discussions"
-                value="3"
-                sx={value === "3" ? tabStyle : { textTransform: "capitalize" }}
-              />
             </TabList>
           </Box>
         </Box>
@@ -93,15 +69,13 @@ function ProblemDetailDescription() {
             <Description />
           </TabPanel>
           <TabPanel value="2">
-            <SubmissionResult />
+            <SubmissionResult historyAssignment={historyAssignment}/>
           </TabPanel>
-          <TabPanel value="3">
-            <Discussions />
-          </TabPanel>
+          
         </div>
       </TabContext>
     </Box>
   );
 }
 
-export default memo(ProblemDetailDescription);
+export default memo(AssignmentDetailDescription);

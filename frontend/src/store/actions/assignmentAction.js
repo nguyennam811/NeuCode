@@ -63,3 +63,14 @@ export const deleteAssignments = createAsyncThunk(
         }
     }
 )
+
+export const getAssignmentDetail = createAsyncThunk(
+    "getAssignmentDetail",
+    async (id) => {
+        try {
+            return await assignmentApi.fetchAssignmentDetail(id)
+        } catch (error) {
+            throw new Error("Failed to fetch assignments detail");
+        }
+    }
+)

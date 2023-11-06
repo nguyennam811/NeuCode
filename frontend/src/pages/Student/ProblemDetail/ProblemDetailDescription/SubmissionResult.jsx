@@ -48,7 +48,7 @@ function SubmissionResult() {
   console.log(submission);
 
   useEffect(() => {
-    if (Object.keys(submission).length > 0) { 
+    if (Object.keys(submission).length > 0) {
       dispatch(getTestResult(submission.id));
       dispatch(getSubmissionById(submission.id));
     }
@@ -61,7 +61,7 @@ function SubmissionResult() {
   // console.log('submission_id', submission_id);
 
   useEffect(() => {
-    if (Object.keys(submission).length > 0 && test_result.length === 0) { 
+    if (Object.keys(submission).length > 0 && test_result.length === 0) {
       const intervalId = setInterval(() => {
         setReloadCounter((prevCounter) => prevCounter + 1);
       }, 1000);
@@ -99,7 +99,9 @@ function SubmissionResult() {
               {test_result.map((test) => (
                 <StyledTableRow key={test.id}>
                   <TableCell>{formatTimeSubmit(test.created)}</TableCell>
-                  <TableCell sx={{color: getCellColor(test.status_data)}}><Typography>{test.status_data}</Typography></TableCell>
+                  <TableCell sx={{ color: getCellColor(test.status_data) }}>
+                    <Typography>{test.status_data}</Typography>
+                  </TableCell>
                   <TableCell>{test.time.toFixed(2)} s</TableCell>
                   <TableCell>{test.memory.toFixed(2)} MB</TableCell>
                   <TableCell>
@@ -109,14 +111,15 @@ function SubmissionResult() {
               ))}
             </TableBody>
           </Table>
-          
-                    {/* <ScoreSubmission /> */}
-                    <TableCell>
-    <Box>
-      <Typography fontSize={20}>Điểm của bạn: {submission.score}</Typography>
-    </Box>
-    </TableCell>
-                  
+
+          {/* <ScoreSubmission /> */}
+          <TableCell>
+            <Box>
+              <Typography fontSize={20}>
+                Điểm của bạn: {submission.score}
+              </Typography>
+            </Box>
+          </TableCell>
         </TableContainer>
       ) : (
         <CircularProgress />

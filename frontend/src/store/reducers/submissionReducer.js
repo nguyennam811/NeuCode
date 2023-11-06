@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import * as submission from '../actions/submissionAction'
 
 const submissionSlice = createSlice({
-    name: 'problem',
+    name: 'submission',
     initialState: submission.init,
     reducers: {
         setStatusIdle: submission.setStatusIdle,

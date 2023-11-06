@@ -12,7 +12,7 @@ import {
   LinearProgress,
   Typography,
 } from "@mui/material";
-import "../../../../styles/globals.css";
+import "../../../../../../styles/globals.css";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
@@ -21,30 +21,30 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useLoaderData, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCurrentUser } from "../../../../utils/auth";
-import { mapLanguage } from "../../../../utils/mapLanguage";
-import { addSubmissionByUser } from "../../../../store/actions/submissionAction";
-import { setTabValue } from "../../../../store/reducers/submissionReducer";
-import { getTestResult } from "../../../../store/actions/testResultAction";
 import { toast } from "react-toastify";
-import PhoneIcon from "@mui/icons-material/Phone";
+import { mapLanguage } from "../../../../../../utils/mapLanguage";
+import { addSubmissionByUser } from "../../../../../../store/actions/submissionAction";
+import { setTabValue } from "../../../../../../store/reducers/assignmentReducer";
 
 function EditorTestCase(props) {
   const dispatch = useDispatch();
   const current_user = useLoaderData();
-  const { code, languages } = props;
+  const { code, languages, setValueDescription, SetHistoryAssignment } = props;
   const [value, setValue] = useState("1");
   const [testCase, setTestCase] = useState([]);
   const [loading, setLoading] = useState(true);
+  const assignment = useParams();
+  const [submitted, setSubmitted] = useState(false);
 
-  const data = useSelector((reducers) => reducers.problemDetail.data);
+  const data = useSelector((reducers) => reducers.assignment.data);
   console.log(data);
 
   const submission = {
     language: mapLanguage(languages),
     code: code,
     user_id: current_user.sub,
-    problem_id: data.id,
+    problem_id: data.problem_id,
+    assignment_id: assignment.id,
   };
 
   const [open, setOpen] = useState(false);
@@ -62,14 +62,17 @@ function EditorTestCase(props) {
 
   const submitCode = (submission) => {
     dispatch(addSubmissionByUser(submission));
-    dispatch(setTabValue("2"));
+    // dispatch(setTabValue("2"));
+    setValueDescription('2')
     setOpen(false);
+    setSubmitted(true);
+    SetHistoryAssignment(false)
   };
 
   const execute_test_case = async () => {
     try {
       setLoading(false); // Bắt đầu tải dữ liệu
-      const { user_id, ...submissionWithoutUserId } = submission;
+      const { user_id, assignment_id, ...submissionWithoutUserId } = submission;
 
       const res = await fetch(`${process.env.REACT_APP_URL}/execute`, {
         method: "POST",
@@ -89,6 +92,7 @@ function EditorTestCase(props) {
   };
 
   console.log(testCase);
+  const isDeadlinePassed = new Date() > new Date(data.deadline);
 
   return (
     <Box display="flex" flexDirection="column" height="100%">
@@ -107,8 +111,10 @@ function EditorTestCase(props) {
           flexDirection="column"
         >
           {/* Object.keys(data).length !== 0 */}
-          {data && data.tests &&
-          data.tests.length > 0 ? (
+          {data &&
+          data.problems &&
+          data.problems.tests &&
+          data.problems.tests.length > 0 ? (
             <TabContext value={value}>
               <Box
                 sx={{ borderBottom: 1, borderColor: "divider" }}
@@ -121,9 +127,9 @@ function EditorTestCase(props) {
                 <TabList
                   onChange={handleChange}
                   aria-label="lab API tabs example"
-                  sx={{ height: "100%", padding: "3px" , paddingLeft: '0'}}
+                  sx={{ height: "100%", padding: "3px", paddingLeft: "0" }}
                 >
-                  {data.tests.slice(0, 3).map((test, index) => (
+                  {data.problems.tests.slice(0, 3).map((test, index) => (
                     <Tab
                       key={index}
                       label={`Case ${index + 1}`}
@@ -182,6 +188,7 @@ function EditorTestCase(props) {
                           //   submitCode(submission);
                           // }}
                           onClick={handleClickOpen}
+                          disabled={isDeadlinePassed || submitted}
                         >
                           Submit
                         </Button>
@@ -261,7 +268,7 @@ function EditorTestCase(props) {
                   height: "100%",
                 }}
               >
-                {data.tests.slice(0, 3).map((test, index) => (
+                {data.problems.tests.slice(0, 3).map((test, index) => (
                   <TabPanel key={index} value={(index + 1).toString()}>
                     {loading ? (
                       <Box width="100%" height="100%">
@@ -355,6 +362,7 @@ function EditorTestCase(props) {
                 height: "100%",
                 alignItems: "center",
                 justifyContent: "center",
+                flexDirection: "column",
               }}
             >
               {/* <CircularProgress /> */}

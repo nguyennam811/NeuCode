@@ -40,47 +40,70 @@ const assignmentSlice = createSlice({
     builder.addCase(assignment.addAssignment.rejected, (state, action) => {
       state.status = "error";
       state.error = action.error.message;
-      toast.error(`Add Assignment is Error: ${state.error} Or ID Problem Already Exists.`);
+      toast.error(
+        `Add Assignment is Error: ${state.error} Or ID Problem Already Exists.`
+      );
     });
 
-    // Update Assignment 
+    // Update Assignment
     builder.addCase(assignment.updateAssignment.pending, (state) => {
-      state.status = 'loading'
-  })
-  
-  builder.addCase(assignment.updateAssignment.fulfilled, (state, action) => {
-      state.data = action.payload
-      state.status = 'success'
+      state.status = "loading";
+    });
+
+    builder.addCase(assignment.updateAssignment.fulfilled, (state, action) => {
+      state.data = action.payload;
+      state.status = "success";
       toast.success("Update Assignment Successfully");
+    });
 
-  })
-
-  builder.addCase(assignment.updateAssignment.rejected, (state, action) => {
-      state.status = 'error'
+    builder.addCase(assignment.updateAssignment.rejected, (state, action) => {
+      state.status = "error";
       state.error = action.error.message;
       toast.error(`Update Assignment is Error: ${state.error}`);
-  })
+    });
 
     // delete Assignment
     builder.addCase(assignment.deleteAssignments.pending, (state) => {
-        state.status = 'loading'
-    })
-    
+      state.status = "loading";
+    });
+
     builder.addCase(assignment.deleteAssignments.fulfilled, (state, action) => {
-        state.data = action.payload;
-        state.status = 'success'
-        toast.success("Delete Assignment Successfully");
-    })
+      state.data = action.payload;
+      state.status = "success";
+      toast.success("Delete Assignment Successfully");
+    });
 
     builder.addCase(assignment.deleteAssignments.rejected, (state, action) => {
-        state.status = 'error'
+      state.status = "error";
+      state.error = action.error.message;
+      toast.error(`Delete Assignment is Error: ${state.error}`);
+    });
+
+    // Get Assignment Detail
+    builder.addCase(assignment.getAssignmentDetail.pending, (state) => {
+      state.status = "loading";
+    });
+
+    builder.addCase(
+      assignment.getAssignmentDetail.fulfilled,
+      (state, action) => {
+        state.data = action.payload;
+        state.status = "success";
+        console.log("Fetch Assignment Detail is success");
+      }
+    );
+
+    builder.addCase(
+      assignment.getAssignmentDetail.rejected,
+      (state, action) => {
+        state.status = "error";
         state.error = action.error.message;
-        toast.error(`Delete Assignment is Error: ${state.error}`);
-    })
+        console.log("Fetch Assignment Detail is error");
+      }
+    );
   },
 });
 
 export default assignmentSlice;
 
 export const { setStatusIdle } = assignmentSlice.actions;
-

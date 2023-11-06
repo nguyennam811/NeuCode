@@ -36,15 +36,6 @@ export const addAssignment = async (assignment) => {
 };
 
 export const updateAssignment = async (assignment) => {
-  // const { id, ...requestBody } = course;
-  // const body = JSON.stringify(requestBody);
-  // const res = await axiosInstance.put(`/course/${id}`,
-  //     body,
-  //     {
-  //       headers: { "Content-Type": "application/json" },
-  //     }
-  //   );
-  // return res.data;
 
   const { course_id, ...requestBody } = assignment;
   const params = new URLSearchParams();
@@ -66,5 +57,10 @@ export const deleteAssignment = async (ids) => {
   ids.forEach((id) => params.append('id', id));
   const res = await axiosInstance.delete(`/assignment/`, { params: params });
   console.log(res)
+  return res.data;
+};
+
+export const fetchAssignmentDetail = async (id) => {
+  const res = await axiosInstance.get(`/assignment/${id}`);
   return res.data;
 };

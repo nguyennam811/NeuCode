@@ -19,6 +19,8 @@ import ProblemList from "../pages/Admin/ProblemList";
 import CoursesTeacher from "../pages/Teacher/CoursesTeacher";
 import CourseAssignmentList from "../pages/Teacher/CoursesTeacher/CourseAssignmentList";
 import StudentList from "../pages/Teacher/CoursesTeacher/StudentList";
+import Assignments from "../pages/Student/Courses/Assignments";
+import AssignmentDetail from "../pages/Student/Courses/Assignments/AssignmentsDetail";
 
 const tokenLoader = () => {
   const token = getAuthToken();
@@ -54,6 +56,16 @@ const router = [
           {
             path: "courses",
             element: <Courses />,
+          },
+          {
+            path: "courses/:id/assignments",
+            element: <Assignments />,
+          },
+          {
+            path: "courses/assignments/:id",
+            loader: tokenLoader,
+            element: <AssignmentDetail />,
+            // element: <ProblemDetail />,
           },
           {
             path: "problems",
