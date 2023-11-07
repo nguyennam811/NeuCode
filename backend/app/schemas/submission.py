@@ -1,6 +1,8 @@
 from pydantic import BaseModel, NonNegativeFloat
 from typing import Optional, List
 import datetime
+from ..models import Difficulty
+from .user import ShowUser
 
 class Submission(BaseModel):
     user_id: str
@@ -18,13 +20,33 @@ class SubmissionResult(BaseModel):
     class Config():
         orm_mode = True
 
+class ProblemSubmit(BaseModel):
+    id: str
+    user_id: str
+    title: str
+    difficulty: Difficulty
+    problem_type: Optional[str]
+    description: Optional[str]
+    max_memory_limit: Optional[NonNegativeFloat]
+    max_execution_time: Optional[NonNegativeFloat]
+    class Config():
+        orm_mode = True
+
 class ShowSubmission(Submission):
     # user: Optional[ShowUser]
     id: str
     status: Optional[str]
     score: Optional[NonNegativeFloat]
+    user: Optional[ShowUser]
     created: datetime.datetime
     updated: Optional[datetime.datetime]
+    problems: Optional[ProblemSubmit]
     tests_result: List[SubmissionResult]
     class Config():
+        orm_mode = True
+
+class ResponseSubmission(BaseModel):
+    total: int
+    data: List[ShowSubmission]
+    class Config:
         orm_mode = True

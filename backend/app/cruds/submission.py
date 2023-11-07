@@ -3,10 +3,62 @@ from .. import models, schemas
 from fastapi import HTTPException, status, BackgroundTasks
 from ..utils import execute_code
 from datetime import datetime, timezone
+from typing import List
+from sqlalchemy import select, text, func, delete
 
-def get_submission_all(db: Session):
-    submissions = db.query(models.Submission).all()
-    return submissions
+def get_submissions_with_conditions(db: Session, offset: int, limit: int, conditions):
+    statement = select(models.Submission).join(models.Problem, models.Submission.problem_id == models.Problem.id).where(text(' and '.join(conditions))).offset(
+        offset).limit(limit).order_by(models.Submission.created.desc())
+    return db.execute(statement).scalars().all()
+
+def count_submission_with_conditions(db: Session, conditions):
+    return db.query(func.count(models.Submission.id)).join(models.Problem, models.Submission.problem_id == models.Problem.id).where(text(' and '.join(conditions))).scalar()
+
+def get_submission_all(
+        db: Session,
+        search_key: str,
+        search_value: str,
+        user_id: str,
+        problem_id: str,
+        assignment_id: str,
+        filter_language: List[str],
+        offset: int = 0,
+        limit: int = 50,
+):
+    # submissions = db.query(models.Submission).all()
+    # return submissions
+    conditions = []
+
+    arr = [
+        [f"language = '{language}'" for language in filter_language],
+    ]
+    for item in arr:
+        temp = ' or '.join(item)
+        if temp != '':
+            conditions.append('(' + temp + ')')
+
+    if user_id:
+        conditions.append(f"user_id = '{user_id}'")
+
+    if problem_id:
+        conditions.append(f"problem_id = '{problem_id}'")
+
+    # if assignment_id:
+    #     conditions.append(f"assignment_id = '{assignment_id}'")
+
+    if assignment_id and assignment_id.lower() != 'null':
+        conditions.append(f"assignment_id = '{assignment_id}'")
+    else:
+        conditions.append("assignment_id IS NULL")  # Add condition to filter out null assignments
+
+    if search_value != '':
+        conditions.append(f"cast({search_key} as varchar) like('%{search_value}%')")
+    print(conditions)
+
+    return {
+        'data': get_submissions_with_conditions(db=db, offset=offset, limit=limit, conditions=conditions),
+        'total': count_submission_with_conditions(db=db, conditions=conditions)
+    }
 
 # def create_submission(request: schemas.Submission, db: Session, background_tasks: BackgroundTasks):
 #     new_submission = models.Submission(**request.dict())
