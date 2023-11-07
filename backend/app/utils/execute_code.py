@@ -38,7 +38,7 @@ async def run_code(db: Session, submission_id: str):
 
     current_datetime = datetime.datetime.now()
     formatted_datetime = current_datetime.strftime("%H_%M_%S-%d_%m_%Y")
-    file_path = f"./temp/{formatted_datetime}-{submission.user_id}.{submission.language}"
+    file_path = f"./temp/{formatted_datetime}-{submission.submiter_id}.{submission.language}"
     with open(file_path, "w", encoding="utf-8") as program_file:
         program_file.write(submission.code)
 

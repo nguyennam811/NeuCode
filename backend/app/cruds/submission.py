@@ -18,7 +18,7 @@ def get_submission_all(
         db: Session,
         search_key: str,
         search_value: str,
-        user_id: str,
+        submiter_id: str,
         problem_id: str,
         assignment_id: str,
         filter_language: List[str],
@@ -37,8 +37,8 @@ def get_submission_all(
         if temp != '':
             conditions.append('(' + temp + ')')
 
-    if user_id:
-        conditions.append(f"user_id = '{user_id}'")
+    if submiter_id:
+        conditions.append(f"submiter_id = '{submiter_id}'")
 
     if problem_id:
         conditions.append(f"problem_id = '{problem_id}'")

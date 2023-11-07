@@ -21,6 +21,6 @@ class User(Base, TimeModel):
     role = Column(Enum(Role), default=Role.STUDENT)
 
     problems = relationship("Problem", back_populates="user")
-    submissions = relationship("Submission", back_populates="user")
+    submissions = relationship("Submission", back_populates="submiter")
     courses = relationship("Course", back_populates="user")
     student_course = relationship("CourseStudent", back_populates="user")

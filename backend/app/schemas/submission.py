@@ -5,18 +5,20 @@ from ..models import Difficulty
 from .user import ShowUser
 
 class Submission(BaseModel):
-    user_id: str
+    submiter_id: str
     problem_id: str
     language: str
     code: Optional[str]
     assignment_id: Optional[str]
 
 class SubmissionResult(BaseModel):
+    id: str
     submission_id: str
     output: str
     time: Optional[NonNegativeFloat]
     memory: Optional[NonNegativeFloat]
     status_data: str
+    created: datetime.datetime
     class Config():
         orm_mode = True
 
@@ -37,7 +39,7 @@ class ShowSubmission(Submission):
     id: str
     status: Optional[str]
     score: Optional[NonNegativeFloat]
-    user: Optional[ShowUser]
+    submiter: Optional[ShowUser]
     created: datetime.datetime
     updated: Optional[datetime.datetime]
     problems: Optional[ProblemSubmit]
