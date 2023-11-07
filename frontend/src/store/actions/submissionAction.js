@@ -6,7 +6,8 @@ export const init = {
     data: {},
     status: 'idle',
     error: null,
-    tabs: '1'
+    tabs: '1',
+    detail: {}
 }
 
 export const setStatusIdle = (state) => {
@@ -15,6 +16,10 @@ export const setStatusIdle = (state) => {
 
 export const setTabValue = (state, action) => {
     state.tabs = action.payload
+}
+
+export const setDetailSubmission = (state, action) => {
+    state.detail = action.payload
 }
 
 export const getSubmissions = createAsyncThunk(

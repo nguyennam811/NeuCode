@@ -7,6 +7,7 @@ const submissionSlice = createSlice({
   reducers: {
     setStatusIdle: submission.setStatusIdle,
     setTabValue: submission.setTabValue,
+    setDetailSubmission: submission.setDetailSubmission
   },
   extraReducers: (builder) => {
     // Get Submission
@@ -26,6 +27,30 @@ const submissionSlice = createSlice({
       console.log("Fetch Submission is error");
     });
 
+    // // post Submission
+    // builder.addCase(submission.addSubmissionByUser.pending, (state) => {
+    //   state.status = "loading";
+    // });
+
+    // builder.addCase(
+    //   submission.addSubmissionByUser.fulfilled,
+    //   (state, action) => {
+    //     state.data = action.payload;
+    //     console.log(action.payload);
+    //     state.status = "success";
+    //     console.log("add submission is success");
+    //   }
+    // );
+
+    // builder.addCase(
+    //   submission.addSubmissionByUser.rejected,
+    //   (state, action) => {
+    //     state.status = "error";
+    //     state.error = action.error.message;
+    //     console.log("add submission is error");
+    //   }
+    // );
+
     // post Submission
     builder.addCase(submission.addSubmissionByUser.pending, (state) => {
       state.status = "loading";
@@ -34,7 +59,7 @@ const submissionSlice = createSlice({
     builder.addCase(
       submission.addSubmissionByUser.fulfilled,
       (state, action) => {
-        state.data = action.payload;
+        state.detail = action.payload;
         console.log(action.payload);
         state.status = "success";
         console.log("add submission is success");
@@ -56,7 +81,8 @@ const submissionSlice = createSlice({
     });
 
     builder.addCase(submission.getSubmissionById.fulfilled, (state, action) => {
-      state.data = action.payload;
+      // state.data = action.payload;
+      state.detail = action.payload;
       console.log(action.payload);
       state.status = "success";
       console.log("get submission ID is success");
@@ -72,7 +98,7 @@ const submissionSlice = createSlice({
 
 export default submissionSlice;
 
-export const { setStatusIdle, setTabValue } = submissionSlice.actions;
+export const { setStatusIdle, setTabValue, setDetailSubmission } = submissionSlice.actions;
 
 // Lý do bạn không cần phải thêm getProblems vào phần export của problemSlice.actions
 // là vì getProblems đã được tạo ra bởi createAsyncThunk và nó không cần được export ra bên ngoài slice.

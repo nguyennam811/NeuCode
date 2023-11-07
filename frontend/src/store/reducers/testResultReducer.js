@@ -6,6 +6,7 @@ const testResultSlice = createSlice({
     initialState: testResult.init,
     reducers: {
         setStatusIdle: testResult.setStatusIdle,
+        setTestResult: testResult.setTestResult
     },
     extraReducers: (builder) => {
         // Get test result
@@ -31,7 +32,8 @@ const testResultSlice = createSlice({
 export default testResultSlice
 
 export const {
-    setStatusIdle
+    setStatusIdle,
+    setTestResult
 } = testResultSlice.actions
 
 // Lý do bạn không cần phải thêm getProblems vào phần export của problemSlice.actions 

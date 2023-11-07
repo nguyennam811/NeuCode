@@ -41,7 +41,7 @@ function EditorTestCase(props) {
   const submission = {
     language: mapLanguage(languages),
     code: code,
-    user_id: current_user.sub,
+    submiter_id: current_user.sub,
     problem_id: data.problem_id,
     assignment_id: assignment.id,
   };

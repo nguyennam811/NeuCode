@@ -32,11 +32,11 @@ export const submissionsTableHeaders = [
     ),
   },
   {
-    id: "submitter",
+    id: "submiter",
     label: "Submitter",
     numeric: false,
     disablePadding: false,
-    renderFn: (submission) => submission.user.fullname,
+    renderFn: (submission) => submission.submiter.fullname,
   },
   {
     id: "language",

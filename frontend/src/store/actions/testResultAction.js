@@ -12,6 +12,10 @@ export const setStatusIdle = (state) => {
     state.status = 'idle'
 }
 
+export const setTestResult = (state, action) => {
+    state.data = action.payload
+}
+
 export const getTestResult = createAsyncThunk(
     "getTest_Result",
     async (id_submission) => {
