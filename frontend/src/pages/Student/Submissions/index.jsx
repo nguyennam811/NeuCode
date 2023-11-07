@@ -169,7 +169,6 @@ const SubmissionsPage = () => {
                 />
               </Box>
               <FilterSubmissions
-                data={data?.data ?? []}
                 onSearchFilter={handleDeviceSearchAndFilter}
               />
             </Box>

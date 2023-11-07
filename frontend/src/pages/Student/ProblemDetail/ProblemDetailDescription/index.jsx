@@ -1,16 +1,12 @@
 import { Box, Tab } from "@mui/material";
 import React from "react";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { useDispatch, useSelector } from "react-redux";
-import { setTabValue } from "../../../../store/reducers/submissionReducer";
 import Description from "./Description";
 import SubmissionResult from "./SubmissionResult";
 import Discussions from "./Discussions";
 import { memo } from "react";
-function ProblemDetailDescription() {
-  console.log("ProblemDetailDescription");
+function ProblemDetailDescription({value, setValue, historyProblem, setHistoryProblem}) {
 
-  const dispatch = useDispatch();
   const tabStyle = {
     height: "58px",
     backgroundColor: "#ffffff",
@@ -21,36 +17,10 @@ function ProblemDetailDescription() {
     textTransform: "capitalize",
   };
 
-  const value = useSelector((reducers) => reducers.submission.tabs);
-
   const handleChange = (event, newValue) => {
-    dispatch(setTabValue(newValue));
+    setValue(newValue);
+    setHistoryProblem(true)
   };
-
-  // const [test_result, setTestResult] = useState([]);
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     // Gọi API ở đây
-  //     fetch("http://localhost:8000/api/test_result", {
-  //     headers: { submission: 'c256e5bc-5d3f-484e-bf0b-3276a884f93c' },
-  //   }).then((response) => response.json())
-  //   .then((res) => {
-  //   console.log(res)
-  //     if (res.status_data === 'đã chấm') {
-  //       clearInterval(interval); // Dừng setInterval khi status là 'đã chấm'
-  //     }
-  //     setTestResult(res);
-  //   })
-  //   .catch((error) => {
-  //     console.error('Error fetching data:', error);
-  //   });
-  //   }, 1000); // Gọi API mỗi giây
-
-  //   // Xoá interval khi component unmount
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // }, []);
 
   return (
     <Box sx={{ width: "100%" }} display="flex" flexDirection="column">
@@ -93,7 +63,7 @@ function ProblemDetailDescription() {
             <Description />
           </TabPanel>
           <TabPanel value="2">
-            <SubmissionResult />
+            <SubmissionResult historyProblem={historyProblem}/>
           </TabPanel>
           <TabPanel value="3">
             <Discussions />

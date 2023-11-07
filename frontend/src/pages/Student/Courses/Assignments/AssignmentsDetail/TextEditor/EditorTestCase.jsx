@@ -181,10 +181,7 @@ function EditorTestCase(props) {
                         <Button
                           variant="contained"
                           size="small"
-                          // onClick={() =>
-                          // {
-                          //   submitCode(submission);
-                          // }}
+                          
                           onClick={handleClickOpen}
                           disabled={isDeadlinePassed || submitted}
                         >

@@ -11,9 +11,7 @@ import { getCurrentUser } from "../../../../utils/auth";
 import { mapLanguage } from "../../../../utils/mapLanguage";
 import { memo } from "react";
 
-function TextEditor() {
-  const problemId = useParams();
-  console.log("Problem ID:", problemId.id);
+function TextEditor({setValueDescription, setHistoryProblem}) {
 
   const [languages, setLanguage] = useState("cpp");
   const [code, setCode] = useState("");
@@ -134,6 +132,8 @@ function TextEditor() {
           <EditorTestCase
             code={code}
             languages={languages}
+            setValueDescription={setValueDescription}
+            setHistoryProblem={setHistoryProblem}
           />
         </Split>
       </Box>

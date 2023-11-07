@@ -4,7 +4,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useState } from "react";
 import AutocompleteField from "../../../components/FormDialog/FieldTypes/AutocompleteField";
 
-function FilterSubmissions({ data, onSearchFilter }) {
+function FilterSubmissions({ onSearchFilter }) {
   const [filtered, setFiltered] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [values, setValues] = useState({});
@@ -16,35 +16,6 @@ function FilterSubmissions({ data, onSearchFilter }) {
     { value: "py", label: "Python" },
     { value: "php", label: "PHP" },
   ];
-
-  // // lọc theo problem type
-  // const uniqueProblemTypes = new Set();
-  // data.forEach((item) => {
-  //   uniqueProblemTypes.add(item.problem_type);
-  // });
-
-  // const problemTypeOptions = [...uniqueProblemTypes].map((value) => ({
-  //   value: value,
-  //   label: value,
-  // }));
-
-  // //lọc theo author
-
-  // const authorOptions = [];
-  // const userMap = {};
-  // data.forEach((item) => {
-  //   const user = item.user;
-
-  //   if (!userMap[user.id]) {
-  //     authorOptions.push({
-  //       value: user.id,
-  //       label: user.fullname,
-  //     });
-  //     userMap[user.id] = true;
-  //   }
-  // });
-
-  // console.log(authorOptions)
 
   const filterOptions = [
     {

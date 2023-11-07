@@ -11,20 +11,20 @@ import { getProblemDetail } from "../../../store/actions/problemDetailAction";
 
 const ProblemDetail = () => {
   const problemId = useParams();
-  console.log("Problem ID:", problemId.id);
-
   const dispatch = useDispatch();
 
   useEffect(()=> {
     dispatch(getProblemDetail(problemId.id))
   }, [problemId.id])
 
-  
+  const [value, setValue] = useState('1');
+  const [historyProblem, setHistoryProblem] = useState(true)
+
   return (
     <Box sx={{ height: "100%" }}>
       <Split className="split" gutterSize={7} minSize={[25, 375]} sizes={[50, 50]}>
-        <ProblemDetailDescription />
-        <TextEditor/>
+        <ProblemDetailDescription value={value} setValue={setValue} historyProblem={historyProblem} setHistoryProblem={setHistoryProblem}/>
+        <TextEditor setValueDescription={setValue} setHistoryProblem={setHistoryProblem}/>
       </Split>
     </Box>
   );

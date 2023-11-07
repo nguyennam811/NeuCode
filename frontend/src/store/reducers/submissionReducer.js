@@ -6,7 +6,6 @@ const submissionSlice = createSlice({
   initialState: submission.init,
   reducers: {
     setStatusIdle: submission.setStatusIdle,
-    setTabValue: submission.setTabValue,
     setDetailSubmission: submission.setDetailSubmission
   },
   extraReducers: (builder) => {
@@ -98,7 +97,7 @@ const submissionSlice = createSlice({
 
 export default submissionSlice;
 
-export const { setStatusIdle, setTabValue, setDetailSubmission } = submissionSlice.actions;
+export const { setStatusIdle, setDetailSubmission } = submissionSlice.actions;
 
 // Lý do bạn không cần phải thêm getProblems vào phần export của problemSlice.actions
 // là vì getProblems đã được tạo ra bởi createAsyncThunk và nó không cần được export ra bên ngoài slice.

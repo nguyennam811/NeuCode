@@ -20,22 +20,15 @@ import { getTestResult } from "../../../../store/actions/testResultAction";
 import { useState } from "react";
 import { memo } from "react";
 import { getCellColor } from "../../../../utils/status";
-import ScoreSubmission from "./ScoreSubmission";
-import { getSubmissionById } from "../../../../store/actions/submissionAction";
+import { getSubmissionById, getSubmissions } from "../../../../store/actions/submissionAction";
+import { useLoaderData, useParams } from "react-router-dom";
+import { setDetailSubmission } from "../../../../store/reducers/submissionReducer";
+import { setTestResult } from "../../../../store/reducers/testResultReducer";
+import ErrorData from "../../../ErrorData";
+import HistoryProblem from "./HistoryProblem";
 
-function SubmissionResult() {
-  // const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  //   "& td, & th": {
-  //     border: "1px solid #a19797",
-  //   },
-  // }));
-  // const submission = useSelector((reducers) => reducers.submission.data);
-  // const test_result = useSelector((reducers) => reducers.test_result.data)
-  // console.log(test_result)
-  // const [shouldProceed, setShouldProceed] = useState(false);
-
+function SubmissionResult({ historyProblem }) {
   const dispatch = useDispatch();
-
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
     "& td, & th": {
       border: "1px solid #a19797",
@@ -44,15 +37,41 @@ function SubmissionResult() {
 
   const [reloadCounter, setReloadCounter] = useState(0);
 
-  const submission = useSelector((reducers) => reducers.submission.data);
-  console.log(submission);
+  const current_user = useLoaderData();
+  const problem = useParams();
+  const [fetchingParams, setFetchingParams] = useState({
+    offset: 0,
+    limit: 10,
+    submiter_id: current_user.sub,
+    problem_id: problem.id,
+  });
 
   useEffect(() => {
-    if (Object.keys(submission).length > 0) {
+    dispatch(getSubmissions(fetchingParams));
+  }, [fetchingParams]);
+  const data = useSelector((reducers) => reducers.submission.data);
+  const status = useSelector((reducers) => reducers.submission.status);
+  console.log(status);
+  console.log(data);
+
+  const submission = useSelector((reducers) => reducers.submission.detail);
+  console.log(submission);
+
+  // useEffect(() => {
+  //   if (Object.keys(submission).length > 0) {
+  //     dispatch(getTestResult(submission.id));
+  //     dispatch(getSubmissionById(submission.id));
+  //   }
+  // }, [submission.id, reloadCounter]);
+  useEffect(() => {
+    if (historyProblem === true) {
+      dispatch(setDetailSubmission({}));
+      dispatch(setTestResult([]));
+    } else if (Object.keys(submission).length > 0) {
       dispatch(getTestResult(submission.id));
       dispatch(getSubmissionById(submission.id));
     }
-  }, [submission.id, reloadCounter]);
+  }, [historyProblem, submission.id, reloadCounter]);
 
   const test_result = useSelector((reducers) => reducers.test_result.data);
   console.log(test_result);
@@ -71,19 +90,12 @@ function SubmissionResult() {
     }
   }, [test_result, dispatch, submission]);
 
-  // useEffect(() => {
-  //   if (test_result.length > 0) {
-  //     setShouldProceed(true);
-  //   } else{
-  //     setShouldProceed(false);
-  //   }
-  // }, [test_result]);
 
   return (
     <>
-      {Object.keys(submission).length === 0 ? (
-        "Hãy submit đi nhé"
-      ) : test_result.length > 0 ? (
+      {historyProblem === false ? (
+        <>
+       {test_result.length > 0 ? (
         <TableContainer component={Paper}>
           <Table>
             <TableHead sx={{ backgroundColor: "#cdd0d3" }}>
@@ -112,7 +124,6 @@ function SubmissionResult() {
             </TableBody>
           </Table>
 
-          {/* <ScoreSubmission /> */}
           <TableCell>
             <Box>
               <Typography fontSize={20}>
@@ -125,7 +136,22 @@ function SubmissionResult() {
         <CircularProgress />
       )}
     </>
-  );
+  ) : (
+    <>
+      {status === "loading" && <CircularProgress />}
+      {status === "error" && <ErrorData />}
+
+      {status === "success" && data?.data.length > 0 ? (
+        <HistoryProblem data={data?.data ?? []} />
+      ) : (
+        <Typography variant="h5" mt={5}>
+          You have not made any submissions
+        </Typography>
+      )}
+    </>
+  )}
+</>
+);
 }
 
 export default memo(SubmissionResult);

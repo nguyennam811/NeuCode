@@ -6,16 +6,11 @@ export const init = {
     data: {},
     status: 'idle',
     error: null,
-    tabs: '1',
     detail: {}
 }
 
 export const setStatusIdle = (state) => {
     state.status = 'idle'
-}
-
-export const setTabValue = (state, action) => {
-    state.tabs = action.payload
 }
 
 export const setDetailSubmission = (state, action) => {

@@ -10,8 +10,6 @@ import { useParams } from "react-router-dom";
 import { memo } from "react";
 
 function TextEditor({setValueDescription, SetHistoryAssignment}) {
-  const problemId = useParams();
-  console.log("Problem ID:", problemId.id);
 
   const [languages, setLanguage] = useState("cpp");
   const [code, setCode] = useState("");

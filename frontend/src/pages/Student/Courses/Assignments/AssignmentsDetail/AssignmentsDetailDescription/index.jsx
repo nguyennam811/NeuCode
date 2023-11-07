@@ -6,7 +6,6 @@ import Description from "./Description";
 import SubmissionResult from "./SubmissionResult";
 import { memo } from "react";
 function AssignmentDetailDescription({value, setValue, historyAssignment, SetHistoryAssignment}) {
-  console.log("AssignmentDetailDescription");
 
   const dispatch = useDispatch();
   const tabStyle = {

@@ -32,7 +32,7 @@ import PhoneIcon from "@mui/icons-material/Phone";
 function EditorTestCase(props) {
   const dispatch = useDispatch();
   const current_user = useLoaderData();
-  const { code, languages } = props;
+  const { code, languages, setHistoryProblem, setValueDescription } = props;
   const [value, setValue] = useState("1");
   const [testCase, setTestCase] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -61,9 +61,13 @@ function EditorTestCase(props) {
   };
 
   const submitCode = (submission) => {
+    // dispatch(addSubmissionByUser(submission));
+    // dispatch(setTabValue("2"));
+    // setOpen(false);
     dispatch(addSubmissionByUser(submission));
-    dispatch(setTabValue("2"));
+    setValueDescription('2')
     setOpen(false);
+    setHistoryProblem(false)
   };
 
   const execute_test_case = async () => {
@@ -177,10 +181,7 @@ function EditorTestCase(props) {
                         <Button
                           variant="contained"
                           size="small"
-                          // onClick={() =>
-                          // {
-                          //   submitCode(submission);
-                          // }}
+
                           onClick={handleClickOpen}
                         >
                           Submit
@@ -357,7 +358,6 @@ function EditorTestCase(props) {
                 justifyContent: "center",
               }}
             >
-              {/* <CircularProgress /> */}
               <Typography variant="h5">No Test yet</Typography>
             </Box>
           )}
