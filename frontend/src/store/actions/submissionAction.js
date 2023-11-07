@@ -17,6 +17,18 @@ export const setTabValue = (state, action) => {
     state.tabs = action.payload
 }
 
+export const getSubmissions = createAsyncThunk(
+    "getSubmissions",
+    async (params) => {
+        try {
+            return await submissionApi.fetchSubmissionsAll(params)
+        } catch (error) {
+            // return error.message
+            throw new Error("Failed to fetch submissions");
+        }
+    }
+)
+
 export const addSubmissionByUser = createAsyncThunk(
     "addSubmission",
     async (submission) => {

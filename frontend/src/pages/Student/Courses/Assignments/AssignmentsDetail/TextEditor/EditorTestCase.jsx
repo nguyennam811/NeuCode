@@ -24,7 +24,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { mapLanguage } from "../../../../../../utils/mapLanguage";
 import { addSubmissionByUser } from "../../../../../../store/actions/submissionAction";
-import { setTabValue } from "../../../../../../store/reducers/assignmentReducer";
 
 function EditorTestCase(props) {
   const dispatch = useDispatch();
@@ -62,7 +61,6 @@ function EditorTestCase(props) {
 
   const submitCode = (submission) => {
     dispatch(addSubmissionByUser(submission));
-    // dispatch(setTabValue("2"));
     setValueDescription('2')
     setOpen(false);
     setSubmitted(true);

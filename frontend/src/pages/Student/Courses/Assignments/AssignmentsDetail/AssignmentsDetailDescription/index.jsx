@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import Description from "./Description";
 import SubmissionResult from "./SubmissionResult";
 import { memo } from "react";
-import { setTabValue } from "../../../../../../store/reducers/assignmentReducer";
 function AssignmentDetailDescription({value, setValue, historyAssignment, SetHistoryAssignment}) {
   console.log("AssignmentDetailDescription");
 
