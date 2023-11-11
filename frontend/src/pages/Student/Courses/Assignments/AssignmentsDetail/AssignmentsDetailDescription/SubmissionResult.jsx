@@ -38,19 +38,19 @@ function SubmissionResult({ historyAssignment }) {
     },
   }));
   const [reloadCounter, setReloadCounter] = useState(0);
+  
+  // const current_user = useLoaderData();
+  // const assignment = useParams();
+  // const [fetchingParams, setFetchingParams] = useState({
+  //   offset: 0,
+  //   limit: 10,
+  //   submiter_id: current_user.sub,
+  //   assignment_id: assignment.id,
+  // });
 
-  const current_user = useLoaderData();
-  const assignment = useParams();
-  const [fetchingParams, setFetchingParams] = useState({
-    offset: 0,
-    limit: 10,
-    submiter_id: current_user.sub,
-    assignment_id: assignment.id,
-  });
-
-  useEffect(() => {
-    dispatch(getSubmissions(fetchingParams));
-  }, [fetchingParams]);
+  // useEffect(() => {
+  //   dispatch(getSubmissions(fetchingParams));
+  // }, [fetchingParams]);
 
   const data = useSelector((reducers) => reducers.submission.data);
   const status = useSelector((reducers) => reducers.submission.status);
@@ -60,11 +60,18 @@ function SubmissionResult({ historyAssignment }) {
   const submission = useSelector((reducers) => reducers.submission.detail);
   console.log(submission);
 
-
+  const assignment = useParams();
+  const current_user = useLoaderData();
   useEffect(() => {
     if (historyAssignment === true) {
       dispatch(setDetailSubmission({}));
       dispatch(setTestResult([]));
+      dispatch(getSubmissions({
+        offset: 0,
+        limit: 10,
+        submiter_id: current_user.sub,
+        assignment_id: assignment.id,
+      }));
     } else if (Object.keys(submission).length > 0) {
       dispatch(getTestResult(submission.id));
       dispatch(getSubmissionById(submission.id));

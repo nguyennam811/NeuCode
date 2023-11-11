@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import {
   Box,
-  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -19,7 +18,6 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import CloseIcon from "@mui/icons-material/Close";
 import { useLoaderData, useParams } from "react-router-dom";
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { mapLanguage } from "../../../../../../utils/mapLanguage";
@@ -34,6 +32,10 @@ function EditorTestCase(props) {
   const [loading, setLoading] = useState(true);
   const assignment = useParams();
   const [submitted, setSubmitted] = useState(false);
+
+  const submitdata = useSelector((reducers) => reducers.submission.data);
+  console.log('submitdata', submitdata);
+  const canSubmit = submitdata.total === 0;
 
   const data = useSelector((reducers) => reducers.assignment.data);
   console.log(data);
@@ -183,7 +185,7 @@ function EditorTestCase(props) {
                           size="small"
                           
                           onClick={handleClickOpen}
-                          disabled={isDeadlinePassed || submitted}
+                          disabled={isDeadlinePassed || !canSubmit || submitted}
                         >
                           Submit
                         </Button>
