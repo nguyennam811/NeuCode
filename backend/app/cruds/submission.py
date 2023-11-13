@@ -103,13 +103,19 @@ def update_submission(id: str, request: schemas.Submission, db: Session):
     db.commit()
     return 'updated submission'
 
-def delete_submission(id: str, db: Session):
-    submission = db.query(models.Submission).filter(models.Submission.id == id)
-    if not submission.first():
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'submission with id {id} not found')
-    submission.delete(synchronize_session=False)
-    # Tham số synchronize_session=False được sử dụng để chỉ định rằng đối tượng submission không cần được đồng bộ hóa
-    # với phiên làm việc (session) hiện tại. Tham số này giúp tối ưu hóa hiệu suất và tránh các tình
-    # huống đồng bộ hóa không cần thiết
+# def delete_submission(id: str, db: Session):
+#     submission = db.query(models.Submission).filter(models.Submission.id == id)
+#     if not submission.first():
+#         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'submission with id {id} not found')
+#     submission.delete(synchronize_session=False)
+#     # Tham số synchronize_session=False được sử dụng để chỉ định rằng đối tượng submission không cần được đồng bộ hóa
+#     # với phiên làm việc (session) hiện tại. Tham số này giúp tối ưu hóa hiệu suất và tránh các tình
+#     # huống đồng bộ hóa không cần thiết
+#     db.commit()
+#     return 'deleted submission'
+
+def delete_submission(db: Session, submission_ids: List[str]):
+    statement = delete(models.Submission).where(models.Submission.id.in_(submission_ids)).returning(models.Submission.id)
+    db.execute(statement).scalars().all()
     db.commit()
-    return 'deleted submission'
+    return None

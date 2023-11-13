@@ -46,8 +46,12 @@ async def get_submission_by_id(id: str, db: Session = Depends(get_db)):
 async def update_submission(id: str, request: schemas.Submission, db: Session = Depends(get_db)):
     return submission.update_submission(id, request, db)
 
-@router.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
-async def delete_submission(id: str, db: Session = Depends(get_db)):
-    return submission.delete_submission(id, db)
+# @router.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
+# async def delete_submission(id: str, db: Session = Depends(get_db)):
+#     return submission.delete_submission(id, db)
+
+@router.delete('/', status_code=status.HTTP_204_NO_CONTENT)
+async def delete_submission(submission_ids: List[str] = Query(default=[], alias='id'), db: Session = Depends(get_db)):
+    return submission.delete_submission(db=db, submission_ids=submission_ids)
 
 
