@@ -1,5 +1,10 @@
 import axiosInstance from "./axiosInstance";
 
+export const fetchCoursesAll = async () => {
+  const res = await axiosInstance.get(`/course/`);
+  return res.data;
+};
+
 export const fetchCourses = async (params) => {
   console.log(params);
   let searchParams = new URLSearchParams();

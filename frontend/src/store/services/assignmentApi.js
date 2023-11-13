@@ -35,6 +35,18 @@ export const addAssignment = async (assignment) => {
   return res.data;
 };
 
+export const moveToAssignment = async (assignment) => {
+  const body = JSON.stringify(assignment);
+  const res = await axiosInstance.post(
+      "/assignment",
+      body,
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+  return res.data;
+};
+
 export const updateAssignment = async (assignment) => {
 
   const { course_id, ...requestBody } = assignment;

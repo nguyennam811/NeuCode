@@ -12,6 +12,18 @@ export const setStatusIdle = (state) => {
     state.status = 'idle'
 }
 
+export const getCoursesAll = createAsyncThunk(
+    "getCoursesAll",
+    async () => {
+        try {
+            return await courseApi.fetchCoursesAll()
+        } catch (error) {
+            // return error.message
+            throw new Error("Failed to fetch all courses");
+        }
+    }
+)
+
 export const getCourses = createAsyncThunk(
     "getCourses",
     async (params) => {

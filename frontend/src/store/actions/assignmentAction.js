@@ -37,6 +37,19 @@ export const addAssignment = createAsyncThunk(
     }
 )
 
+export const moveToAssignment = createAsyncThunk(
+    "moveToAssignment",
+    async (assignment) => {
+        try {
+            return await assignmentApi.moveToAssignment(assignment)
+        } catch (error) {
+            // console.log(error.message)
+            throw new Error(error.message);
+
+        }
+    }
+)
+
 export const updateAssignment = createAsyncThunk(
     "updateAssignment",
     async (assignment) => {

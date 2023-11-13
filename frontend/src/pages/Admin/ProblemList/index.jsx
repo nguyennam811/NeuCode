@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, ButtonGroup } from "@mui/material";
+import { Button, ButtonGroup, Tooltip } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import {
@@ -17,14 +17,17 @@ import {
   updateProblemByUser,
 } from "../../../store/actions/problemDetailAction";
 
-import { VisibilityOutlined } from '@mui/icons-material';
+import { VisibilityOutlined } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import ProblemUpdateFormDialog from "../../Teacher/ProblemsTeacher/ProblemUpdateFormDialog";
 import ProblemCreateFormDialog from "../../Teacher/ProblemsTeacher/ProblemCreateFormDialog";
 import AddTestDialog from "../../Teacher/ProblemsTeacher/ProblemTest/AddTestDialog";
 import UpdateTestDialog from "../../Teacher/ProblemsTeacher/ProblemTest/UpdateTestDialog";
 import { getColorDifficulty } from "../../../utils/status";
-
+import DriveFileMoveIcon from "@mui/icons-material/DriveFileMove";
+import MoveToAssignment from "../../Teacher/ProblemsTeacher/MoveToAssignment";
+import { moveToAssignment } from "../../../store/actions/assignmentAction";
+import { getCourses, getCoursesAll } from "../../../store/actions/courseAction";
 
 export const problemsTableHeaders = [
   {
@@ -64,7 +67,13 @@ export const problemsTableHeaders = [
     label: "Difficulty",
     numeric: false,
     disablePadding: false,
-    renderFn: (problem) => <div dangerouslySetInnerHTML={{ __html: getColorDifficulty(problem.difficulty) }} />,
+    renderFn: (problem) => (
+      <div
+        dangerouslySetInnerHTML={{
+          __html: getColorDifficulty(problem.difficulty),
+        }}
+      />
+    ),
     descComparatorFn: (a, b) => {
       if (b.difficulty < a.difficulty) {
         return -1;
@@ -120,12 +129,27 @@ const ProblemList = () => {
 
   useEffect(() => {
     dispatch(getProblems(fetchingParams));
+    dispatch(getCoursesAll());
   }, [fetchingParams]);
 
   const data = useSelector((reducers) => reducers.problem.data);
   const status = useSelector((reducers) => reducers.problem.status);
   console.log(status);
   console.log(data);
+
+  const courses = useSelector((reducers) => reducers.course.data);
+  console.log(courses);
+
+  const filteredCourses = [];
+  if (courses?.data) {
+    courses?.data.forEach((course) => {
+      filteredCourses.push({
+        value: course.id,
+        label: `${course.course_name} - ${course.course_time}`,
+      });
+    });
+  }
+  console.log(filteredCourses);
 
   //Search
   const problemSearchFields = [
@@ -254,6 +278,13 @@ const ProblemList = () => {
     dispatch(getProblems(fetchingParams));
   };
 
+  const handleMoveAssignment = async (values) => {
+    console.log(values);
+    await dispatch(moveToAssignment(values));
+    navigate(`/admin/courses/${values.course_id}`);
+    dispatch(getProblems(fetchingParams));
+  };
+
   const isEditing = editingProblem !== undefined;
 
   //TEST
@@ -294,6 +325,16 @@ const ProblemList = () => {
     dispatch(getProblems(fetchingParams));
   };
 
+  //Move to assignment
+  const [isMoveAssignment, setIsMoveAssignment] = useState(false);
+  const [problemAssignment, setProblemAssignmen] = useState();
+
+  const handleClickModeAssignment = (problemID) => {
+    console.log(problemID);
+    setProblemAssignmen(problemID);
+    setIsMoveAssignment(true);
+  };
+
   const updatedHeadProblems = useMemo(() => {
     return [
       ...problemsTableHeaders,
@@ -303,29 +344,28 @@ const ProblemList = () => {
         numeric: false,
         disablePadding: false,
         renderFn: (problem) => {
-            return problem.tests.length === 0 ? (
-              <Button
-                color="error"
-                variant="outlined"
-                onClick={(e) => {
-                  e.stopPropagation(); 
-                  handleClickOpen(problem.id);
-                }}
-              >
-                Thêm Test
-              </Button>
-            ) : (
-              <Button
-                variant="outlined"
-                onClick={(e) => {
-                  e.stopPropagation(); 
-                  XemTest(problem.tests, problem.id);
-                }}
-              >
-                Xem Test
-              </Button>
-            );
-          
+          return problem.tests.length === 0 ? (
+            <Button
+              color="error"
+              variant="outlined"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleClickOpen(problem.id);
+              }}
+            >
+              Thêm Test
+            </Button>
+          ) : (
+            <Button
+              variant="outlined"
+              onClick={(e) => {
+                e.stopPropagation();
+                XemTest(problem.tests, problem.id);
+              }}
+            >
+              Xem Test
+            </Button>
+          );
         },
       },
       {
@@ -374,27 +414,45 @@ const ProblemList = () => {
               e.stopPropagation();
             }}
           >
-            <IconButton
-              aria-label='view'
-              color='primary'
-              onClick={() => {
-                navigate(`${problem.id}`);
-              }}
-            >
-              <VisibilityOutlined />
-            </IconButton>
-            <IconButton
-              color='warning'
-              aria-label='edit device type'
-              onClick={(e) => {
-                e.stopPropagation();
+            <Tooltip title="View problem">
+              <IconButton
+                aria-label="view"
+                color="primary"
+                onClick={() => {
+                  navigate(`${problem.id}`);
+                }}
+              >
+                <VisibilityOutlined />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Update Problem">
+              <IconButton
+                color="warning"
+                aria-label="edit problem"
+                onClick={(e) => {
+                  e.stopPropagation();
                   setEditingProblem(problem);
-              }}
-            >
-              <ModeEditOutlinedIcon />
-            </IconButton>
+                }}
+              >
+                <ModeEditOutlinedIcon />
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title="Move to Assignment">
+              <IconButton
+                color="error"
+                aria-label="Move to Assignment"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  // setEditingProblem(problem);
+                  handleClickModeAssignment(problem.id);
+                }}
+              >
+                <DriveFileMoveIcon />
+              </IconButton>
+            </Tooltip>
           </ButtonGroup>
-        )
+        ),
       },
     ];
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -432,26 +490,26 @@ const ProblemList = () => {
           })}
         />
       )}
-        {status !== "error" && (
-          <TableFrameDetail
-            title="Table Problems"
-            data={data?.data ?? []}
-            isLoading={status === "loading"}
-            total={data?.total ?? 0}
-            searchFields={problemSearchFields}
-                filterOptions={filterOptions}
-            numOfColumnsInFilter={4}
-            headCells={updatedHeadProblems}
-            onPagination={handlePagination}
-            showCheckbox={true}
-            onSearch={handleProblemSearch}
-            onFilter={handleProblemFilter}
-            handleNewClick={() => {
-              setIsShowCreateDialog(true);
-            }}
-            onDeleteRows={handleProblemDeleteRows}
-          />
-        )}
+      {status !== "error" && (
+        <TableFrameDetail
+          title="Table Problems"
+          data={data?.data ?? []}
+          isLoading={status === "loading"}
+          total={data?.total ?? 0}
+          searchFields={problemSearchFields}
+          filterOptions={filterOptions}
+          numOfColumnsInFilter={4}
+          headCells={updatedHeadProblems}
+          onPagination={handlePagination}
+          showCheckbox={true}
+          onSearch={handleProblemSearch}
+          onFilter={handleProblemFilter}
+          handleNewClick={() => {
+            setIsShowCreateDialog(true);
+          }}
+          onDeleteRows={handleProblemDeleteRows}
+        />
+      )}
 
       <AddTestDialog
         open={open}
@@ -467,6 +525,14 @@ const ProblemList = () => {
         selectedProblemTests={selectedProblemTests}
         selectedProblemId={selectedProblemId}
         onSubmit={handleSubmitTest}
+      />
+
+      <MoveToAssignment
+        open={isMoveAssignment}
+        onClose={() => setIsMoveAssignment(false)}
+        problemAssignment={problemAssignment}
+        filteredCourses={filteredCourses}
+        onSave={handleMoveAssignment}
       />
     </>
   );

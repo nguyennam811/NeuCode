@@ -45,6 +45,25 @@ const assignmentSlice = createSlice({
       );
     });
 
+    // Move To Assignment
+    builder.addCase(assignment.moveToAssignment.pending, (state) => {
+      state.status = "loading";
+    });
+
+    builder.addCase(assignment.moveToAssignment.fulfilled, (state, action) => {
+      state.data = action.payload;
+      state.status = "success";
+      toast.success("Move To Assignment Successfully");
+    });
+
+    builder.addCase(assignment.moveToAssignment.rejected, (state, action) => {
+      state.status = "error";
+      state.error = action.error.message;
+      toast.error(
+        `Move To Assignment is Error: ${state.error}.`
+      );
+    });
+
     // Update Assignment
     builder.addCase(assignment.updateAssignment.pending, (state) => {
       state.status = "loading";

@@ -9,6 +9,23 @@ const courseSlice = createSlice({
     setStatusIdle: course.setStatusIdle,
   },
   extraReducers: (builder) => {
+// Get Course All
+builder.addCase(course.getCoursesAll.pending, (state) => {
+  state.status = "loading";
+});
+
+builder.addCase(course.getCoursesAll.fulfilled, (state, action) => {
+  state.data = action.payload;
+  state.status = "success";
+  console.log("Fetch All Courses is success");
+});
+
+builder.addCase(course.getCoursesAll.rejected, (state, action) => {
+  state.status = "error";
+  state.error = action.error.message;
+  console.log("Fetch All Courses is error");
+});
+
     // Get Course
     builder.addCase(course.getCourses.pending, (state) => {
       state.status = "loading";
