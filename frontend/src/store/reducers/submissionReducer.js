@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import * as submission from "../actions/submissionAction";
+import { toast } from "react-toastify";
 
 const submissionSlice = createSlice({
   name: "submission",
@@ -92,6 +93,23 @@ const submissionSlice = createSlice({
       state.error = action.error.message;
       console.log("get submission ID is error");
     });
+
+    // delete Submission
+    builder.addCase(submission.deleteSubmissions.pending, (state) => {
+      state.status = 'loading'
+  })
+  
+  builder.addCase(submission.deleteSubmissions.fulfilled, (state, action) => {
+      state.data = action.payload;
+      state.status = 'success'
+      toast.success("Delete Submission Successfully");
+  })
+
+  builder.addCase(submission.deleteSubmissions.rejected, (state, action) => {
+      state.status = 'error'
+      state.error = action.error.message;
+      toast.error(`Delete Submission is Error: ${state.error}`);
+  })
   },
 });
 

@@ -4,17 +4,13 @@ import {
 } from "@ant-design/icons";
 import { Layout, theme, Avatar } from "antd";
 import React, { useState } from "react";
-import { Link, Outlet, useLoaderData } from "react-router-dom";
+import { Link, Outlet, useLoaderData, useLocation } from "react-router-dom";
 import ListSubheader from "@mui/material/ListSubheader";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import ConnectWithoutContactIcon from "@mui/icons-material/ConnectWithoutContact";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
-import RequestQuoteIcon from "@mui/icons-material/RequestQuote";
-import UpgradeIcon from "@mui/icons-material/Upgrade";
 import ViewListIcon from '@mui/icons-material/ViewList';
 import PersonIcon from "@mui/icons-material/Person";
 import { NavLink } from "react-router-dom";
@@ -32,14 +28,17 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Logout, Settings } from "@mui/icons-material";
 import NeuCode from "../../assets/brand/NeuCode.png";
 import NeuCodeMini from "../../assets/brand/NeuCode - Mini.png";
+import SchoolIcon from '@mui/icons-material/School';
+import BackupIcon from '@mui/icons-material/Backup';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 
 const { Header, Sider, Content } = Layout;
 
 const Navbar = () => {
+  const location = useLocation();
   const user = useLoaderData();
   const [collapsed, setCollapsed] = useState(false);
-
-  const [selectedItem, setSelectedItem] = useState("dashboard");
+  const [selectedItem, setSelectedItem] = useState();
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -118,11 +117,11 @@ const Navbar = () => {
               )
             }
           >
-            <Link to="/admin/">
+            <Link to="/admin">
               <ListItemButton
                 selected={selectedItem === "dashboard"}
                 onClick={() => handleItemClick("dashboard")}
-                style={{ color: "black" }}
+                style={{ color: "black", backgroundColor: location.pathname === "/admin" && "#1037e314" }}
               >
                 <ListItemIcon>
                   <DashboardIcon />
@@ -135,7 +134,7 @@ const Navbar = () => {
               <ListItemButton
                 selected={selectedItem === "problems"} // check if this is the selected item
                 onClick={() => handleItemClick("problems")}
-                style={{ color: "black" }}
+                style={{ color: "black", backgroundColor: location.pathname === "/admin/problems" && "#1037e314" }}
               >
                 <ListItemIcon>
                   <ViewListIcon />
@@ -144,44 +143,32 @@ const Navbar = () => {
               </ListItemButton>
             </Link>
 
-            <Link to="/admin/product">
+            <Link to="/admin/courses">
               <ListItemButton
-                selected={selectedItem === "products"} // check if this is the selected item
-                onClick={() => handleItemClick("products")}
-                style={{ color: "black" }}
+                selected={selectedItem === "courses"} // check if this is the selected item
+                onClick={() => handleItemClick("courses")}
+                style={{ color: "black", backgroundColor: location.pathname === "/admin/courses" && "#1037e314"  }}
               >
                 <ListItemIcon>
-                  <ProductionQuantityLimitsIcon />
+                  <SchoolIcon />
                 </ListItemIcon>
-                {!collapsed && <ListItemText primary="Products" />}
+                {!collapsed && <ListItemText primary="Courses" />}
               </ListItemButton>
             </Link>
 
-            <Link to="/admin/order">
+            <Link to="/admin/submissions">
               <ListItemButton
-                selected={selectedItem === "Order"} // check if this is the selected item
-                onClick={() => handleItemClick("Order")}
-                style={{ color: "black" }}
+                selected={selectedItem === "submissions"} // check if this is the selected item
+                onClick={() => handleItemClick("submissions")}
+                style={{ color: "black", backgroundColor: location.pathname === "/admin/submissions" && "#1037e314"  }}
               >
                 <ListItemIcon>
-                  <RequestQuoteIcon />
+                  <BackupIcon />
                 </ListItemIcon>
-                {!collapsed && <ListItemText primary="Order" />}
+                {!collapsed && <ListItemText primary="Submissions" />}
               </ListItemButton>
             </Link>
 
-            <Link to="/admin/contact">
-              <ListItemButton
-                selected={selectedItem === "Contact"} // check if this is the selected item
-                onClick={() => handleItemClick("Contact")}
-                style={{ color: "black" }}
-              >
-                <ListItemIcon>
-                  <ConnectWithoutContactIcon />
-                </ListItemIcon>
-                {!collapsed && <ListItemText primary="Contact" />}
-              </ListItemButton>
-            </Link>
           </List>
           <List
             sx={{
@@ -193,20 +180,20 @@ const Navbar = () => {
             aria-labelledby="nested-list-subheader"
             subheader={
               <ListSubheader component="div" id="nested-list-subheader">
-                Create
+                User
               </ListSubheader>
             }
           >
-            <Link to="/admin/upload">
+            <Link to="/admin/users">
               <ListItemButton
-                selected={selectedItem === "Create Product"}
-                onClick={() => handleItemClick("Create Product")}
-                style={{ color: "black" }}
+                selected={selectedItem === "users"}
+                onClick={() => handleItemClick("users")}
+                style={{ color: "black", backgroundColor: location.pathname === "/admin/users" && "#1037e314"  }}
               >
                 <ListItemIcon>
-                  <UpgradeIcon />
+                  <PeopleAltIcon />
                 </ListItemIcon>
-                {!collapsed && <ListItemText primary="Create Product" />}
+                {!collapsed && <ListItemText primary="Users" />}
               </ListItemButton>
             </Link>
           </List>

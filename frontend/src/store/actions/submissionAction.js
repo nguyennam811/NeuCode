@@ -53,3 +53,17 @@ export const getSubmissionById = createAsyncThunk(
     }
 )
 
+
+
+export const deleteSubmissions = createAsyncThunk(
+    "deleteSubmissions",
+    async (ids) => {
+        try {
+            return await submissionApi.deleteSubmission(ids)
+        } catch (error) {
+            // console.log(error.message)
+            // return error.message
+            throw new Error(error.message);
+        }
+    }
+)

@@ -41,3 +41,11 @@ export const fetchSubmission = async (submission_id) => {
     );
   return res.data;
 };
+
+export const deleteSubmission = async (ids) => {
+  const params = new URLSearchParams();
+  ids.forEach((id) => params.append('id', id));
+  const res = await axiosInstance.delete(`/submissions/`, { params: params });
+  console.log(res)
+  return res.data;
+};

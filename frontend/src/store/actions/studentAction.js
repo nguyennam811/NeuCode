@@ -10,6 +10,19 @@ export const setStatusIdle = (state) => {
     state.status = 'idle'
 }
 
+
+export const getUsers = createAsyncThunk(
+    "getUsers",
+    async () => {
+        try {
+            return await studentApi.fetchUser()
+        } catch (error) {
+            // return error.message
+            throw new Error("Failed to fetch Users");
+        }
+    }
+)
+
 export const getStudents = createAsyncThunk(
     "getStudents",
     async (role) => {

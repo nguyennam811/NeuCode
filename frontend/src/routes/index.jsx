@@ -22,6 +22,10 @@ import StudentList from "../pages/Teacher/CoursesTeacher/StudentList";
 import Assignments from "../pages/Student/Courses/Assignments";
 import AssignmentDetail from "../pages/Student/Courses/Assignments/AssignmentsDetail";
 import SubmissionAssignment from "../pages/Teacher/CoursesTeacher/CourseAssignmentList/SubmissionAssignment";
+import CoursesList from "../pages/Admin/CoursesList";
+import AssignmentCoursesList from "../pages/Admin/CoursesList/CourseAssignmentList";
+import AssignmentStudentList from "../pages/Admin/CoursesList/StudentList";
+import SubmissionList from "../pages/Admin/SubmissionList";
 
 const tokenLoader = () => {
   const token = getAuthToken();
@@ -83,6 +87,7 @@ const router = [
           },
           {
             path: "submissions",
+            loader: tokenLoader,
             element: <Submissions />,
           },
           {
@@ -106,7 +111,8 @@ const router = [
           {
             path: "problems/:id",
             loader: tokenLoader,
-            element: <ProblemDetailTeacher />,
+            // element: <ProblemDetailTeacher />,
+            element: <ProblemDetail />,
           },
           {
             path: "create_problem",
@@ -157,7 +163,33 @@ const router = [
       {
         path: "problems/:id",
         loader: tokenLoader,
-        element: <ProblemDetailTeacher />,
+        // element: <ProblemDetailTeacher />,
+        element: <ProblemDetail />,
+      },
+      {
+        path: "courses",
+        loader: tokenLoader,
+        element: <CoursesList />,
+      },
+      {
+        path: "courses/:id",
+        loader: tokenLoader,
+        element: <AssignmentCoursesList />,
+      },
+      {
+        path: "courses/assignment/:id/submissions",
+        // loader: tokenLoader,
+        element: <SubmissionAssignment />,
+      },
+      {
+        path: "courses/:id/students",
+        loader: tokenLoader,
+        element: <AssignmentStudentList />,
+      },
+      {
+        path: "submissions",
+        loader: tokenLoader,
+        element: <SubmissionList />,
       },
       {
         path: "*",

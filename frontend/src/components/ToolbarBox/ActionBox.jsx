@@ -4,6 +4,7 @@ import {
   FilterListOutlined,
   DeleteOutlined,
 } from '@mui/icons-material';
+import { useLocation } from 'react-router-dom';
 
 const ActionBox = ({
   visibleDelete,
@@ -14,6 +15,8 @@ const ActionBox = ({
 
   filtered
 }) => {
+
+  const location = useLocation();
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'end' }}>
       {allowFilter && (
@@ -32,7 +35,7 @@ const ActionBox = ({
         </Tooltip>
       )}
 
-      <Tooltip title='Add new resource'>
+      {/* <Tooltip title='Add new resource'>
         <Button
           startIcon={<AddOutlined />}
           variant='outlined'
@@ -41,7 +44,19 @@ const ActionBox = ({
         >
           New
         </Button>
-      </Tooltip>
+      </Tooltip> */}
+      {!location.pathname.includes("submissions") && (
+        <Tooltip title='Add new resource'>
+          <Button
+            startIcon={<AddOutlined />}
+            variant='outlined'
+            sx={{ mr: 2 }}
+            onClick={handleNewClick}
+          >
+            New
+          </Button>
+        </Tooltip>
+      )}
 
       {visibleDelete && (
         <Tooltip title='Delete resources'>

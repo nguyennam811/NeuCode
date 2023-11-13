@@ -18,7 +18,7 @@ const DataTableRow = ({ labelId, row }) => {
           hover
           // onClick={(e) => handleSelectRow(e, row.id)}
           onClick={(e) => {
-            if (row.user_id === current_user.sub || location.pathname.includes('courses')) {
+            if (row.user_id === current_user.sub || location.pathname.includes('courses') || current_user.role === 'admin') {
               handleSelectRow(e, row.id);
             }
           }}
@@ -28,7 +28,7 @@ const DataTableRow = ({ labelId, row }) => {
           key={row.id}
           selected={showCheckbox && isItemSelected}
           sx={{
-            cursor: row.user_id === current_user.sub || location.pathname.includes('courses') ? "pointer" : "default",
+            cursor: row.user_id === current_user.sub || current_user.role === 'admin' || location.pathname.includes('courses') ? "pointer" : "default",
           }}
         >
           <TableCell padding="checkbox">

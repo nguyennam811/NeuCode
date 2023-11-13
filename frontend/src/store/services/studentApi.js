@@ -1,5 +1,11 @@
 import axiosInstance from "./axiosInstance";
 
+
+export const fetchUser = async () => {
+  const res = await axiosInstance.get(`/users/`);
+return res.data;
+};
+
 export const fetchStudent = async (role) => {
     const params = new URLSearchParams();
     params.append('role', role)

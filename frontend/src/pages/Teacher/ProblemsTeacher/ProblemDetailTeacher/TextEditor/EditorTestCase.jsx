@@ -3,7 +3,12 @@ import Button from "@mui/material/Button";
 import {
   Box,
   CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Grid,
+  IconButton,
   LinearProgress,
   Typography,
 } from "@mui/material";
@@ -13,12 +18,15 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import { useLoaderData } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { mapLanguage } from "../../../../../utils/mapLanguage";
 // import { getCurrentUser } from "../../../../../utils/auth";
+import CloseIcon from "@mui/icons-material/Close";
+import { addSubmissionByUser } from "../../../../../store/actions/submissionAction";
 
 function EditorTestCase(props) {
+  const dispatch = useDispatch();
   const current_user = useLoaderData();
   // const current_user = getCurrentUser();
   const { code, languages } = props;
@@ -39,6 +47,23 @@ function EditorTestCase(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  // const [open, setOpen] = useState(false);
+
+  // const handleClickOpen = () => {
+  //   setOpen(true);
+  // };
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
+
+  // const submitCode = (submission) => {
+  //   // dispatch(addSubmissionByUser(submission));
+  //   // dispatch(setTabValue("2"));
+  //   // setOpen(false);
+  //   dispatch(addSubmissionByUser(submission));
+  //   setOpen(false);
+  // };
 
   const execute_test_case = async () => {
     try {
@@ -80,7 +105,8 @@ function EditorTestCase(props) {
           display="flex"
           flexDirection="column"
         >
-          {data && data.tests ? (
+          {data && data.tests &&
+          data.tests.length > 0 ? (
             <TabContext value={value}>
               <Box
                 sx={{ borderBottom: 1, borderColor: "divider" }}
@@ -148,6 +174,146 @@ function EditorTestCase(props) {
                     </Grid>
                 </Box>
               </Box>
+              {/* <Box
+                sx={{ borderBottom: 1, borderColor: "divider" }}
+                display="flex"
+                flexDirection="row"
+                justifyContent="space-between"
+                height="40px"
+                alignItems="center"
+              >
+                <TabList
+                  onChange={handleChange}
+                  aria-label="lab API tabs example"
+                  sx={{ height: "100%", padding: "3px" , paddingLeft: '0'}}
+                >
+                  {data.tests.slice(0, 3).map((test, index) => (
+                    <Tab
+                      key={index}
+                      label={`Case ${index + 1}`}
+                      value={(index + 1).toString()}
+                      sx={
+                        testCase.some(
+                          (test_case) =>
+                            test_case.test_id === test.id &&
+                            test_case.status_data.includes("AC")
+                        )
+                          ? {
+                              fontSize: "12px",
+                              marginTop: "1px",
+                              backgroundColor: "#6bbe71",
+                              color: "white",
+                              border: "1px solid gray",
+                            }
+                          : {
+                              fontSize: "12px",
+                            }
+                      }
+                    />
+                  ))}
+                </TabList>
+
+                <Box
+                  className="button-container"
+                  width="150px"
+                  textAlign="end"
+                  padding="5px"
+                  mr={2}
+                >
+                  {code !== "" ? (
+                    <Grid container spacing={2}>
+                      <Grid item xs={6}>
+                        <Button
+                          variant="outlined"
+                          onClick={execute_test_case}
+                          size="small"
+                          sx={{
+                            "&:hover": {
+                              backgroundColor: "#179fff",
+                              color: "#ffffff",
+                            },
+                          }}
+                        >
+                          Run
+                        </Button>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Button
+                          variant="contained"
+                          size="small"
+
+                          onClick={handleClickOpen}
+                        >
+                          Submit
+                        </Button>
+
+                        <Dialog
+                          onClose={handleClose}
+                          aria-labelledby="customized-dialog-title"
+                          open={open}
+                        >
+                          <DialogTitle
+                            sx={{ m: 0, p: 2 }}
+                            id="customized-dialog-title"
+                          >
+                            Confirm Submission
+                          </DialogTitle>
+                          <IconButton
+                            aria-label="close"
+                            onClick={handleClose}
+                            sx={{
+                              position: "absolute",
+                              right: 8,
+                              top: 8,
+                              color: (theme) => theme.palette.grey[500],
+                            }}
+                          >
+                            <CloseIcon />
+                          </IconButton>
+                          <DialogContent dividers>
+                            <Typography gutterBottom fontSize={20}>
+                              Are you sure you want to submit this code?
+                            </Typography>
+                          </DialogContent>
+                          <DialogActions>
+                            <Button
+                              autoFocus
+                              variant="outlined"
+                              onClick={handleClose}
+                            >
+                              No, do not submit
+                            </Button>
+
+                            <Button
+                              autoFocus
+                              onClick={() => {
+                                submitCode(submission);
+                              }}
+                              variant="contained"
+                              color="success"
+                            >
+                              Yes, submit my code
+                            </Button>
+                          </DialogActions>
+                        </Dialog>
+                      </Grid>
+                    </Grid>
+                  ) : (
+                    <Grid container spacing={2}>
+                      <Grid item xs={6}>
+                        <Button disabled variant="outlined" size="small">
+                          Run
+                        </Button>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Button disabled variant="contained" size="small">
+                          Submit
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  )}*/}
+                {/* </Box>
+              </Box> */}
 
               <div
                 style={{
@@ -252,7 +418,8 @@ function EditorTestCase(props) {
                 justifyContent: "center",
               }}
             >
-              <CircularProgress />
+              {/* <CircularProgress /> */}
+              <Typography variant="h5">No Test yet</Typography>
             </Box>
           )}
         </Box>
