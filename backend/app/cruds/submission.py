@@ -7,12 +7,12 @@ from typing import List
 from sqlalchemy import select, text, func, delete
 
 def get_submissions_with_conditions(db: Session, offset: int, limit: int, conditions):
-    statement = select(models.Submission).join(models.Problem, models.Submission.problem_id == models.Problem.id).where(text(' and '.join(conditions))).offset(
+    statement = select(models.Submission).join(models.Problem, models.Submission.problem_id == models.Problem.id).join(models.User, models.Submission.submiter_id == models.User.id).where(text(' and '.join(conditions))).offset(
         offset).limit(limit).order_by(models.Submission.created.desc())
     return db.execute(statement).scalars().all()
 
 def count_submission_with_conditions(db: Session, conditions):
-    return db.query(func.count(models.Submission.id)).join(models.Problem, models.Submission.problem_id == models.Problem.id).where(text(' and '.join(conditions))).scalar()
+    return db.query(func.count(models.Submission.id)).join(models.Problem, models.Submission.problem_id == models.Problem.id).join(models.User, models.Submission.submiter_id == models.User.id).where(text(' and '.join(conditions))).scalar()
 
 def get_submission_all(
         db: Session,
