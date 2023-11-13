@@ -1,79 +1,17 @@
-// import React from "react";
-// import { Box, Typography } from "@mui/material";
-
-// const SubmissionAssignment = () => {
-//   return (
-//     <>
-//       <Box
-//         sx={{
-//           my: 15,
-//           textAlign: "center",
-//           p: 2,
-//           "& h4": {
-//             fontWeight: "bold",
-//             my: 2,
-//             fontSize: "2rem",
-//           },
-//           "& p": {
-//             textAlign: "justify",
-//           },
-//           "@media (max-width:600px)": {
-//             mt: 0,
-//             "& h4 ": {
-//               fontSize: "1.5rem",
-//             },
-//           },
-//         }}
-//       >
-//         <Typography variant="h4">Welcome To Neu Code</Typography>
-//         <p>
-//           Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugiat quod,
-//           suscipit, aperiam totam autem culpa cum eveniet dolorum quasi est
-//           perspiciatis laborum. Nam recusandae nihil quia odio voluptatibus
-//           facere omnis facilis rerum? Ab eum beatae nobis reiciendis, qui
-//           temporibus aliquid, nesciunt velit sed quam recusandae necessitatibus,
-//           tempora maxime. Repellendus incidunt, maxime labore dolorum eos
-//           aperiam unde? At veritatis nesciunt eos quas cupiditate blanditiis est
-//           quam maiores, amet, soluta exercitationem voluptatum, veniam
-//           assumenda? Ratione perferendis officiis deserunt nostrum aspernatur
-//           sed asperiores! Earum sunt placeat ducimus sint, deleniti amet esse
-//           saepe voluptatem commodi laudantium quibusdam repellat nobis libero at
-//           consectetur adipisci ipsa.
-//         </p>
-//         <br />
-//         <p>
-//           Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi,
-//           deserunt libero reprehenderit cum sint fugit cumque temporibus modi
-//           facere eveniet amet obcaecati ducimus harum velit maxime vel qui
-//           voluptatibus quam odio corrupti saepe, voluptas dolorum quidem
-//           tempore? Esse sapiente molestias minus enim quisquam dolorum eum culpa
-//           ullam impedit velit quo, corporis ducimus numquam dignissimos
-//           inventore maiores. Nam deleniti itaque nostrum neque dolorum dolores,
-//           aliquam, voluptatum sapiente doloribus laborum perspiciatis ipsam, quo
-//           ut nisi distinctio sunt nihil est blanditiis perferendis eveniet
-//           nesciunt! Nostrum, voluptatum eveniet repellat vel officia deleniti
-//           tempore voluptatibus perferendis esse eaque temporibus porro?
-//           Aspernatur beatae deleniti illo autem!
-//         </p>
-//       </Box>
-//     </>
-//   );
-// };
-
-// export default SubmissionAssignment;
-
 import { useState } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import ErrorData from "../../../../ErrorData";
 import { getSubmissions } from "../../../../../store/actions/submissionAction";
 import { calculateOverallStatus, getTotalMemory, getTotalTime } from "../../../../../utils/status";
-import { formatResponseTime, formatTimeSubmit } from "../../../../../utils/time";
+import { formatTimeSubmit } from "../../../../../utils/time";
 import { mapLanguageSubmission } from "../../../../../utils/mapLanguage";
 import TableFrame from "../../../../../components/TableFrame";
 import FilterSubmissions from "./FilterSubmissions";
+import { useMemo } from "react";
+import ViewResultsAssignment from "./ViewResultsAssignment";
 
 export const submissionsTableHeaders = [
   {
@@ -155,26 +93,13 @@ export const submissionsTableHeaders = [
     disablePadding: false,
     renderFn: (submission) => getTotalMemory(submission.tests_result),
   },
-  {
-    id: "created",
-    label: "Created",
-    numeric: false,
-    disablePadding: false,
-    renderFn: (submission) => formatTimeSubmit(submission.created),
-    descComparatorFn: (a, b) => {
-      if (b.created < a.created) {
-        return -1;
-      }
-      if (b.created > a.created) {
-        return 1;
-      }
-      return 0;
-    },
-  },
+  
 ];
 
 const SubmissionAssignment = () => {
     const assignment = useParams();
+    const [isSubmission, setIsSubmission] = useState(false);
+    const [viewResult, setViewReult] = useState();
   const [fetchingParams, setFetchingParams] = useState({
     offset: 0,
     limit: 10,
@@ -209,6 +134,54 @@ const SubmissionAssignment = () => {
     });
   };
 
+  const handleClickOpen = (results) => {
+    console.log(results)
+    setViewReult(results);
+    setIsSubmission(true);
+  };
+
+  const updatedHeadAssignments = useMemo(() => {
+    return [
+      ...submissionsTableHeaders,
+      {
+        id: "row-actions",
+        label: "Actions",
+        numeric: false,
+        disablePadding: false,
+        renderFn: (submission) => (
+          <Button
+              variant="outlined"
+              size="small"
+              onClick={(e) => {
+                e.stopPropagation(); 
+                handleClickOpen(submission);
+
+              }}
+            >
+              View Results
+            </Button>
+        ),
+      },
+      {
+        id: "created",
+        label: "Created",
+        numeric: false,
+        disablePadding: false,
+        renderFn: (submission) => formatTimeSubmit(submission.created),
+        descComparatorFn: (a, b) => {
+          if (b.created < a.created) {
+            return -1;
+          }
+          if (b.created > a.created) {
+            return 1;
+          }
+          return 0;
+        },
+      },
+    ];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       {status === "error" && <ErrorData />}
@@ -230,7 +203,7 @@ const SubmissionAssignment = () => {
                   isLoading={status === "loading"}
                   total={data?.total ?? 0}
                   numOfColumnsInFilter={4}
-                  headCells={submissionsTableHeaders}
+                  headCells={updatedHeadAssignments}
                   onPagination={handlePagination}
                   showCheckbox={false}
                 />
@@ -242,6 +215,12 @@ const SubmissionAssignment = () => {
           </>
         )}
       </Box>
+
+      <ViewResultsAssignment
+        isSubmission={isSubmission}
+        setIsSubmission={setIsSubmission}
+        viewResult={viewResult}
+      />
     </>
   );
 };

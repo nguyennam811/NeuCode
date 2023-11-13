@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Box,
   Button,
   Paper,
   Table,
@@ -20,8 +21,14 @@ import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { formatTimeSubmit } from "../../../../utils/time";
-import { calculateOverallStatus, getCellColor, getTotalMemory, getTotalTime } from "../../../../utils/status";
+import {
+  calculateOverallStatus,
+  getCellColor,
+  getTotalMemory,
+  getTotalTime,
+} from "../../../../utils/status";
 import { mapLanguageSubmission } from "../../../../utils/mapLanguage";
+import Editor from "@monaco-editor/react";
 
 function HistoryProblem({ data }) {
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
@@ -131,6 +138,33 @@ function HistoryProblem({ data }) {
                           ))}
                         </TableBody>
                       </Table>
+
+                      <Box
+                        display={"flex"}
+                        flexDirection={"row"}
+                        justifyContent={"space-between"}
+                        mt={4}
+                      >
+                        <Typography variant="h6">Code</Typography>
+                        <Typography variant="h6">
+                          Language:{" "}
+                          {mapLanguageSubmission(assignment?.language)}
+                        </Typography>
+                      </Box>
+                      <Paper elevation={3}>
+                        <Editor
+                          height="460px"
+                          width="100%"
+                          theme={"vs-dark"}
+                          loading="Loading..."
+                          language={assignment?.language}
+                          value={assignment?.code}
+                          options={{
+                            fontSize: `20px`,
+                            readOnly: true,
+                          }}
+                        />
+                      </Paper>
                       {/* detail test */}
                     </DialogContent>
                     <DialogActions>

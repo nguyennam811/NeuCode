@@ -22,7 +22,6 @@ import AddTestDialog from "../../ProblemsTeacher/ProblemTest/AddTestDialog";
 import UpdateTestDialog from "../../ProblemsTeacher/ProblemTest/UpdateTestDialog";
 import AssignmentUpdateFormDialog from "./AssignmentUpdateFormDialog";
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
-import AssignmentSubmission from "./AssignmentSubmission";
 export const assignmentsTableHeaders = [
   {
     id: "course_name",
@@ -105,7 +104,6 @@ const CoursesList = () => {
   const courseId = useParams();
   const [isShowCreateDialog, setIsShowCreateDialog] = useState(false);
   const [editingAssignment, setEditingAssignment] = useState();
-  // const [isSubmission, setIsSubmission] = useState(false);
 
   const [fetchingParams, setFetchingParams] = useState({
     offset: 0,
@@ -314,10 +312,6 @@ const CoursesList = () => {
               <IconButton
                 color="inherit"
                 aria-label="submission student"
-                // onClick={(e) => {
-                //   e.stopPropagation();
-                //   setIsSubmission(true);
-                // }}
                 onClick={() => {
                   navigate(`/teacher/courses/assignment/${assignment.id}/submissions`);
                 }}
@@ -413,11 +407,6 @@ const CoursesList = () => {
         selectedProblemId={selectedProblemId}
         onSubmit={handleSubmitTest}
       />
-
-      {/* <AssignmentSubmission
-        isSubmission={isSubmission}
-        setIsSubmission={setIsSubmission}
-      /> */}
     </>
   );
 };
