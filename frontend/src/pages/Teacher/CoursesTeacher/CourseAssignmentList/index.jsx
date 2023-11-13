@@ -90,6 +90,13 @@ export const assignmentsTableHeaders = [
     disablePadding: false,
     renderFn: (assignment) => assignment.problems.problem_type,
   },
+  {
+    id: "submission",
+    label: "Submissions",
+    numeric: true,
+    disablePadding: false,
+    renderFn: (assignment) => assignment.problems.submissions.length,
+  },
 ];
 
 const CoursesList = () => {
@@ -98,7 +105,7 @@ const CoursesList = () => {
   const courseId = useParams();
   const [isShowCreateDialog, setIsShowCreateDialog] = useState(false);
   const [editingAssignment, setEditingAssignment] = useState();
-  const [isSubmission, setIsSubmission] = useState(false);
+  // const [isSubmission, setIsSubmission] = useState(false);
 
   const [fetchingParams, setFetchingParams] = useState({
     offset: 0,
@@ -307,9 +314,12 @@ const CoursesList = () => {
               <IconButton
                 color="inherit"
                 aria-label="submission student"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setIsSubmission(true);
+                // onClick={(e) => {
+                //   e.stopPropagation();
+                //   setIsSubmission(true);
+                // }}
+                onClick={() => {
+                  navigate(`/teacher/courses/assignment/${assignment.id}/submissions`);
                 }}
               >
                 <AssignmentIndIcon />
@@ -404,10 +414,10 @@ const CoursesList = () => {
         onSubmit={handleSubmitTest}
       />
 
-      <AssignmentSubmission
+      {/* <AssignmentSubmission
         isSubmission={isSubmission}
         setIsSubmission={setIsSubmission}
-      />
+      /> */}
     </>
   );
 };
