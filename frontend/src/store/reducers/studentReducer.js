@@ -38,6 +38,58 @@ const studentSlice = createSlice({
             state.status = 'error'
             console.log("fetch users failed")
         })
+
+        // Add User
+    builder.addCase(student.addUser.pending, (state) => {
+        state.status = "loading";
+      });
+  
+      builder.addCase(student.addUser.fulfilled, (state, action) => {
+        state.data = action.payload;
+        state.status = "success";
+        toast.success("Add User Successfully");
+      });
+  
+      builder.addCase(student.addUser.rejected, (state, action) => {
+        state.status = "error";
+        state.error = action.error.message;
+        toast.error(`Add User is Error: ${state.error}`);
+      });
+  
+      // Update User 
+      builder.addCase(student.updateUser.pending, (state) => {
+        state.status = 'loading'
+    })
+    
+    builder.addCase(student.updateUser.fulfilled, (state, action) => {
+        state.data = action.payload
+        state.status = 'success'
+        toast.success("Update User Successfully");
+  
+    })
+  
+    builder.addCase(student.updateUser.rejected, (state, action) => {
+        state.status = 'error'
+        state.error = action.error.message;
+        toast.error(`Update User is Error: ${state.error}`);
+    })
+
+    // delete Users
+    builder.addCase(student.deleteUsers.pending, (state) => {
+        state.status = 'loading'
+    })
+    
+    builder.addCase(student.deleteUsers.fulfilled, (state, action) => {
+        state.data = action.payload;
+        state.status = 'success'
+        toast.success("Delete Users Successfully");
+    })
+
+    builder.addCase(student.deleteUsers.rejected, (state, action) => {
+        state.status = 'error'
+        state.error = action.error.message;
+        toast.error(`Delete Users is Error: ${state.error}`);
+    })
     }
 })
 

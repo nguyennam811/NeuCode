@@ -85,7 +85,7 @@ function AssignmentStudentList() {
   });
   useEffect(() => {
     dispatch(getCourseStudent(fetchingParams));
-    dispatch(getStudents("student"));
+    dispatch(getStudents({role: "student"}));
   }, [fetchingParams]);
 
   const data = useSelector((reducers) => reducers.course_student.data);
@@ -98,9 +98,9 @@ function AssignmentStudentList() {
 
   //filter students by course_student
   let studentOptions = []
-  if (data?.data) {
+  if (data?.data && students?.data) {
     const studentIdsInClass = data.data.map((item) => item.student_id);
-    const studentsNotInClass = students.filter(
+    const studentsNotInClass = students?.data.filter(
       (student) => !studentIdsInClass.includes(student.id)
     );
     studentOptions = studentsNotInClass.map((user) => ({
@@ -112,7 +112,6 @@ function AssignmentStudentList() {
   console.log(studentOptions);
 
   //Search
-  // const courseStudentSearchFields = [{ id: "student_id", title: "Student ID" }];
   const courseStudentSearchFields = [
     { id: "student_id", title: "Student ID" },
     { id: "fullname", title: "Full Name" },

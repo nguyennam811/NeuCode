@@ -26,6 +26,7 @@ import CoursesList from "../pages/Admin/CoursesList";
 import AssignmentCoursesList from "../pages/Admin/CoursesList/CourseAssignmentList";
 import AssignmentStudentList from "../pages/Admin/CoursesList/StudentList";
 import SubmissionList from "../pages/Admin/SubmissionList";
+import UsersListPage from "../pages/Admin/Users";
 
 const tokenLoader = () => {
   const token = getAuthToken();
@@ -190,6 +191,11 @@ const router = [
         path: "submissions",
         loader: tokenLoader,
         element: <SubmissionList />,
+      },
+      {
+        path: "users",
+        loader: tokenLoader,
+        element: <UsersListPage />,
       },
       {
         path: "*",

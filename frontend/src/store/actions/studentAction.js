@@ -2,8 +2,9 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import * as studentApi from '../services/studentApi'
 
 export const init = {
-    data: [],
+    data: {},
     status: 'idle',
+    error: null,
 }
 
 export const setStatusIdle = (state) => {
@@ -31,6 +32,46 @@ export const getStudents = createAsyncThunk(
         } catch (error) {
             // return error.message
             throw new Error("Failed to fetch Students");
+        }
+    }
+)
+
+export const addUser = createAsyncThunk(
+    "addUser",
+    async (user) => {
+        try {
+            return await studentApi.addUser(user)
+        } catch (error) {
+            // console.log(error.message)
+            throw new Error(error.message);
+
+        }
+    }
+)
+
+export const updateUser = createAsyncThunk(
+    "updateUser",
+    async (user) => {
+        try {
+            return await studentApi.updateUser(user)
+        } catch (error) {
+            // console.log(error.message)
+            throw new Error(error.message);
+
+        }
+    }
+)
+
+
+export const deleteUsers = createAsyncThunk(
+    "deleteUsers",
+    async (ids) => {
+        try {
+            return await studentApi.deleteUser(ids)
+        } catch (error) {
+            // console.log(error.message)
+            // return error.message
+            throw new Error(error.message);
         }
     }
 )

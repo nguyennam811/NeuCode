@@ -94,7 +94,7 @@ export const coursesTableHeaders = [
 
 const CoursesList = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [isShowCreateDialog, setIsShowCreateDialog] = useState(false);
   const [editingCourse, setEditingCourse] = useState();
   const [fetchingParams, setFetchingParams] = useState({
@@ -114,14 +114,18 @@ const CoursesList = () => {
   const users = useSelector((reducers) => reducers.student.data);
   console.log(users);
 
-  const filteredUsers = users
-  .filter((user) => user.role === 'teacher' || user.role === 'admin')
-  .map((user) => ({
-    value: user.id,
-    label: `${user.role} - ${user.fullname}`,
-  }));
 
-console.log(filteredUsers);
+  //filter students by course_student
+  let filteredUsers = [];
+  if (users?.data) {
+    filteredUsers = users?.data
+      .filter((user) => user.role === "teacher" || user.role === "admin")
+      .map((user) => ({
+        value: user.id,
+        label: `${user.role} - ${user.fullname}`,
+      }));
+  }
+  console.log(filteredUsers);
 
   //Search
   const courseSearchFields = [
@@ -287,26 +291,26 @@ console.log(filteredUsers);
           })}
         />
       )}
-        {status !== "error" && (
-          <TableFrameDetail
-            title="Table Courses"
-            data={data?.data ?? []}
-            isLoading={status === "loading"}
-            total={data?.total ?? 0}
-            searchFields={courseSearchFields}
-            // filterOptions={filterOptions}
-            numOfColumnsInFilter={4}
-            headCells={updatedHeadCourses}
-            onPagination={handlePagination}
-            showCheckbox={true}
-            onSearch={handleCourseSearch}
-            // onFilter={handleProblemFilter}
-            handleNewClick={() => {
-              setIsShowCreateDialog(true);
-            }}
-            onDeleteRows={handleCourseDeleteRows}
-          />
-        )}
+      {status !== "error" && (
+        <TableFrameDetail
+          title="Table Courses"
+          data={data?.data ?? []}
+          isLoading={status === "loading"}
+          total={data?.total ?? 0}
+          searchFields={courseSearchFields}
+          // filterOptions={filterOptions}
+          numOfColumnsInFilter={4}
+          headCells={updatedHeadCourses}
+          onPagination={handlePagination}
+          showCheckbox={true}
+          onSearch={handleCourseSearch}
+          // onFilter={handleProblemFilter}
+          handleNewClick={() => {
+            setIsShowCreateDialog(true);
+          }}
+          onDeleteRows={handleCourseDeleteRows}
+        />
+      )}
     </>
   );
 };
