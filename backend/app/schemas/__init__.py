@@ -1,4 +1,4 @@
-from .user import User, ShowUser
+from .user import User, ShowUser, ResponseUsers
 from .authentication import Login
 from .problem import Problem, ShowProblem, ProblemAssignment, ResponseProblem
 from .submission import Submission, ShowSubmission, SubmissionResult, ResponseSubmission, ProblemSubmit
