@@ -68,8 +68,31 @@ def update_assignment(id: str, request: schemas.Assignment, db: Session):
     return 'updated assignment'
 
 
+# def delete_assignment(db: Session, assignment_ids: List[str]):
+#     statement = delete(models.Assignment).where(models.Assignment.id.in_(assignment_ids)).returning(models.Assignment.id)
+#     db.execute(statement).scalars().all()
+#     db.commit()
+#     return None
+
 def delete_assignment(db: Session, assignment_ids: List[str]):
-    statement = delete(models.Assignment).where(models.Assignment.id.in_(assignment_ids)).returning(models.Assignment.id)
-    db.execute(statement).scalars().all()
+    for assignment_id in assignment_ids:
+        assignment = db.query(models.Assignment).filter(models.Assignment.id == assignment_id).first()
+
+        if assignment:
+            statement = delete(models.Assignment).where(models.Assignment.id == assignment_id).returning(models.Assignment.id)
+
+            if assignment.is_public:
+                db.execute(statement).scalars().all()
+            else:
+                problem_id = assignment.problem_id
+                statement = delete(models.Problem).where(models.Problem.id == problem_id).returning(models.Problem.id)
+                print(statement)
+                db.execute(statement).scalars().all()
+
     db.commit()
     return None
+
+
+
+
+
