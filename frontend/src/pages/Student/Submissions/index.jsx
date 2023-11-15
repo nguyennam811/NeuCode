@@ -36,7 +36,19 @@ export const submissionsTableHeaders = [
     label: "Submitter",
     numeric: false,
     disablePadding: false,
-    renderFn: (submission) => submission.submiter.fullname,
+    renderFn: (submission) => (
+      <Link
+        to={`/user/${submission.submiter_id}/`}
+        style={{
+          color: "black",
+          textDecoration: "none",
+        }}
+        onMouseEnter={(e) => (e.target.style.color = "red")}
+        onMouseLeave={(e) => (e.target.style.color = "black")}
+      >
+        {submission.submiter.fullname}
+      </Link>
+    ),
   },
   {
     id: "language",

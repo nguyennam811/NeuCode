@@ -8,8 +8,8 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
 import {
-    Box,
-    Paper,
+  Box,
+  Paper,
   Table,
   TableBody,
   TableCell,
@@ -35,6 +35,8 @@ function ViewResultsAssignment({ isSubmission, setIsSubmission, viewResult }) {
       onClose={handleClose}
       aria-labelledby="customized-dialog-title"
       open={isSubmission}
+      maxWidth="md"
+      fullWidth
     >
       <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
         Results Test & Code
@@ -75,28 +77,31 @@ function ViewResultsAssignment({ isSubmission, setIsSubmission, viewResult }) {
           </TableBody>
         </Table>
 
-        <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} mt={4}>
-        <Typography variant="h6">
-            Code
-        </Typography>
-        <Typography variant="h6">
+        <Box
+          display={"flex"}
+          flexDirection={"row"}
+          justifyContent={"space-between"}
+          mt={4}
+        >
+          <Typography variant="h6">Code</Typography>
+          <Typography variant="h6">
             Language: {mapLanguageSubmission(viewResult?.language)}
-        </Typography>
+          </Typography>
         </Box>
         <Paper elevation={3}>
-            <Editor
-              height="460px"
-              width="100%"
-              theme={'vs-dark'}
-              loading="Loading..."
-              language={viewResult?.language}
-              value={viewResult?.code}
-              options={{
-                fontSize: `20px`,
-                readOnly: true,
-              }}
-            />
-          </Paper>
+          <Editor
+            height="460px"
+            width="100%"
+            theme={"vs-dark"}
+            loading="Loading..."
+            language={viewResult?.language}
+            value={viewResult?.code}
+            options={{
+              fontSize: `20px`,
+              readOnly: true,
+            }}
+          />
+        </Paper>
       </DialogContent>
       <DialogActions>
         <Button autoFocus onClick={handleClose}>

@@ -22,7 +22,7 @@ import ProblemUpdateFormDialog from "./ProblemUpdateFormDialog";
 import AddTestDialog from "./ProblemTest/AddTestDialog";
 import UpdateTestDialog from "./ProblemTest/UpdateTestDialog";
 import { VisibilityOutlined } from "@mui/icons-material";
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import { getColorDifficulty } from "../../../utils/status";
 import DriveFileMoveIcon from "@mui/icons-material/DriveFileMove";
 import { getCourses } from "../../../store/actions/courseAction";
@@ -112,7 +112,19 @@ export const problemsTableHeaders = [
     label: "Author",
     numeric: false,
     disablePadding: false,
-    renderFn: (problem) => problem.user.fullname,
+    renderFn: (problem) => (
+      <Link
+        to={`/user/${problem.user_id}/`}
+        style={{
+          color: "black",
+          textDecoration: "none",
+        }}
+        onMouseEnter={(e) => (e.target.style.color = "red")}
+        onMouseLeave={(e) => (e.target.style.color = "black")}
+      >
+        {problem.user.fullname}
+      </Link>
+    ),
   },
 ];
 

@@ -43,41 +43,42 @@ const SignupForm = () => {
       })}
       onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
         try {
-        console.log(values);
-        setSubmitting(true);
-        // const response = await fetch(`http://127.0.0.1:8000/login`, {
-        const response = await fetch(`${process.env.REACT_APP_URL}/login`, {
-          method: "POST",
-          headers: {
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify(values),
-        });
-        console.log(response);
-        setSubmitting(false);
+          console.log(values);
+          setSubmitting(true);
+          // const response = await fetch(`http://127.0.0.1:8000/login`, {
+          const response = await fetch(`${process.env.REACT_APP_URL}/login`, {
+            method: "POST",
+            headers: {
+              "Content-type": "application/json",
+            },
+            body: JSON.stringify(values),
+          });
+          console.log(response);
+          setSubmitting(false);
 
-        if (!response.ok) {
+          if (!response.ok) {
+            const errorData = await response.json();
+            setStatus({ success: false });
+            setErrors({
+              submit: errorData.detail,
+            });
+            toast.error(errorData.detail);
+          } else {
+            const data = await response.json();
+            const { access_token: accessToken, expires_in: expiresIn } = data;
+            const decodedToken = jwt_decode(data.access_token);
+            writeAuthToken(accessToken, expiresIn, decodedToken);
+            setStatus({ success: true });
+            toast.success("Đăng nhập thành công.");
+            navigate(`/${decodedToken.role}`);
+          }
+        } catch (error) {
           setStatus({ success: false });
           setErrors({
             submit: "Mã tài khoản hoặc mật khẩu không đúng. Hãy thử lại",
           });
           toast.error("Đăng nhập không thành công. Hãy thử lại");
-        } else {
-          const data = await response.json();
-          const { access_token: accessToken, expires_in: expiresIn } = data;
-          const decodedToken = jwt_decode(data.access_token);
-          writeAuthToken(accessToken, expiresIn, decodedToken);
-          setStatus({ success: true });
-          toast.success("Đăng nhập thành công.");
-          navigate(`/${decodedToken.role}`);
         }
-      } catch (error) {
-        setStatus({ success: false });
-          setErrors({
-            submit: "Mã tài khoản hoặc mật khẩu không đúng. Hãy thử lại",
-          });
-          toast.error("Đăng nhập không thành công. Hãy thử lại");
-      }
       }}
     >
       {({

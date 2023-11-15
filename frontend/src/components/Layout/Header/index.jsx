@@ -29,7 +29,7 @@ import { useSubmit } from "react-router-dom";
 import { toast } from "react-toastify";
 import slide2 from "../../../assets/images/Slice2.jpg";
 import PersonIcon from "@mui/icons-material/Person";
-
+import LockResetIcon from '@mui/icons-material/LockReset';
 const Header = () => {
   const user = useLoaderData();
   const location = useLocation();
@@ -318,25 +318,22 @@ const Header = () => {
                   open={Boolean(anchorEl)}
                   onClose={handleClose}
                 >
-                  <MenuItem onClick={handleClose}>
+                  <MenuItem onClick={() => {navigate(`/user/${user.sub}/`);handleClose();}}>
                     <ListItemIcon>
                       <PersonIcon fontSize="medium" />
                     </ListItemIcon>
-                    {`${user.fullname}`}
-                  </MenuItem>
-                  <MenuItem onClick={handleClose}>
-                    <ListItemIcon>
-                      <AccountCircleIcon fontSize="medium" />
-                    </ListItemIcon>
-                    {`${user.sub}`}
+
+                    {`${user.fullname}`}<br />{`${user.sub}`}
                   </MenuItem>
                   <Divider />
-                  <MenuItem onClick={handleClose}>
+                  <MenuItem onClick={() => {navigate(`/user/${user.sub}/changepassword`);handleClose();}}>
                     <ListItemIcon>
-                      <Settings fontSize="small" />
+                      <LockResetIcon fontSize="small" />
                     </ListItemIcon>
-                    Settings
+                    Change Password
                   </MenuItem>
+
+                  <Divider />
                   <MenuItem onClick={handleSignOut}>
                     <ListItemIcon>
                       <Logout fontSize="small" />

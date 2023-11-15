@@ -53,7 +53,19 @@ export const courseStudentTableHeaders = [
     label: "Teacher",
     numeric: false,
     disablePadding: false,
-    renderFn: (courseStudent) => courseStudent.courses.user.fullname,
+    renderFn: (courseStudent) => (
+      <Link
+        to={`/user/${courseStudent.courses.teacher_id}/`}
+        style={{
+          color: "black",
+          textDecoration: "none",
+        }}
+        onMouseEnter={(e) => (e.target.style.color = "red")}
+        onMouseLeave={(e) => (e.target.style.color = "black")}
+      >
+        {courseStudent.courses.user.fullname}
+      </Link>
+    ),
   },
   {
     id: "created",

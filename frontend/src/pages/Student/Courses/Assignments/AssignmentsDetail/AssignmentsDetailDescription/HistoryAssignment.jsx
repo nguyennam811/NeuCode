@@ -90,12 +90,14 @@ function HistoryAssignment({ data }) {
                     onClose={handleClose}
                     aria-labelledby="customized-dialog-title"
                     open={activeAssignmentId === assignment.id}
+                    maxWidth="md"
+                    fullWidth
                   >
                     <DialogTitle
                       sx={{ m: 0, p: 2 }}
                       id="customized-dialog-title"
                     >
-                      Results Test
+                      Results Test & Code
                     </DialogTitle>
                     <IconButton
                       aria-label="close"

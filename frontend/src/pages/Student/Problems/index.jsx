@@ -105,7 +105,19 @@ export const problemsTableHeaders = [
     label: "Author",
     numeric: false,
     disablePadding: false,
-    renderFn: (problem) => problem.user.fullname,
+    renderFn: (problem) => (
+      <Link
+        to={`/user/${problem.user_id}/`}
+        style={{
+          color: "black",
+          textDecoration: "none",
+        }}
+        onMouseEnter={(e) => (e.target.style.color = "red")}
+        onMouseLeave={(e) => (e.target.style.color = "black")}
+      >
+        {problem.user.fullname}
+      </Link>
+    ),
   },
   {
     id: "submission",

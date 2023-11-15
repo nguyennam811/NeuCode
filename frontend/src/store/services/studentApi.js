@@ -29,6 +29,11 @@ export const fetchStudent = async (role) => {
     return res.data;
 };
 
+export const fetchUserDetail = async (id) => {
+  const res = await axiosInstance.get(`/users/${id}`);
+  return res.data;
+};
+
 export const addUser = async (user) => {
   const body = JSON.stringify(user);
   const res = await axiosInstance.post(

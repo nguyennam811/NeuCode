@@ -36,6 +36,18 @@ export const getStudents = createAsyncThunk(
     }
 )
 
+export const getUserDetail = createAsyncThunk(
+    "getUserDetail",
+    async (id) => {
+        try {
+            return await studentApi.fetchUserDetail(id)
+        } catch (error) {
+            // console.log(error.message)
+            throw new Error("Failed to fetch User Detail");
+        }
+    }
+)
+
 export const addUser = createAsyncThunk(
     "addUser",
     async (user) => {

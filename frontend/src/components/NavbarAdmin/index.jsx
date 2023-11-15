@@ -242,21 +242,10 @@ const Navbar = () => {
                     <ListItemIcon>
                       <PersonIcon fontSize="medium" />
                     </ListItemIcon>
-                    {`${user.fullname}`}
+                    {`${user.fullname}`}<br />{`${user.sub}`}
                   </MenuItem>
-                  <MenuItem onClick={handleClose}>
-                    <ListItemIcon>
-                      <AccountCircleIcon fontSize="medium" />
-                    </ListItemIcon>
-                    {`${user.sub}`}
-                  </MenuItem>
+
                   <Divider />
-                  <MenuItem onClick={handleClose}>
-                    <ListItemIcon>
-                      <Settings fontSize="small" />
-                    </ListItemIcon>
-                    Settings
-                  </MenuItem>
                   <MenuItem onClick={handleSignOut}>
                     <ListItemIcon>
                       <Logout fontSize="small" />

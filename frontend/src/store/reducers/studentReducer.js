@@ -39,6 +39,23 @@ const studentSlice = createSlice({
             console.log("fetch users failed")
         })
 
+        // Get User Detail
+        builder.addCase(student.getUserDetail.pending, (state) => {
+            state.status = 'loading'
+        })
+        
+        builder.addCase(student.getUserDetail.fulfilled, (state, action) => {
+            state.data = action.payload
+            state.status = 'success'
+            console.log('Fetch User Detail is success')
+        })
+
+        builder.addCase(student.getUserDetail.rejected, (state, action) => {
+            state.status = 'error'
+            state.error = action.error.message;
+            console.log('Fetch User Detail is error')
+        })
+
         // Add User
     builder.addCase(student.addUser.pending, (state) => {
         state.status = "loading";
