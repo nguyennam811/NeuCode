@@ -1,5 +1,5 @@
 from .user import User, ShowUser, ResponseUsers
-from .authentication import Login
+from .authentication import Login, ChangePassword
 from .problem import Problem, ShowProblem, ProblemAssignment, ResponseProblem
 from .submission import Submission, ShowSubmission, SubmissionResult, ResponseSubmission, ProblemSubmit
 from .test import Test, ShowTest, Test_Result, ShowTestResult
