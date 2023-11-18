@@ -256,7 +256,7 @@ const Navbar = () => {
               </Box>
             </Box>
           </Header>
-          <Content
+          {/* <Content
             style={{
               margin: "24px 16px",
               padding: 24,
@@ -265,7 +265,22 @@ const Navbar = () => {
             }}
           >
             <Outlet />
-          </Content>
+          </Content> */}
+
+          <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          p: { xs: 2, sm: 3 },
+          bgcolor: 'rgb(238, 242, 246, 0.8)',
+          minHeight: '100vh',
+          position: 'relative',
+          zIndex: 1201,
+          transition: '0.4s',
+        }}
+      >
+        <Outlet />
+      </Box>
         </Layout>
       </Layout>
     </>

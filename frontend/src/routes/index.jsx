@@ -30,6 +30,7 @@ import UsersListPage from "../pages/Admin/Users";
 import Information from "../pages/Info/Information";
 import InforUser from "../pages/Info";
 import ChangePassword from "../pages/Info/ChangePassword";
+import Dashboard from "../pages/Admin/Dashboard";
 
 const tokenLoader = () => {
   const token = getAuthToken();
@@ -174,7 +175,7 @@ const router = [
     children: [
       {
         index: true,
-        element: <Problems />,
+        element: <Dashboard />,
       },
       {
         path: "problems",
