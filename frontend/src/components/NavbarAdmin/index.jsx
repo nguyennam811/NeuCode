@@ -230,7 +230,7 @@ const Navbar = () => {
                 display: "flex",
                 justifyContent: "space-between",
                 position: "fixed",
-                zIndex: "2000",
+                zIndex: "1300",
                 backgroundColor: "white",
               }}
               width={!collapsed ? "calc(100% - 200px)" : "calc(100% - 80px)"}
