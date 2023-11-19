@@ -11,6 +11,17 @@ export const setStatusIdle = (state) => {
     state.status = 'idle'
 }
 
+export const getDashboard = createAsyncThunk(
+    "getDashboard",
+    async () => {
+        try {
+            return await studentApi.fetchDashboard()
+        } catch (error) {
+            // return error.message
+            throw new Error("Failed to fetch Dashboard");
+        }
+    }
+)
 
 export const getUsers = createAsyncThunk(
     "getUsers",

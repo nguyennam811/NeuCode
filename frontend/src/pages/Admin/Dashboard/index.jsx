@@ -3,11 +3,15 @@ import html2canvas from 'html2canvas'
 import * as pdfMake from 'pdfmake/build/pdfmake.js';
 import { DownloadOutlined } from '@ant-design/icons';
 import { Stack, Grid, Container, Typography, Box, IconButton } from '@mui/material'
-
+import { useDispatch, useSelector } from "react-redux";
 import SumnaryCard from './SummaryCard'
+import { getDashboard } from '../../../store/actions/studentAction';
 
 const Dashboard = () => {
-
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getDashboard());
+      }, []);
     const generatePdf = () => {
         const pdfTable = document.getElementsByTagName('main')[0]
         if (pdfTable) {

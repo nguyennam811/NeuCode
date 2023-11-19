@@ -1,6 +1,11 @@
 import axiosInstance from "./axiosInstance";
 
 
+export const fetchDashboard = async () => {
+  const res = await axiosInstance.get(`/admin/dashboard/`);
+return res.data;
+};
+
 export const fetchUser = async () => {
   const res = await axiosInstance.get(`/users/`);
 return res.data;

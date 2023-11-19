@@ -36,7 +36,7 @@ const ProblemDetail = () => {
   //   dispatch(getProblemDetail(problemId.id))
   // }, [problemId.id])
   return (
-    <Box sx={{ height: "100%" }}>
+    <Box sx={{ height: "100%" , backgroundColor: 'white'}}>
       <Split className="split" gutterSize={7} minSize={[25, 375]} sizes={[50, 50]}>
         <ProblemDetailDescription value={value} setValue={setValue} historyProblem={historyProblem} setHistoryProblem={setHistoryProblem}/>
         <TextEditor setValueDescription={setValue} setHistoryProblem={setHistoryProblem}/>

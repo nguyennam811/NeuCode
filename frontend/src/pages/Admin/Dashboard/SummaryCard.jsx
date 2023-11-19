@@ -2,7 +2,12 @@ import { styled } from "@mui/material/styles";
 import { Grid, Typography } from "@mui/material";
 import { UserOutlined } from "@ant-design/icons";
 import MainCard from "../../../components/MainCard";
-
+import { useSelector } from "react-redux";
+import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstructions';
+import BackupIcon from '@mui/icons-material/Backup';
+import SchoolIcon from '@mui/icons-material/School';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 const StyledIcon = styled("div")(({ theme }) => ({
   margin: "auto",
   display: "flex",
@@ -13,35 +18,40 @@ const StyledIcon = styled("div")(({ theme }) => ({
   justifyContent: "center",
 }));
 
+const SummaryCard = () => {
+  const dashboard = useSelector((reducers) => reducers.student.data);
+console.log(dashboard);
+
+
 const cards = [
   {
-    icon: <UserOutlined />,
-    total: 34,
-    title: "Total Users",
+    icon: <IntegrationInstructionsIcon fontSize="large"/>,
+    total: dashboard.total_problem,
+    title: "Total Problems",
   },
   {
-    icon: <UserOutlined />,
-    total: 34,
-    title: "Total Users",
+    icon: <BackupIcon fontSize="large"/>,
+    total: dashboard.total_submission,
+    title: "Total Submissions",
   },
   {
-    icon: <UserOutlined />,
-    total: 34,
-    title: "Total Users",
+    icon: <SchoolIcon fontSize="large"/>,
+    total: dashboard.total_courses,
+    title: "Total Courses",
   },
   {
-    icon: <UserOutlined />,
-    total: 34,
-    title: "Total Users",
+    icon: <PeopleAltIcon fontSize="large"/>,
+    total: dashboard.total_student,
+    title: "Total Student",
   },
   {
-    icon: <UserOutlined />,
-    total: 34,
-    title: "Total Users",
+    icon: <AdminPanelSettingsIcon fontSize="large"/>,
+    total: dashboard.total_teacher,
+    title: "Total Teacher",
   },
 ];
 
-const SummaryCard = () => {
+
   return (
     <Grid container spacing={2}>
       {cards.map((card, index) => (

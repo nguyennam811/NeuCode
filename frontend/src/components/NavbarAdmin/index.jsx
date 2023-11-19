@@ -1,17 +1,14 @@
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-} from "@ant-design/icons";
+import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Layout, theme, Avatar } from "antd";
 import React, { useState } from "react";
-import { Link, Outlet, useLoaderData, useLocation } from "react-router-dom";
+import { Outlet, useLoaderData, useLocation } from "react-router-dom";
 import ListSubheader from "@mui/material/ListSubheader";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import ViewListIcon from '@mui/icons-material/ViewList';
+import ViewListIcon from "@mui/icons-material/ViewList";
 import PersonIcon from "@mui/icons-material/Person";
 import { NavLink } from "react-router-dom";
 import { useSubmit } from "react-router-dom";
@@ -24,15 +21,14 @@ import {
   MenuItem,
   Tooltip,
 } from "@mui/material";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { Logout, Settings } from "@mui/icons-material";
+import { Logout } from "@mui/icons-material";
 import NeuCode from "../../assets/brand/NeuCode.png";
 import NeuCodeMini from "../../assets/brand/NeuCode - Mini.png";
-import SchoolIcon from '@mui/icons-material/School';
-import BackupIcon from '@mui/icons-material/Backup';
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import SchoolIcon from "@mui/icons-material/School";
+import BackupIcon from "@mui/icons-material/Backup";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 
-const { Header, Sider, Content } = Layout;
+const { Header, Sider } = Layout;
 
 const Navbar = () => {
   const location = useLocation();
@@ -72,131 +68,154 @@ const Navbar = () => {
           collapsed={collapsed}
           style={{ backgroundColor: "white" }}
         >
-          {!collapsed ? (
-            <NavLink className="logo" to="/admin">
-              <img
-                src={NeuCode}
-                alt="Logo"
-                style={{
-                  height: "70px",
-                  padding: "5px",
-                  cursor: "pointer",
-                }}
-              />
-            </NavLink>
-          ) : (
-            <NavLink className="logo" to="/admin">
-              <img
-                src={NeuCodeMini}
-                alt="Logo"
-                style={{
-                  height: "50px",
-                  padding: "3px",
-                  cursor: "pointer",
-                  marginTop: "7px",
-                }}
-              />
-            </NavLink>
-          )}
-          <List
-            sx={{
-              width: "100%",
-              bgcolor: "background.paper",
-            }}
-            component="nav"
-            aria-labelledby="nested-list-subheader"
-            subheader={
-              !collapsed ? (
+          <Box position={"fixed"} width={!collapsed ? "200px" : "80px"}>
+            {!collapsed ? (
+              <NavLink className="logo" to="/admin/">
+                <img
+                  src={NeuCode}
+                  alt="Logo"
+                  style={{
+                    height: "70px",
+                    padding: "5px",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => handleItemClick("dashboard")}
+                />
+              </NavLink>
+            ) : (
+              <NavLink className="logo" to="/admin/">
+                <img
+                  src={NeuCodeMini}
+                  alt="Logo"
+                  style={{
+                    height: "50px",
+                    padding: "3px",
+                    cursor: "pointer",
+                    marginTop: "7px",
+                  }}
+                  onClick={() => handleItemClick("dashboard")}
+                />
+              </NavLink>
+            )}
+            <List
+              sx={{
+                width: "100%",
+                bgcolor: "background.paper",
+              }}
+              component="nav"
+              aria-labelledby="nested-list-subheader"
+              subheader={
+                !collapsed ? (
+                  <ListSubheader component="div" id="nested-list-subheader">
+                    Admin Manager
+                  </ListSubheader>
+                ) : (
+                  <ListSubheader component="div" id="nested-list-subheader">
+                    Manager
+                  </ListSubheader>
+                )
+              }
+            >
+              <NavLink to="/admin">
+                <ListItemButton
+                  selected={selectedItem === "dashboard"}
+                  onClick={() => handleItemClick("dashboard")}
+                  style={{
+                    color: "black",
+                    backgroundColor:
+                      location.pathname === "/admin" && "#1037e314",
+                  }}
+                >
+                  <ListItemIcon>
+                    <DashboardIcon />
+                  </ListItemIcon>
+                  {!collapsed && <ListItemText primary="Dashboard" />}
+                </ListItemButton>
+              </NavLink>
+
+              <NavLink to="/admin/problems">
+                <ListItemButton
+                  selected={selectedItem === "problems"}
+                  onClick={() => handleItemClick("problems")}
+                  style={{
+                    color: "black",
+                    backgroundColor:
+                      location.pathname === "/admin/problems" && "#1037e314",
+                  }}
+                >
+                  <ListItemIcon>
+                    <ViewListIcon />
+                  </ListItemIcon>
+                  {!collapsed && <ListItemText primary="Problems" />}
+                </ListItemButton>
+              </NavLink>
+
+              <NavLink to="/admin/courses">
+                <ListItemButton
+                  selected={selectedItem === "courses"}
+                  onClick={() => handleItemClick("courses")}
+                  style={{
+                    color: "black",
+                    backgroundColor:
+                      location.pathname === "/admin/courses" && "#1037e314",
+                  }}
+                >
+                  <ListItemIcon>
+                    <SchoolIcon />
+                  </ListItemIcon>
+                  {!collapsed && <ListItemText primary="Courses" />}
+                </ListItemButton>
+              </NavLink>
+
+              <NavLink to="/admin/submissions">
+                <ListItemButton
+                  selected={selectedItem === "submissions"}
+                  onClick={() => handleItemClick("submissions")}
+                  style={{
+                    color: "black",
+                    backgroundColor:
+                      location.pathname === "/admin/submissions" && "#1037e314",
+                  }}
+                >
+                  <ListItemIcon>
+                    <BackupIcon />
+                  </ListItemIcon>
+                  {!collapsed && <ListItemText primary="Submissions" />}
+                </ListItemButton>
+              </NavLink>
+            </List>
+            <List
+              sx={{
+                width: "100%",
+                bgcolor: "background.paper",
+                color: "black",
+              }}
+              component="nav"
+              aria-labelledby="nested-list-subheader"
+              subheader={
                 <ListSubheader component="div" id="nested-list-subheader">
-                  Admin Manager
+                  User
                 </ListSubheader>
-              ) : (
-                <ListSubheader component="div" id="nested-list-subheader">
-                  Manager
-                </ListSubheader>
-              )
-            }
-          >
-            <Link to="/admin">
-              <ListItemButton
-                selected={selectedItem === "dashboard"}
-                onClick={() => handleItemClick("dashboard")}
-                style={{ color: "black", backgroundColor: location.pathname === "/admin" && "#1037e314" }}
-              >
-                <ListItemIcon>
-                  <DashboardIcon />
-                </ListItemIcon>
-                {!collapsed && <ListItemText primary="Dashboard" />}
-              </ListItemButton>
-            </Link>
-
-            <Link to="/admin/problems">
-              <ListItemButton
-                selected={selectedItem === "problems"} // check if this is the selected item
-                onClick={() => handleItemClick("problems")}
-                style={{ color: "black", backgroundColor: location.pathname === "/admin/problems" && "#1037e314" }}
-              >
-                <ListItemIcon>
-                  <ViewListIcon />
-                </ListItemIcon>
-                {!collapsed && <ListItemText primary="Problems" />}
-              </ListItemButton>
-            </Link>
-
-            <Link to="/admin/courses">
-              <ListItemButton
-                selected={selectedItem === "courses"} // check if this is the selected item
-                onClick={() => handleItemClick("courses")}
-                style={{ color: "black", backgroundColor: location.pathname === "/admin/courses" && "#1037e314"  }}
-              >
-                <ListItemIcon>
-                  <SchoolIcon />
-                </ListItemIcon>
-                {!collapsed && <ListItemText primary="Courses" />}
-              </ListItemButton>
-            </Link>
-
-            <Link to="/admin/submissions">
-              <ListItemButton
-                selected={selectedItem === "submissions"} // check if this is the selected item
-                onClick={() => handleItemClick("submissions")}
-                style={{ color: "black", backgroundColor: location.pathname === "/admin/submissions" && "#1037e314"  }}
-              >
-                <ListItemIcon>
-                  <BackupIcon />
-                </ListItemIcon>
-                {!collapsed && <ListItemText primary="Submissions" />}
-              </ListItemButton>
-            </Link>
-
-          </List>
-          <List
-            sx={{
-              width: "100%",
-              bgcolor: "background.paper",
-              color: "black",
-            }}
-            component="nav"
-            aria-labelledby="nested-list-subheader"
-            subheader={
-              <ListSubheader component="div" id="nested-list-subheader">
-                User
-              </ListSubheader>
-            }
-          >
-            <Link to="/admin/users">
-              <ListItemButton
-                selected={selectedItem === "users"}
-                onClick={() => handleItemClick("users")}
-                style={{ color: "black", backgroundColor: location.pathname === "/admin/users" && "#1037e314"  }}
-              >
-                <ListItemIcon>
-                  <PeopleAltIcon />
-                </ListItemIcon>
-                {!collapsed && <ListItemText primary="Users" />}
-              </ListItemButton>
-            </Link>
-          </List>
+              }
+            >
+              <NavLink to="/admin/users">
+                <ListItemButton
+                  selected={selectedItem === "users"}
+                  onClick={() => handleItemClick("users")}
+                  style={{
+                    color: "black",
+                    backgroundColor:
+                      location.pathname === "/admin/users" && "#1037e314",
+                  }}
+                >
+                  <ListItemIcon>
+                    <PeopleAltIcon />
+                  </ListItemIcon>
+                  {!collapsed && <ListItemText primary="Users" />}
+                </ListItemButton>
+              </NavLink>
+            </List>
+          </Box>
         </Sider>
 
         <Layout className="site-layout">
@@ -206,8 +225,17 @@ const Navbar = () => {
               background: colorBgContainer,
             }}
           >
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <Box sx={{fontSize: '18px'}} ml={1}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                position: "fixed",
+                zIndex: "2000",
+                backgroundColor: "white",
+              }}
+              width={!collapsed ? "calc(100% - 200px)" : "calc(100% - 80px)"}
+            >
+              <Box sx={{ fontSize: "18px" }} ml={1}>
                 {React.createElement(
                   collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
                   {
@@ -242,7 +270,9 @@ const Navbar = () => {
                     <ListItemIcon>
                       <PersonIcon fontSize="medium" />
                     </ListItemIcon>
-                    {`${user.fullname}`}<br />{`${user.sub}`}
+                    {`${user.fullname}`}
+                    <br />
+                    {`${user.sub}`}
                   </MenuItem>
 
                   <Divider />
@@ -256,31 +286,20 @@ const Navbar = () => {
               </Box>
             </Box>
           </Header>
-          {/* <Content
-            style={{
-              margin: "24px 16px",
-              padding: 24,
+          <Box
+            component="main"
+            sx={{
+              flexGrow: 1,
+              p: { xs: 2, sm: 3 },
+              bgcolor: "rgb(238, 242, 246, 0.8)",
               minHeight: "100vh",
-              background: colorBgContainer,
+              position: "relative",
+              zIndex: 1201,
+              transition: "0.4s",
             }}
           >
             <Outlet />
-          </Content> */}
-
-          <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          p: { xs: 2, sm: 3 },
-          bgcolor: 'rgb(238, 242, 246, 0.8)',
-          minHeight: '100vh',
-          position: 'relative',
-          zIndex: 1201,
-          transition: '0.4s',
-        }}
-      >
-        <Outlet />
-      </Box>
+          </Box>
         </Layout>
       </Layout>
     </>
