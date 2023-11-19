@@ -4,6 +4,8 @@ from fastapi import HTTPException, status
 from sqlalchemy import select, update, delete, and_, text, func, or_
 from typing import List
 
+def get_all_problems_admin(db: Session):
+    return db.query(models.Problem).all()
 
 def get_problems_with_conditions(db: Session, offset: int, limit: int, conditions):
     # statement = select(models.Problem).where(text(' or '.join(conditions))).offset(

@@ -6,6 +6,9 @@ from datetime import datetime, timezone
 from typing import List
 from sqlalchemy import select, text, func, delete
 
+def get_all_submissions_admin(db: Session):
+    return db.query(models.Submission).all()
+
 def get_submissions_with_conditions(db: Session, offset: int, limit: int, conditions):
     statement = select(models.Submission).join(models.Problem, models.Submission.problem_id == models.Problem.id).join(models.User, models.Submission.submiter_id == models.User.id).where(text(' and '.join(conditions))).offset(
         offset).limit(limit).order_by(models.Submission.created.desc())

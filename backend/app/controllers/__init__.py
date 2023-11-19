@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from . import user, authentication, problem, submission, test, test_result, execute_code_test, course, course_student, assignment
+from . import user, authentication, problem, submission, test, test_result, execute_code_test, course, course_student, assignment,admin
 
 root_router = APIRouter()
 
@@ -18,3 +18,4 @@ root_router.include_router(execute_code_test.router, prefix='', tags=["Execute"]
 root_router.include_router(course.router, prefix='/api/course', tags=["Courses"])
 root_router.include_router(course_student.router, prefix='/api/course_student', tags=["CourseStudent"])
 root_router.include_router(assignment.router, prefix='/api/assignment', tags=["Assignments"])
+root_router.include_router(admin.router, prefix='/api/admin', tags=["Admin"])

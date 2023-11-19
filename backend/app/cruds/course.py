@@ -4,6 +4,8 @@ from fastapi import HTTPException, status
 from sqlalchemy import select, text, func, delete
 from typing import List
 
+def get_all_courses_admin(db: Session):
+    return db.query(models.Course).all()
 def get_courses_with_conditions(db: Session, offset: int, limit: int, conditions):
     statement = select(models.Course).where(text(' and '.join(conditions))).offset(
         offset).limit(limit).order_by(models.Course.created.desc())

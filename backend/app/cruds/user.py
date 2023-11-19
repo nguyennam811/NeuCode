@@ -6,14 +6,8 @@ from sqlalchemy import select, text, func, delete
 from ..models import Role
 from typing import List
 
-# def get_user_all(db: Session, role: str):
-#     users_query = db.query(models.User)
-#     if role is not None:
-#         users_query = users_query.filter(models.User.role == Role(role))
-#     users = users_query.all()
-#     if not users:
-#         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'No users found with role {role}')
-#     return users
+def get_all_users_admin(db: Session, role: str):
+    return db.query(models.User).filter(models.User.role == Role(role)).all()
 
 def get_users_with_conditions(db: Session, offset: int, limit: int, conditions):
     statement = select(models.User).where(text(' and '.join(conditions))).offset(
