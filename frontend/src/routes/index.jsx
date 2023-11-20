@@ -1,5 +1,5 @@
 import { createBrowserRouter, redirect } from "react-router-dom";
-import About from "../pages/Student/About";
+import Guide from "../pages/Student/Guide";
 import Home from "../pages/Home";
 import NotFound from "../pages/NotFound";
 import Courses from "../pages/Student/Courses";
@@ -104,8 +104,8 @@ const router = [
             element: <ProblemDetail />,
           },
           {
-            path: "about",
-            element: <About />,
+            path: "guide",
+            element: <Guide />,
           },
           {
             path: "submissions",

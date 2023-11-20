@@ -68,7 +68,7 @@ const Navbar = () => {
           collapsed={collapsed}
           style={{ backgroundColor: "white" }}
         >
-          <Box position={"fixed"} width={!collapsed ? "200px" : "80px"}>
+          <Box position={"fixed"} width={!collapsed ? "200px" : "80px"} sx={{borderRight: '1px solid #ccc', height: '100%'}}>
             {!collapsed ? (
               <NavLink className="logo" to="/admin/">
                 <img

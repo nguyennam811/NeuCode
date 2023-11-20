@@ -102,10 +102,10 @@ const Header = () => {
           </li>
           <li>
             <NavLink
-              to={"/student/about"}
-              style={{ color: isCurrentPage("/about") ? "red" : "" }}
+              to={"/student/guide"}
+              style={{ color: isCurrentPage("/guide") ? "red" : "" }}
             >
-              ABOUT
+              GUIDE
             </NavLink>
           </li>
         </ul>
@@ -230,16 +230,16 @@ const Header = () => {
                     </li>
                     <li
                       style={{
-                        borderBottom: isCurrentPage("/about")
+                        borderBottom: isCurrentPage("/guide")
                           ? "3px solid #ff0000"
                           : "none",
                       }}
                     >
                       <NavLink
-                        to={"/student/about"}
-                        style={{ color: isCurrentPage("/about") ? "red" : "" }}
+                        to={"/student/guide"}
+                        style={{ color: isCurrentPage("/guide") ? "red" : "" }}
                       >
-                        ABOUT
+                        GUIDE
                       </NavLink>
                     </li>
                   </ul>

@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 
-const About = () => {
+const Guide = () => {
   return (
     <>
       <Box
@@ -60,4 +60,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default Guide;
