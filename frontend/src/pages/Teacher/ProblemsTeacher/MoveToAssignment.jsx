@@ -11,33 +11,6 @@ function MoveToAssignment(props) {
     is_public: false
   };
   const moveAssignmentFormFields = [
-    // {
-    //   id: "course_name",
-    //   title: "Course Name",
-    //   type: "text",
-    //   required: true,
-    //   name: "course_name",
-    //   placeholder: "Enter course name...",
-    //   validator: Yup.string().max(255).required("Course Name is required"),
-    // },
-    // {
-    //   id: "is_public",
-    //   title: "Course Time",
-    //   type: "text",
-    //   required: true,
-    //   name: "course_time",
-    //   placeholder: "Enter course time...",
-    //   validator: Yup.string().max(255).required("Course Time is required"),
-    // },
-    // {
-    //   id: "deadline",
-    //   title: "Description",
-    //   type: "text",
-    //   required: false,
-    //   name: "course_description",
-    //   placeholder: "Enter Description...",
-    //   // validator: Yup.string().max(255).required("Description is required"),
-    // },
     {
       id: 'course_id',
       title: 'Course ID',
@@ -75,7 +48,7 @@ function MoveToAssignment(props) {
 
   return (
     <FormDialog
-      title='Move to Assignment'
+      title= {`Move ${props.problemAssignment} to Assignment`}
       initialValues={initialValues}
       onClose={props.onClose}
       open={props.open}

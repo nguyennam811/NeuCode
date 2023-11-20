@@ -64,3 +64,20 @@ export function getTotalMemory(testsResult) {
   const totalMemory = testsResult.reduce((totalMemory, test) => totalMemory + test.memory, 0).toFixed(2);
   return totalMemory + " MB";
 }
+
+export function getTotalSubmissionsAssignment(submissions, id_assignment) {
+  if (submissions.length === 0) {
+    return 0;
+  }
+
+  const total = submissions.reduce((accumulator, submission) => {
+    if (submission.assignment_id === id_assignment) {
+      console.log(accumulator)
+      return accumulator + 1;
+    }
+
+    return accumulator;
+  }, 0);
+
+  return total;
+}

@@ -32,6 +32,15 @@ export const courseStudentTableHeaders = [
         {courseStudent.courses.course_name}
       </Link>
     ),
+    descComparatorFn: (a, b) => {
+      if (b.courses.course_name < a.courses.course_name) {
+        return -1;
+      }
+      if (b.courses.course_name > a.courses.course_name) {
+        return 1;
+      }
+      return 0;
+    },
   },
   {
     id: "course_time",
@@ -39,6 +48,15 @@ export const courseStudentTableHeaders = [
     numeric: false,
     disablePadding: false,
     renderFn: (courseStudent) => courseStudent.courses.course_time,
+    descComparatorFn: (a, b) => {
+      if (b.courses.course_time < a.courses.course_time) {
+        return -1;
+      }
+      if (b.courses.course_time > a.courses.course_time) {
+        return 1;
+      }
+      return 0;
+    },
   },
   {
     id: "course_description",

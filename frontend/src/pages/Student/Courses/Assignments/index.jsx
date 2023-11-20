@@ -67,6 +67,15 @@ export const assignmentsTableHeaders = [
         {assignment.problems.title}
       </Link>
     ),
+    descComparatorFn: (a, b) => {
+      if (b.problems.title < a.problems.title) {
+        return -1;
+      }
+      if (b.problems.title > a.problems.title) {
+        return 1;
+      }
+      return 0;
+    },
   },
   {
     id: "deadline",

@@ -7,7 +7,7 @@ import { getProblems } from "../../../store/actions/problemAction";
 import { formatResponseTime } from "../../../utils/time";
 import ErrorData from "../../ErrorData";
 import FilterProblems from "./FilterProblems";
-import { getColorDifficulty } from "../../../utils/status";
+import { getColorDifficulty, getTotalSubmissionsAssignment } from "../../../utils/status";
 import { Link } from "react-router-dom";
 
 export const problemsTableHeaders = [
@@ -125,7 +125,32 @@ export const problemsTableHeaders = [
     numeric: true,
     disablePadding: false,
     renderFn: (problem) => problem.submissions.length,
+    descComparatorFn: (a, b) => {
+      if (b.submissions.length < a.submissions.length) {
+        return -1;
+      }
+      if (b.submissions.length > a.submissions.length) {
+        return 1;
+      }
+      return 0;
+    },
   },
+  // {
+  //   id: "submission",
+  //   label: "Submissions",
+  //   numeric: true,
+  //   disablePadding: false,
+  //   renderFn: (problem) => getTotalSubmissionsAssignment(problem.submissions, null),
+  //   descComparatorFn: (a, b) => {
+  //     if (b.submissions.length < a.submissions.length) {
+  //       return -1;
+  //     }
+  //     if (b.submissions.length > a.submissions.length) {
+  //       return 1;
+  //     }
+  //     return 0;
+  //   },
+  // },
   {
     id: "created",
     label: "Created",

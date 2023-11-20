@@ -16,12 +16,14 @@ import { formatResponseTime, formatTimeSubmit } from "../../../../utils/time";
 import { useMemo } from "react";
 import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
 import { VisibilityOutlined } from "@mui/icons-material";
-import { getColorDifficulty } from "../../../../utils/status";
+import { getColorDifficulty, getTotalSubmissionsAssignment } from "../../../../utils/status";
 import AssignmentCreateFormDialog from "./AssignmentCreateFormDialog";
 import AddTestDialog from "../../ProblemsTeacher/ProblemTest/AddTestDialog";
 import UpdateTestDialog from "../../ProblemsTeacher/ProblemTest/UpdateTestDialog";
 import AssignmentUpdateFormDialog from "./AssignmentUpdateFormDialog";
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
 export const assignmentsTableHeaders = [
   {
     id: "course_name",
@@ -89,12 +91,30 @@ export const assignmentsTableHeaders = [
     disablePadding: false,
     renderFn: (assignment) => assignment.problems.problem_type,
   },
+  // {
+  //   id: "is_public",
+  //   label: "Public?",
+  //   numeric: false,
+  //   disablePadding: false,
+  //   renderFn: (assignment) => assignment.is_public.toString().toUpperCase(),
+  // },
+  {
+    id: "is_public",
+    label: "Public?",
+    numeric: true,
+    disablePadding: false,
+    // renderFn: (assignment) => assignment.is_public.toString().toUpperCase(),
+    renderFn: (assignment) => {
+      const isPublic = assignment.is_public;
+      return isPublic ? <CheckCircleIcon color="success"/> : <CancelIcon color="error"/>;
+    },
+  },
   {
     id: "submission",
     label: "Submissions",
     numeric: true,
     disablePadding: false,
-    renderFn: (assignment) => assignment.problems.submissions.length,
+    renderFn: (assignment) => getTotalSubmissionsAssignment(assignment.problems.submissions, assignment.id),
   },
 ];
 
