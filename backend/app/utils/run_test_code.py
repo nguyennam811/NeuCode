@@ -180,23 +180,38 @@ def status_data_test(db: Session,output: str, elapsed_time: float, memory_usage:
     if not problem:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="submission not found")
 
+    # if "SyntaxError" in output:
+    #     return "CE: Compile Error (Lỗi biên dịch)"
+    # elif "Runtime Error" in output or output.strip() == "":
+    #     return "RTE: Runtime Error (Lỗi thực thi)"
+    # elif "Invalid Return" in output:
+    #     return "IR: Invalid Return (Trả về không hợp lệ)"
+    #
+    # if (output.strip() == test_case.output) :
+    #     if (elapsed_time > problem.max_execution_time):
+    #         return "TLE: Time Limit Exceeded (Quá giới hạn thời gian)"
+    #     elif (memory_usage > problem.max_memory_limit):
+    #         return "MLE: Memory Limit Exceeded (Quá giới hạn bộ nhớ)"
+    #     else:
+    #         return "AC: Accepted (Kết quả đúng)"
+    # else:
+    #     return "WA: Wrong Answer (Kết quả sai)"
+
     if "SyntaxError" in output:
         return "CE: Compile Error (Lỗi biên dịch)"
     elif "Runtime Error" in output or output.strip() == "":
         return "RTE: Runtime Error (Lỗi thực thi)"
     elif "Invalid Return" in output:
         return "IR: Invalid Return (Trả về không hợp lệ)"
+    elif (elapsed_time > problem.max_execution_time):
+        return "TLE: Time Limit Exceeded (Quá giới hạn thời gian)"
+    elif (memory_usage > problem.max_memory_limit):
+        return "MLE: Memory Limit Exceeded (Quá giới hạn bộ nhớ)"
 
     if (output.strip() == test_case.output) :
-        if (elapsed_time > problem.max_execution_time):
-            return "TLE: Time Limit Exceeded (Quá giới hạn thời gian)"
-        elif (memory_usage > problem.max_memory_limit):
-            return "MLE: Memory Limit Exceeded (Quá giới hạn bộ nhớ)"
-        else:
-            return "AC: Accepted (Kết quả đúng)"
+        return "AC: Accepted (Kết quả đúng)"
     else:
         return "WA: Wrong Answer (Kết quả sai)"
-
 
     return "A: Other Error (Lỗi khác)"
 
