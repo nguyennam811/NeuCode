@@ -129,7 +129,7 @@ function EditorTestCase(props) {
                   aria-label="lab API tabs example"
                   sx={{ height: "100%", padding: "3px", paddingLeft: "0" }}
                 >
-                  {data.problems.tests.slice(0, 3).map((test, index) => (
+                  {/* {data.problems.tests.slice(0, 3).map((test, index) => (
                     <Tab
                       key={index}
                       label={`Case ${index + 1}`}
@@ -152,7 +152,50 @@ function EditorTestCase(props) {
                             }
                       }
                     />
-                  ))}
+                  ))} */}
+                  {data.tests.slice(0, 3).map((test, index) => {
+                    const hasAC = testCase.some(
+                      (test_case) =>
+                        test_case.test_id === test.id &&
+                        test_case.status_data.includes(
+                          "AC: Accepted (Kết quả đúng)"
+                        )
+                    );
+                    const hasNonAC = testCase.some(
+                      (test_case) =>
+                        test_case.test_id === test.id &&
+                        !test_case.status_data.includes(
+                          "AC: Accepted (Kết quả đúng)"
+                        )
+                    );
+
+                    return (
+                      <Tab
+                        key={index}
+                        label={`Case ${index + 1}`}
+                        value={(index + 1).toString()}
+                        sx={{
+                          fontSize: "12px",
+                          marginTop: "1px",
+                          backgroundColor: hasAC
+                            ? "#6bbe71"
+                            : hasNonAC
+                            ? "#ea4e4e"
+                            : undefined,
+                          color: hasAC
+                            ? "white"
+                            : hasNonAC
+                            ? "white"
+                            : undefined,
+                          border: hasAC
+                            ? "1px solid gray"
+                            : hasNonAC
+                            ? "1px solid gray"
+                            : undefined,
+                        }}
+                      />
+                    );
+                  })}
                 </TabList>
 
                 <Box

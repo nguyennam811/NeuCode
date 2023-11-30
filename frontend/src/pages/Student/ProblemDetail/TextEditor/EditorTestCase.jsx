@@ -65,14 +65,14 @@ function EditorTestCase(props) {
     // dispatch(setTabValue("2"));
     // setOpen(false);
     dispatch(addSubmissionByUser(submission));
-    setValueDescription('2')
+    setValueDescription("2");
     setOpen(false);
-    setHistoryProblem(false)
+    setHistoryProblem(false);
   };
 
   const execute_test_case = async () => {
     try {
-      setLoading(false); // Bắt đầu tải dữ liệu
+      setLoading(false); 
       const { user_id, ...submissionWithoutUserId } = submission;
 
       const res = await fetch(`${process.env.REACT_APP_URL}/execute`, {
@@ -88,7 +88,7 @@ function EditorTestCase(props) {
     } catch (error) {
       toast.error("Lỗi xảy ra trong quá trình biên dịch.");
     } finally {
-      setLoading(true); // Kết thúc tải dữ liệu
+      setLoading(true); 
     }
   };
 
@@ -111,8 +111,7 @@ function EditorTestCase(props) {
           flexDirection="column"
         >
           {/* Object.keys(data).length !== 0 */}
-          {data && data.tests &&
-          data.tests.length > 0 ? (
+          {data && data.tests && data.tests.length > 0 ? (
             <TabContext value={value}>
               <Box
                 sx={{ borderBottom: 1, borderColor: "divider" }}
@@ -125,9 +124,9 @@ function EditorTestCase(props) {
                 <TabList
                   onChange={handleChange}
                   aria-label="lab API tabs example"
-                  sx={{ height: "100%", padding: "3px" , paddingLeft: '0'}}
+                  sx={{ height: "100%", padding: "3px", paddingLeft: "0" }}
                 >
-                  {data.tests.slice(0, 3).map((test, index) => (
+                  {/* {data.tests.slice(0, 3).map((test, index) => (
                     <Tab
                       key={index}
                       label={`Case ${index + 1}`}
@@ -138,19 +137,80 @@ function EditorTestCase(props) {
                             test_case.test_id === test.id &&
                             test_case.status_data.includes("AC")
                         )
+                          // ? {
+                          //     fontSize: "12px",
+                          //     marginTop: "1px",
+                          //     backgroundColor: "#6bbe71",
+                          //     color: "white",
+                          //     border: "1px solid gray",
+                          //   }
+                          // : {
+                          //     fontSize: "12px",
+                          //   }
                           ? {
-                              fontSize: "12px",
-                              marginTop: "1px",
-                              backgroundColor: "#6bbe71",
-                              color: "white",
-                              border: "1px solid gray",
-                            }
-                          : {
-                              fontSize: "12px",
-                            }
+                            fontSize: "12px",
+                            marginTop: "1px",
+                            backgroundColor: "#6bbe71",
+                            color: "white",
+                            border: "1px solid gray",
+                          }
+                        : {
+                            fontSize: "12px",
+                            backgroundColor:
+                              testCase.some(
+                                (test_case) =>
+                                  test_case.test_id === test.id &&
+                                  !test_case.status_data.includes("AC: Accepted (Kết quả đúng)")
+                              )
+                                ? "red"
+                                : "inherit",
+                          }
                       }
                     />
-                  ))}
+                  ))} */}
+                  {data.tests.slice(0, 3).map((test, index) => {
+                    const hasAC = testCase.some(
+                      (test_case) =>
+                        test_case.test_id === test.id &&
+                        test_case.status_data.includes(
+                          "AC: Accepted (Kết quả đúng)"
+                        )
+                    );
+                    const hasNonAC = testCase.some(
+                      (test_case) =>
+                        test_case.test_id === test.id &&
+                        !test_case.status_data.includes(
+                          "AC: Accepted (Kết quả đúng)"
+                        )
+                    );
+
+                    return (
+                      <Tab
+                        key={index}
+                        label={`Case ${index + 1}`}
+                        value={(index + 1).toString()}
+                        sx={{
+                          fontSize: "12px",
+                          marginTop: "1px",
+                          backgroundColor: hasAC
+                            ? "#6bbe71"
+                            : hasNonAC
+                            ? "#ea4e4e"
+                            : undefined,
+                          color: hasAC
+                            ? "white"
+                            : hasNonAC
+                            ? "white"
+                            : undefined,
+                          border: hasAC
+                            ? "1px solid gray"
+                            : hasNonAC
+                            ? "1px solid gray"
+                            : undefined,
+                        }}
+                      />
+                    );
+                  })}
                 </TabList>
 
                 <Box
@@ -181,7 +241,6 @@ function EditorTestCase(props) {
                         <Button
                           variant="contained"
                           size="small"
-
                           onClick={handleClickOpen}
                         >
                           Submit

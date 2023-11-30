@@ -40,7 +40,7 @@ const Footer = () => {
               },
             }}
           >
-            Truy cập nhanh
+            Fast access
           </Typography>
           {user.role === 'student' && (
             <ul className="footer-menu">
@@ -54,7 +54,7 @@ const Footer = () => {
               <NavLink to={`${user.role}/courses`}>Courses</NavLink>
             </li>
             <li>
-              <NavLink to={`${user.role}/about`}>About</NavLink>
+              <NavLink to={`${user.role}/guide`}>Guide</NavLink>
             </li>
           </ul>
           )}
@@ -82,7 +82,7 @@ const Footer = () => {
               },
             }}
           >
-            Nguồn tài liệu
+            Document
           </Typography>
           <ul className="footer-menu">
             <li>
@@ -127,7 +127,7 @@ const Footer = () => {
               },
             }}
           >
-            Liên Hệ
+            Contact
           </Typography>
           <ul
             className="footer-menu"
