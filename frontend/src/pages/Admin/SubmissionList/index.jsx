@@ -95,21 +95,33 @@ export const submissionsTableHeaders = [
     renderFn: (submission) => getTotalMemory(submission.tests_result),
   },
   {
-    id: "created",
-    label: "Created",
+    id: "course_name",
+    label: "Course",
     numeric: false,
     disablePadding: false,
-    renderFn: (device) => formatResponseTime(device.created),
-    descComparatorFn: (a, b) => {
-      if (b.created < a.created) {
-        return -1;
+    renderFn: (submission) => {
+      if (submission.assignment && submission.assignment.courses) {
+        return submission.assignment.courses.course_name;
       }
-      if (b.created > a.created) {
-        return 1;
-      }
-      return 0;
+      return null;
     },
   },
+  // {
+  //   id: "created",
+  //   label: "Created",
+  //   numeric: false,
+  //   disablePadding: false,
+  //   renderFn: (submission) => formatResponseTime(submission.created),
+  //   descComparatorFn: (a, b) => {
+  //     if (b.created < a.created) {
+  //       return -1;
+  //     }
+  //     if (b.created > a.created) {
+  //       return 1;
+  //     }
+  //     return 0;
+  //   },
+  // },
 ];
 
 const SubmissionList = () => {

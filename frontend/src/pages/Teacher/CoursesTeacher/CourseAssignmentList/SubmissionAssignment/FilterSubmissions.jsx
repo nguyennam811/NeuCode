@@ -60,7 +60,7 @@ function FilterSubmissions({ onSearchFilter }) {
           </Typography>
           <SearchIcon sx={{ fontSize: "30px" }} />
         </Box>
-        <Box p={2}>
+        <Box p={2} sx={{backgroundColor: 'white'}}>
           <Box>
             <Select
               id="searching-field"

@@ -20,7 +20,10 @@ import { getTestResult } from "../../../../store/actions/testResultAction";
 import { useState } from "react";
 import { memo } from "react";
 import { getCellColor } from "../../../../utils/status";
-import { getSubmissionById, getSubmissions } from "../../../../store/actions/submissionAction";
+import {
+  getSubmissionById,
+  getSubmissions,
+} from "../../../../store/actions/submissionAction";
 import { useLoaderData, useParams } from "react-router-dom";
 import { setDetailSubmission } from "../../../../store/reducers/submissionReducer";
 import { setTestResult } from "../../../../store/reducers/testResultReducer";
@@ -70,12 +73,14 @@ function SubmissionResult({ historyProblem }) {
     if (historyProblem === true) {
       dispatch(setDetailSubmission({}));
       dispatch(setTestResult([]));
-      dispatch(getSubmissions({
-        offset: 0,
-        limit: 10,
-        submiter_id: current_user.sub,
-        problem_id: problemId.id,
-      }));
+      dispatch(
+        getSubmissions({
+          offset: 0,
+          limit: 10,
+          submiter_id: current_user.sub,
+          problem_id: problemId.id,
+        })
+      );
     } else if (Object.keys(submission).length > 0) {
       dispatch(getTestResult(submission.id));
       dispatch(getSubmissionById(submission.id));
@@ -99,68 +104,67 @@ function SubmissionResult({ historyProblem }) {
     }
   }, [test_result, dispatch, submission]);
 
-
   return (
     <>
       {historyProblem === false ? (
         <>
-       {test_result.length > 0 ? (
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead sx={{ backgroundColor: "#cdd0d3" }}>
-              <StyledTableRow>
-                <TableCell>Time Submitted</TableCell>
-                <TableCell>Status</TableCell>
-                <TableCell>Runtime</TableCell>
-                <TableCell>Memory</TableCell>
-                <TableCell>Language</TableCell>
-              </StyledTableRow>
-            </TableHead>
-            <TableBody>
-              {test_result.map((test) => (
-                <StyledTableRow key={test.id}>
-                  <TableCell>{formatTimeSubmit(test.created)}</TableCell>
-                  <TableCell sx={{ color: getCellColor(test.status_data) }}>
-                    <Typography>{test.status_data}</Typography>
-                  </TableCell>
-                  <TableCell>{test.time.toFixed(2)} s</TableCell>
-                  <TableCell>{test.memory.toFixed(2)} MB</TableCell>
-                  <TableCell>
-                    {mapLanguageSubmission(submission.language)}
-                  </TableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          </Table>
+          {test_result.length > 0 ? (
+            <TableContainer component={Paper}>
+              <Table>
+                <TableHead sx={{ backgroundColor: "#cdd0d3" }}>
+                  <StyledTableRow>
+                    <TableCell>Time Submitted</TableCell>
+                    <TableCell>Status</TableCell>
+                    <TableCell>Runtime</TableCell>
+                    <TableCell>Memory</TableCell>
+                    <TableCell>Language</TableCell>
+                  </StyledTableRow>
+                </TableHead>
+                <TableBody>
+                  {test_result.map((test) => (
+                    <StyledTableRow key={test.id}>
+                      <TableCell>{formatTimeSubmit(test.created)}</TableCell>
+                      <TableCell sx={{ color: getCellColor(test.status_data) }}>
+                        <Typography>{test.status_data}</Typography>
+                      </TableCell>
+                      <TableCell>{test.time.toFixed(2)} s</TableCell>
+                      <TableCell>{test.memory.toFixed(2)} MB</TableCell>
+                      <TableCell>
+                        {mapLanguageSubmission(submission.language)}
+                      </TableCell>
+                    </StyledTableRow>
+                  ))}
+                </TableBody>
+              </Table>
 
-          <TableCell>
-            <Box>
-              <Typography fontSize={20}>
-                Điểm của bạn: {submission.score}
-              </Typography>
-            </Box>
-          </TableCell>
-        </TableContainer>
+              <TableCell>
+                <Box>
+                  <Typography fontSize={20}>
+                    Your score: {submission.score}
+                  </Typography>
+                </Box>
+              </TableCell>
+            </TableContainer>
+          ) : (
+            <CircularProgress />
+          )}
+        </>
       ) : (
-        <CircularProgress />
+        <>
+          {status === "loading" && <CircularProgress />}
+          {status === "error" && <ErrorData />}
+
+          {status === "success" && data?.data.length > 0 ? (
+            <HistoryProblem data={data?.data ?? []} />
+          ) : (
+            <Typography variant="h5" mt={5}>
+              You have not made any submissions
+            </Typography>
+          )}
+        </>
       )}
     </>
-  ) : (
-    <>
-      {status === "loading" && <CircularProgress />}
-      {status === "error" && <ErrorData />}
-
-      {status === "success" && data?.data.length > 0 ? (
-        <HistoryProblem data={data?.data ?? []} />
-      ) : (
-        <Typography variant="h5" mt={5}>
-          You have not made any submissions
-        </Typography>
-      )}
-    </>
-  )}
-</>
-);
+  );
 }
 
 export default memo(SubmissionResult);

@@ -38,7 +38,7 @@ function SubmissionResult({ historyAssignment }) {
     },
   }));
   const [reloadCounter, setReloadCounter] = useState(0);
-  
+
   // const current_user = useLoaderData();
   // const assignment = useParams();
   // const [fetchingParams, setFetchingParams] = useState({
@@ -66,12 +66,14 @@ function SubmissionResult({ historyAssignment }) {
     if (historyAssignment === true) {
       dispatch(setDetailSubmission({}));
       dispatch(setTestResult([]));
-      dispatch(getSubmissions({
-        offset: 0,
-        limit: 10,
-        submiter_id: current_user.sub,
-        assignment_id: assignment.id,
-      }));
+      dispatch(
+        getSubmissions({
+          offset: 0,
+          limit: 10,
+          submiter_id: current_user.sub,
+          assignment_id: assignment.id,
+        })
+      );
     } else if (Object.keys(submission).length > 0) {
       dispatch(getTestResult(submission.id));
       dispatch(getSubmissionById(submission.id));
@@ -128,7 +130,7 @@ function SubmissionResult({ historyAssignment }) {
               <TableCell>
                 <Box>
                   <Typography fontSize={20}>
-                    Điểm của bạn: {submission.score}
+                    Your score: {submission.score}
                   </Typography>
                 </Box>
               </TableCell>

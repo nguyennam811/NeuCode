@@ -125,6 +125,7 @@ const SubmissionsPage = () => {
   const [fetchingParams, setFetchingParams] = useState({
     offset: 0,
     limit: 10,
+    assignment_id: 'null'
   });
 
   const dispatch = useDispatch();
