@@ -46,17 +46,20 @@ def get_submission_all(
     if problem_id:
         conditions.append(f"problem_id = '{problem_id}'")
 
-    # if assignment_id:
-    #     conditions.append(f"assignment_id = '{assignment_id}'")
-
-    if assignment_id and assignment_id.lower() != 'null':
+    if assignment_id and assignment_id.lower() == 'null':
+        conditions.append(f"assignment_id IS NUll")
+    elif assignment_id:
         conditions.append(f"assignment_id = '{assignment_id}'")
-    else:
-        conditions.append("assignment_id IS NULL")  # Add condition to filter out null assignments
 
-    if search_value != '':
-        conditions.append(f"cast({search_key} as varchar) like('%{search_value}%')")
-    print(conditions)
+
+    # if assignment_id and assignment_id.lower() != 'null':
+    #     conditions.append(f"assignment_id = '{assignment_id}'")
+    # else:
+    #     conditions.append("assignment_id IS NULL")  # Add condition to filter out null assignments
+    #
+    # if search_value != '':
+    #     conditions.append(f"cast({search_key} as varchar) like('%{search_value}%')")
+    # print(conditions)
 
     return {
         'data': get_submissions_with_conditions(db=db, offset=offset, limit=limit, conditions=conditions),

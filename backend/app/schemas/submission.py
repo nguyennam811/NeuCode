@@ -3,6 +3,7 @@ from typing import Optional, List
 import datetime
 from ..models import Difficulty
 from .user import ShowUser
+from .course import CourseInfo
 
 class Submission(BaseModel):
     submiter_id: str
@@ -34,6 +35,12 @@ class ProblemSubmit(BaseModel):
     class Config():
         orm_mode = True
 
+class CourseAssignment(BaseModel):
+    id: str
+    courses: Optional[CourseInfo]
+    class Config():
+        orm_mode = True
+
 class ShowSubmission(Submission):
     # user: Optional[ShowUser]
     id: str
@@ -44,6 +51,7 @@ class ShowSubmission(Submission):
     updated: Optional[datetime.datetime]
     problems: Optional[ProblemSubmit]
     tests_result: List[SubmissionResult]
+    assignment: Optional[CourseAssignment]
     class Config():
         orm_mode = True
 

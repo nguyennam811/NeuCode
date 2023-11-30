@@ -10,6 +10,13 @@ class Course(BaseModel):
     course_time: str
     course_description: Optional[str]
 
+class CourseInfo(BaseModel):
+    teacher_id: str
+    course_name: str
+    course_time: str
+    course_description: Optional[str]
+    class Config():
+        orm_mode = True
 
 class ShowCourse(Course):
     id: str
