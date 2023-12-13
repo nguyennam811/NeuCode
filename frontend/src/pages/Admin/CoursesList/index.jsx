@@ -78,7 +78,7 @@ export const coursesTableHeaders = [
   },
   {
     id: "author",
-    label: "Author",
+    label: "Teacher",
     numeric: false,
     disablePadding: false,
     renderFn: (course) => course.user.fullname,

@@ -22,7 +22,7 @@ export const submissionsTableHeaders = [
     disablePadding: false,
     renderFn: (submission) => (
       <Link
-        to={`/student/problems/${submission.problem_id}`}
+        to={`/admin/problems/${submission.problem_id}`}
         style={{
           color: "black",
           textDecoration: "none",
