@@ -153,7 +153,7 @@ function EditorTestCase(props) {
                       }
                     />
                   ))} */}
-                  {data.tests.slice(0, 3).map((test, index) => {
+                  {data.problems.tests.slice(0, 3).map((test, index) => {
                     const hasAC = testCase.some(
                       (test_case) =>
                         test_case.test_id === test.id &&
