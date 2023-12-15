@@ -3,5 +3,6 @@ import { removeAuthToken } from '../utils/auth';
 
 export const action = () => {
   removeAuthToken();
-  return redirect('/');
+  // return redirect('/');
+  return redirect('/login');
 };

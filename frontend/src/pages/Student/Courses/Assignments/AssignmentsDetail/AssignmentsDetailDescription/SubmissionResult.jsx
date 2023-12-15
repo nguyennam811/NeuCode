@@ -21,7 +21,7 @@ import {
   getSubmissionById,
   getSubmissions,
 } from "../../../../../../store/actions/submissionAction";
-import { formatTimeSubmit } from "../../../../../../utils/time";
+import { formatTimeSubmissions, formatTimeSubmit } from "../../../../../../utils/time";
 import { getCellColor } from "../../../../../../utils/status";
 import { mapLanguageSubmission } from "../../../../../../utils/mapLanguage";
 import HistoryAssignment from "./HistoryAssignment";
@@ -113,7 +113,7 @@ function SubmissionResult({ historyAssignment }) {
                 <TableBody>
                   {test_result.map((test) => (
                     <StyledTableRow key={test.id}>
-                      <TableCell>{formatTimeSubmit(test.created)}</TableCell>
+                      <TableCell>{formatTimeSubmissions(test.created)}</TableCell>
                       <TableCell sx={{ color: getCellColor(test.status_data) }}>
                         <Typography>{test.status_data}</Typography>
                       </TableCell>

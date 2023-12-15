@@ -6,7 +6,7 @@ import { Link, useParams } from "react-router-dom";
 import ErrorData from "../../../../ErrorData";
 import { getSubmissions } from "../../../../../store/actions/submissionAction";
 import { calculateOverallStatus, getTotalMemory, getTotalTime } from "../../../../../utils/status";
-import { formatTimeSubmit } from "../../../../../utils/time";
+import { formatTimeSubmissions, formatTimeSubmit } from "../../../../../utils/time";
 import { mapLanguageSubmission } from "../../../../../utils/mapLanguage";
 import TableFrame from "../../../../../components/TableFrame";
 import FilterSubmissions from "./FilterSubmissions";
@@ -167,7 +167,7 @@ const SubmissionAssignment = () => {
         label: "Created",
         numeric: false,
         disablePadding: false,
-        renderFn: (submission) => formatTimeSubmit(submission.created),
+        renderFn: (submission) => formatTimeSubmissions(submission.created),
         descComparatorFn: (a, b) => {
           if (b.created < a.created) {
             return -1;

@@ -3,7 +3,7 @@ import { deleteCourseStudent, getCourseStudent } from "../../../../store/actions
 import ErrorData from "../../../ErrorData";
 import { Box } from "@mui/material";
 import TableFrameDetail from "../../../../components/TableFrame/TableFrameDetail";
-import { formatTimeSubmit } from "../../../../utils/time";
+import { formatResponseTime, formatTimeSubmit } from "../../../../utils/time";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -61,7 +61,7 @@ export const courseStudentTableHeaders = [
     label: "Date Extra",
     numeric: false,
     disablePadding: false,
-    renderFn: (course) => formatTimeSubmit(course.created),
+    renderFn: (course) => formatResponseTime(course.created),
     descComparatorFn: (a, b) => {
       if (b.created < a.created) {
         return -1;

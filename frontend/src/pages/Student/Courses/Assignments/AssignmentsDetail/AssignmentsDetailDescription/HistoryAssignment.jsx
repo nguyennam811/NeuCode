@@ -13,7 +13,7 @@ import {
   styled,
 } from "@mui/material";
 import { useState } from "react";
-import { formatTimeSubmit } from "../../../../../../utils/time";
+import { formatTimeSubmissions, formatTimeSubmit } from "../../../../../../utils/time";
 import {
   calculateOverallStatus,
   getCellColor,
@@ -63,7 +63,7 @@ function HistoryAssignment({ data }) {
           <TableBody>
             {data.map((assignment) => (
               <StyledTableRow key={assignment.id}>
-                <TableCell>{formatTimeSubmit(assignment.created)}</TableCell>
+                <TableCell>{formatTimeSubmissions(assignment.created)}</TableCell>
                 <TableCell>
                   {calculateOverallStatus(assignment.tests_result)}
                 </TableCell>
@@ -126,7 +126,7 @@ function HistoryAssignment({ data }) {
                           {assignment.tests_result.map((test) => (
                             <StyledTableRow key={test.id}>
                               <TableCell>
-                                {formatTimeSubmit(test.created)}
+                                {formatTimeSubmissions(test.created)}
                               </TableCell>
                               <TableCell
                                 sx={{ color: getCellColor(test.status_data) }}

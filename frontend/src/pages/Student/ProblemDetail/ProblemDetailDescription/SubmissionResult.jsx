@@ -12,7 +12,7 @@ import {
   styled,
 } from "@mui/material";
 import React from "react";
-import { formatTimeSubmit } from "../../../../utils/time";
+import { formatTimeSubmissions, formatTimeSubmit } from "../../../../utils/time";
 import { mapLanguageSubmission } from "../../../../utils/mapLanguage";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -123,7 +123,7 @@ function SubmissionResult({ historyProblem }) {
                 <TableBody>
                   {test_result.map((test) => (
                     <StyledTableRow key={test.id}>
-                      <TableCell>{formatTimeSubmit(test.created)}</TableCell>
+                      <TableCell>{formatTimeSubmissions(test.created)}</TableCell>
                       <TableCell sx={{ color: getCellColor(test.status_data) }}>
                         <Typography>{test.status_data}</Typography>
                       </TableCell>

@@ -219,7 +219,7 @@ const CoursesTeacher = () => {
                 <ModeEditOutlinedIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Problems List">
+            <Tooltip title="Assignment List">
               <IconButton
                 aria-label="view"
                 color="info"

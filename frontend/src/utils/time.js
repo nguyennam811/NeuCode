@@ -33,7 +33,7 @@ export const formatResponseTime = (createTime) => {
   return formatTime(createTime);
 };
 
-export const formatTimeSubmit = (timeSubmit) => {
+export const formatTimeSubmissions = (timeSubmit) => {
   const isoDate = new Date(timeSubmit);
 
   const day = isoDate.getDate();
@@ -50,4 +50,31 @@ export const formatTimeSubmit = (timeSubmit) => {
   }${month}/${year} ${hours}:${minutes}:${seconds}`;
 
   return formattedDate;
+};
+
+export const formatTimeSubmit = (timeSubmit) => {
+  const isoDate = new Date(timeSubmit);
+  const now = new Date();
+
+  // So sánh thời hạn với thời gian hiện tại
+  if (isoDate < now) {
+    // Nếu thời hạn đã qua, trả về chuỗi định dạng màu đỏ
+    return `<span style="color: red;">${formatDate(isoDate)}</span>`;
+  } else {
+    // Nếu thời hạn vẫn còn, trả về chuỗi định dạng màu xanh
+    return `<span style="color: green;">${formatDate(isoDate)}</span>`;
+  }
+};
+
+const formatDate = (isoDate) => {
+  const day = isoDate.getDate();
+  const month = isoDate.getMonth() + 1; // Lưu ý rằng tháng trong JavaScript bắt đầu từ 0, nên cần cộng thêm 1.
+  const year = isoDate.getFullYear();
+
+  const hours = isoDate.getHours();
+  const minutes = isoDate.getMinutes();
+  const seconds = isoDate.getSeconds();
+
+  // Định dạng lại các giá trị thành chuỗi với định dạng mong muốn
+  return `${day < 10 ? "0" : ""}${day}/${month < 10 ? "0" : ""}${month}/${year} ${hours}:${minutes}:${seconds}`;
 };

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { formatResponseTime, formatTimeSubmit } from "../../../utils/time";
+import { formatResponseTime, formatTimeSubmissions, formatTimeSubmit } from "../../../utils/time";
 import ErrorData from "../../ErrorData";
 import { calculateOverallStatus, getTotalMemory, getTotalTime } from "../../../utils/status";
 import { Link } from "react-router-dom";
@@ -184,7 +184,7 @@ const SubmissionList = () => {
         label: "Created",
         numeric: false,
         disablePadding: false,
-        renderFn: (submission) => formatTimeSubmit(submission.created),
+        renderFn: (submission) => formatTimeSubmissions(submission.created),
         descComparatorFn: (a, b) => {
           if (b.created < a.created) {
             return -1;

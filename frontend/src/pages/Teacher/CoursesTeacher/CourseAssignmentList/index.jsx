@@ -60,7 +60,14 @@ export const assignmentsTableHeaders = [
     label: "Deadline",
     numeric: false,
     disablePadding: false,
-    renderFn: (assignment) => formatTimeSubmit(assignment.deadline),
+    // renderFn: (assignment) => formatTimeSubmit(assignment.deadline),
+    renderFn: (assignment) => (
+      <div
+        dangerouslySetInnerHTML={{
+          __html: formatTimeSubmit(assignment.deadline),
+        }}
+      />
+    ),
     descComparatorFn: (a, b) => {
       if (b.deadline < a.deadline) {
         return -1;

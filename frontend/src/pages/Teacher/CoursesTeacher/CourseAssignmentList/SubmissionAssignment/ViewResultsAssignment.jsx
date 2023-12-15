@@ -17,7 +17,7 @@ import {
   TableRow,
   styled,
 } from "@mui/material";
-import { formatTimeSubmit } from "../../../../../utils/time";
+import { formatTimeSubmissions, formatTimeSubmit } from "../../../../../utils/time";
 import { getCellColor } from "../../../../../utils/status";
 import Editor from "@monaco-editor/react";
 import { mapLanguageSubmission } from "../../../../../utils/mapLanguage";
@@ -66,7 +66,7 @@ function ViewResultsAssignment({ isSubmission, setIsSubmission, viewResult }) {
           <TableBody>
             {viewResult?.tests_result.map((test) => (
               <StyledTableRow key={test.id}>
-                <TableCell>{formatTimeSubmit(test.created)}</TableCell>
+                <TableCell>{formatTimeSubmissions(test.created)}</TableCell>
                 <TableCell sx={{ color: getCellColor(test.status_data) }}>
                   <Typography>{test.status_data}</Typography>
                 </TableCell>

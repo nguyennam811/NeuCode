@@ -44,11 +44,11 @@ function ProblemDetailDescription({value, setValue, historyProblem, setHistoryPr
                 value="2"
                 sx={value === "2" ? tabStyle : { textTransform: "capitalize" }}
               />
-              <Tab
+              {/* <Tab
                 label="Discussions"
                 value="3"
                 sx={value === "3" ? tabStyle : { textTransform: "capitalize" }}
-              />
+              /> */}
             </TabList>
           </Box>
         </Box>
