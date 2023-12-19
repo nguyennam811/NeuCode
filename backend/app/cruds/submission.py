@@ -56,10 +56,10 @@ def get_submission_all(
     #     conditions.append(f"assignment_id = '{assignment_id}'")
     # else:
     #     conditions.append("assignment_id IS NULL")  # Add condition to filter out null assignments
-    #
-    # if search_value != '':
-    #     conditions.append(f"cast({search_key} as varchar) like('%{search_value}%')")
-    # print(conditions)
+
+    if search_value != '':
+        conditions.append(f"cast({search_key} as varchar) like('%{search_value}%')")
+    print(conditions)
 
     return {
         'data': get_submissions_with_conditions(db=db, offset=offset, limit=limit, conditions=conditions),
