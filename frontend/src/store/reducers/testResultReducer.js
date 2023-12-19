@@ -12,6 +12,7 @@ const testResultSlice = createSlice({
         // Get test result
         builder.addCase(testResult.getTestResult.pending, (state) => {
             state.status = 'loading'
+            state.data = []
         })
         
         builder.addCase(testResult.getTestResult.fulfilled, (state, action) => {
